@@ -25292,12 +25292,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = function (props) {
 	  // Add customized HLSSource component into video-react Player
 	  // The Component with `isVideoChild` attribute will be added into `Video` component
+	  // Please use this url if you test it from local:
+	  // http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8
 	  return _react2.default.createElement(
 	    _videoReact.Player,
 	    null,
 	    _react2.default.createElement(_HLSSource2.default, {
 	      isVideoChild: true,
-	      src: 'http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8'
+	      src: 'https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8'
 	    })
 	  );
 	};
@@ -44529,7 +44531,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 260 */
 /***/ function(module, exports) {
 
-	module.exports = "import React from 'react';\nimport { Player } from 'video-react';\nimport HLSSource from './HLSSource';\n\nexport default (props) => {\n  // Add customized HLSSource component into video-react Player\n  // The Component with `isVideoChild` attribute will be added into `Video` component\n  return (\n    <Player>\n      <HLSSource\n        isVideoChild\n        src=\"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8\"\n      />\n    </Player>\n  );\n};\n"
+	module.exports = "import React from 'react';\nimport { Player } from 'video-react';\nimport HLSSource from './HLSSource';\n\nexport default (props) => {\n  // Add customized HLSSource component into video-react Player\n  // The Component with `isVideoChild` attribute will be added into `Video` component\n  // Please use this url if you test it from local:\n  // http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8\n  return (\n    <Player>\n      <HLSSource\n        isVideoChild\n        src=\"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8\"\n      />\n    </Player>\n  );\n};\n"
 
 /***/ },
 /* 261 */
