@@ -54,8 +54,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(43);
-	module.exports = __webpack_require__(48);
+	__webpack_require__(45);
+	module.exports = __webpack_require__(51);
 
 
 /***/ },
@@ -185,15 +185,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// Check if the element belongs to a video element
 	// only accept <source />, <track />,
-	// <MyComponent type="source" />,
-	// <MyComponent type="track" />
+	// <MyComponent isVideoChild />
 	// elements
 	function isVideoChild(c) {
-	  var type = c.type;
-	  if (c.props && c.props.type) {
-	    type = c.props.type;
+	  if (c.props && c.props.isVideoChild) {
+	    return true;
 	  }
-	  return type === 'source' || type === 'track';
+	  return c.type === 'source' || c.type === 'track';
 	}
 	
 	// merge default children
@@ -343,7 +341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.refreshOperation = refreshOperation;
 	exports.toggleFullscreen = toggleFullscreen;
 	
-	var _fullscreen = __webpack_require__(32);
+	var _fullscreen = __webpack_require__(33);
 	
 	var _fullscreen2 = _interopRequireDefault(_fullscreen);
 	
@@ -771,6 +769,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.handleKeyDown = handleKeyDown;
+	var EVENT_KEYDOWN = exports.EVENT_KEYDOWN = 'video-react/EVENT_KEYDOWN';
+	
+	function handleKeyDown(e) {
+	  return {
+	    type: EVENT_KEYDOWN,
+	    event: e
+	  };
+	}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.handleMute = handleMute;
 	exports.handleLoadStart = handleLoadStart;
 	exports.handleCanPlay = handleCanPlay;
@@ -936,7 +953,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1061,7 +1078,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Bezel.propTypes = propTypes;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1157,7 +1174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	BigPlayButton.defaultProps = defaultProps;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1217,7 +1234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	LoadingSpinner.propTypes = propTypes;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1259,7 +1276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = PosterImage;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1281,6 +1298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var propTypes = {
+	  manager: _react.PropTypes.object,
 	  actions: _react.PropTypes.object,
 	  player: _react.PropTypes.object,
 	  shortcuts: _react.PropTypes.array
@@ -1293,6 +1311,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Shortcut);
 	
 	    var _this = _possibleConstructorReturn(this, (Shortcut.__proto__ || Object.getPrototypeOf(Shortcut)).call(this, props, context));
+	
+	    props.manager.subscribeToEventsStateChange(_this.handleStateChange.bind(_this));
 	
 	    _this.defaultShortcuts = [{
 	      keyCode: 32, // spacebar
@@ -1441,7 +1461,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _this.shortcuts = [].concat(_toConsumableArray(_this.defaultShortcuts));
 	
-	    _this.handleKeypress = _this.handleKeypress.bind(_this);
 	    _this.mergeShortcuts = _this.mergeShortcuts.bind(_this);
 	    return _this;
 	  }
@@ -1449,8 +1468,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Shortcut, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var manager = this.props.manager;
+	
 	      this.mergeShortcuts();
-	      document.addEventListener('keydown', this.handleKeypress);
 	    }
 	  }, {
 	    key: 'componentDidUpdate',
@@ -1458,11 +1478,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (prevProps.shortcuts !== this.props.shortcuts) {
 	        this.mergeShortcuts();
 	      }
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      document.removeEventListener('keydown', this.handleKeypress);
 	    }
 	
 	    // merge the shortcuts from props
@@ -1510,31 +1525,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	      actions.toggleFullscreen(player);
 	    }
 	  }, {
-	    key: 'handleKeypress',
-	    value: function handleKeypress(e) {
+	    key: 'handleStateChange',
+	    value: function handleStateChange(state, prevState) {
+	      var _this2 = this;
+	
 	      var _props = this.props,
 	          player = _props.player,
 	          actions = _props.actions;
 	
+	      if (state.keyDown.count !== prevState.keyDown.count) {
+	        (function () {
+	          var e = state.keyDown.event;
+	          var keyCode = e.keyCode || e.which;
+	          var ctrl = e.ctrlKey || e.metaKey;
+	          var shift = e.shiftKey;
+	          var alt = e.altKey;
 	
-	      var keyCode = e.keyCode || e.which;
-	      var ctrl = e.ctrlKey || e.metaKey;
-	      var shift = e.shiftKey;
-	      var alt = e.altKey;
+	          var shortcut = _this2.shortcuts.find(function (s) {
+	            if (s.keyCode != keyCode) {
+	              return false;
+	            }
+	            if (s.ctrl !== undefined && s.ctrl !== ctrl || s.shift !== undefined && s.shift !== shift || s.alt !== undefined && s.alt !== alt) {
+	              return false;
+	            }
+	            return true;
+	          });
 	
-	      var shortcut = this.shortcuts.find(function (s) {
-	        if (s.keyCode != keyCode) {
-	          return false;
-	        }
-	        if (s.ctrl !== undefined && s.ctrl !== ctrl || s.shift !== undefined && s.shift !== shift || s.alt !== undefined && s.alt !== alt) {
-	          return false;
-	        }
-	        return true;
-	      });
-	
-	      if (shortcut) {
-	        shortcut.handle(player, actions);
-	        e.preventDefault();
+	          if (shortcut) {
+	            shortcut.handle(player, actions);
+	            e.preventDefault();
+	          }
+	        })();
 	      }
 	    }
 	
@@ -1557,7 +1578,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Shortcut.propTypes = propTypes;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1566,13 +1587,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _lodash = __webpack_require__(49);
+	var _lodash = __webpack_require__(34);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
@@ -2211,9 +2234,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	          autoPlay = _props18.autoPlay,
 	          playsInline = _props18.playsInline;
 	
-	      // only keep <source />, <track />, <MyComponent type="source" /> elements
 	
-	      var children = _react2.default.Children.toArray(this.props.children).filter(_utils.isVideoChild);
+	      var props = _extends({}, this.props, {
+	        video: this.video
+	      });
+	
+	      // only keep <source />, <track />, <MyComponent type="source" /> elements
+	      var children = _react2.default.Children.toArray(this.props.children).filter(_utils.isVideoChild).map(function (c) {
+	        if (typeof c.type === 'string') {
+	          return c;
+	        }
+	        return _react2.default.cloneElement(c, props);
+	      });
 	
 	      return _react2.default.createElement(
 	        'video',
@@ -2295,7 +2327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Video.defaultProps = defaultProps;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2316,47 +2348,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	var _ProgressControl = __webpack_require__(24);
+	var _ProgressControl = __webpack_require__(25);
 	
 	var _ProgressControl2 = _interopRequireDefault(_ProgressControl);
 	
-	var _PlayToggle = __webpack_require__(22);
+	var _PlayToggle = __webpack_require__(23);
 	
 	var _PlayToggle2 = _interopRequireDefault(_PlayToggle);
 	
-	var _ForwardControl = __webpack_require__(16);
+	var _ForwardControl = __webpack_require__(17);
 	
 	var _ForwardControl2 = _interopRequireDefault(_ForwardControl);
 	
-	var _ReplayControl = __webpack_require__(25);
+	var _ReplayControl = __webpack_require__(26);
 	
 	var _ReplayControl2 = _interopRequireDefault(_ReplayControl);
 	
-	var _FullscreenToggle = __webpack_require__(18);
+	var _FullscreenToggle = __webpack_require__(19);
 	
 	var _FullscreenToggle2 = _interopRequireDefault(_FullscreenToggle);
 	
-	var _RemainingTimeDisplay = __webpack_require__(30);
+	var _RemainingTimeDisplay = __webpack_require__(31);
 	
 	var _RemainingTimeDisplay2 = _interopRequireDefault(_RemainingTimeDisplay);
 	
-	var _CurrentTimeDisplay = __webpack_require__(28);
+	var _CurrentTimeDisplay = __webpack_require__(29);
 	
 	var _CurrentTimeDisplay2 = _interopRequireDefault(_CurrentTimeDisplay);
 	
-	var _DurationDisplay = __webpack_require__(29);
+	var _DurationDisplay = __webpack_require__(30);
 	
 	var _DurationDisplay2 = _interopRequireDefault(_DurationDisplay);
 	
-	var _TimeDivider = __webpack_require__(31);
+	var _TimeDivider = __webpack_require__(32);
 	
 	var _TimeDivider2 = _interopRequireDefault(_TimeDivider);
 	
-	var _VolumeMenuButton = __webpack_require__(27);
+	var _VolumeMenuButton = __webpack_require__(28);
 	
 	var _VolumeMenuButton2 = _interopRequireDefault(_VolumeMenuButton);
 	
-	var _PlaybackRate = __webpack_require__(23);
+	var _PlaybackRate = __webpack_require__(24);
 	
 	var _PlaybackRate2 = _interopRequireDefault(_PlaybackRate);
 	
@@ -2496,7 +2528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	ControlBar.defaultProps = defaultProps;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2505,7 +2537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _ForwardReplayControl = __webpack_require__(17);
+	var _ForwardReplayControl = __webpack_require__(18);
 	
 	var _ForwardReplayControl2 = _interopRequireDefault(_ForwardReplayControl);
 	
@@ -2515,7 +2547,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = new _ForwardReplayControl2.default('forward');
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2619,7 +2651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2715,7 +2747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	FullscreenToggle.propTypes = propTypes;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2804,7 +2836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	LoadProgressBar.propTypes = propTypes;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2848,7 +2880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = MouseTimeDisplay;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2904,7 +2936,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	PlayProgressBar.propTypes = propTypes;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3006,7 +3038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	PlayToggle.propTypes = propTypes;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3025,7 +3057,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	var _MenuButton = __webpack_require__(37);
+	var _MenuButton = __webpack_require__(39);
 	
 	var _MenuButton2 = _interopRequireDefault(_MenuButton);
 	
@@ -3124,7 +3156,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = PlaybackRate;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3147,7 +3179,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Dom = _interopRequireWildcard(_dom);
 	
-	var _SeekBar = __webpack_require__(26);
+	var _SeekBar = __webpack_require__(27);
 	
 	var _SeekBar2 = _interopRequireDefault(_SeekBar);
 	
@@ -3233,7 +3265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	ProgressControl.propTypes = propTypes;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3242,7 +3274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _ForwardReplayControl = __webpack_require__(17);
+	var _ForwardReplayControl = __webpack_require__(18);
 	
 	var _ForwardReplayControl2 = _interopRequireDefault(_ForwardReplayControl);
 	
@@ -3252,7 +3284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = new _ForwardReplayControl2.default('replay');
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3271,15 +3303,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Slider2 = _interopRequireDefault(_Slider);
 	
-	var _PlayProgressBar = __webpack_require__(21);
+	var _PlayProgressBar = __webpack_require__(22);
 	
 	var _PlayProgressBar2 = _interopRequireDefault(_PlayProgressBar);
 	
-	var _LoadProgressBar = __webpack_require__(19);
+	var _LoadProgressBar = __webpack_require__(20);
 	
 	var _LoadProgressBar2 = _interopRequireDefault(_LoadProgressBar);
 	
-	var _MouseTimeDisplay = __webpack_require__(20);
+	var _MouseTimeDisplay = __webpack_require__(21);
 	
 	var _MouseTimeDisplay2 = _interopRequireDefault(_MouseTimeDisplay);
 	
@@ -3440,7 +3472,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	SeekBar.propTypes = propTypes;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3459,11 +3491,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
-	var _PopupButton = __webpack_require__(40);
+	var _PopupButton = __webpack_require__(42);
 	
 	var _PopupButton2 = _interopRequireDefault(_PopupButton);
 	
-	var _VolumeBar = __webpack_require__(41);
+	var _VolumeBar = __webpack_require__(43);
 	
 	var _VolumeBar2 = _interopRequireDefault(_VolumeBar);
 	
@@ -3557,7 +3589,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = VolumeMenuButton;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3610,7 +3642,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = CurrentTimeDisplay;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3661,7 +3693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = DurationDisplay;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3716,7 +3748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = RemainingTimeDisplay;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3761,7 +3793,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	TimeDivider.propTypes = propTypes;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3839,1579 +3871,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = new Fullscreen();
 
 /***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var root = __webpack_require__(56);
-	
-	/** Built-in value references. */
-	var Symbol = root.Symbol;
-	
-	module.exports = Symbol;
-
-
-/***/ },
 /* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _createStore = __webpack_require__(59);
-	
-	var _createStore2 = _interopRequireDefault(_createStore);
-	
-	var _reducers = __webpack_require__(44);
-	
-	var _reducers2 = _interopRequireDefault(_reducers);
-	
-	var _player = __webpack_require__(5);
-	
-	var playerActions = _interopRequireWildcard(_player);
-	
-	var _video = __webpack_require__(8);
-	
-	var videoActions = _interopRequireWildcard(_video);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Manager = function () {
-	  function Manager(video, rootElement) {
-	    _classCallCheck(this, Manager);
-	
-	    this.store = (0, _createStore2.default)(_reducers2.default);
-	
-	    this.video = video;
-	    this.rootElement = rootElement;
-	  }
-	
-	  _createClass(Manager, [{
-	    key: 'getActions',
-	    value: function getActions() {
-	      var manager = this;
-	      var dispatch = this.store.dispatch;
-	
-	      var actions = _extends({}, playerActions, videoActions);
-	
-	      function bindActionCreator(actionCreator) {
-	        return function () {
-	          var action = actionCreator.apply(manager, arguments);
-	          if (typeof action !== 'undefined') {
-	            dispatch(action);
-	          }
-	        };
-	      }
-	
-	      return Object.keys(actions).filter(function (key) {
-	        return typeof actions[key] === 'function';
-	      }).reduce(function (boundActions, key) {
-	        boundActions[key] = bindActionCreator(actions[key]);
-	        return boundActions;
-	      }, {});
-	    }
-	  }, {
-	    key: 'getState',
-	    value: function getState() {
-	      return this.store.getState();
-	    }
-	
-	    // subscribe state change
-	
-	  }, {
-	    key: 'subscribeToStateChange',
-	    value: function subscribeToStateChange(listener, getState) {
-	      if (!getState) {
-	        getState = this.getState.bind(this);
-	      }
-	
-	      var prevState = getState();
-	
-	      var handleChange = function handleChange() {
-	        var state = getState();
-	
-	        if (state === prevState) {
-	          return;
-	        }
-	        try {
-	          listener(state, prevState);
-	        } finally {
-	          prevState = state;
-	        }
-	      };
-	
-	      return this.store.subscribe(handleChange);
-	    }
-	
-	    // subscribe to operation state change
-	
-	  }, {
-	    key: 'subscribeToOperationStateChange',
-	    value: function subscribeToOperationStateChange(listener) {
-	      var _this = this;
-	
-	      return this.subscribeToStateChange(listener, function () {
-	        return _this.getState().operation;
-	      });
-	    }
-	
-	    // subscribe to player state change
-	
-	  }, {
-	    key: 'subscribeToPlayerStateChange',
-	    value: function subscribeToPlayerStateChange(listener) {
-	      var _this2 = this;
-	
-	      return this.subscribeToStateChange(listener, function () {
-	        return _this2.getState().player;
-	      });
-	    }
-	  }]);
-	
-	  return Manager;
-	}();
-	
-	exports.default = Manager;
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _classnames = __webpack_require__(2);
-	
-	var _classnames2 = _interopRequireDefault(_classnames);
-	
-	var _Manager = __webpack_require__(34);
-	
-	var _Manager2 = _interopRequireDefault(_Manager);
-	
-	var _BigPlayButton = __webpack_require__(10);
-	
-	var _BigPlayButton2 = _interopRequireDefault(_BigPlayButton);
-	
-	var _LoadingSpinner = __webpack_require__(11);
-	
-	var _LoadingSpinner2 = _interopRequireDefault(_LoadingSpinner);
-	
-	var _PosterImage = __webpack_require__(12);
-	
-	var _PosterImage2 = _interopRequireDefault(_PosterImage);
-	
-	var _Video = __webpack_require__(14);
-	
-	var _Video2 = _interopRequireDefault(_Video);
-	
-	var _Bezel = __webpack_require__(9);
-	
-	var _Bezel2 = _interopRequireDefault(_Bezel);
-	
-	var _Shortcut = __webpack_require__(13);
-	
-	var _Shortcut2 = _interopRequireDefault(_Shortcut);
-	
-	var _ControlBar = __webpack_require__(15);
-	
-	var _ControlBar2 = _interopRequireDefault(_ControlBar);
-	
-	var _browser = __webpack_require__(47);
-	
-	var browser = _interopRequireWildcard(_browser);
-	
-	var _utils = __webpack_require__(3);
-	
-	var _fullscreen = __webpack_require__(32);
-	
-	var _fullscreen2 = _interopRequireDefault(_fullscreen);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  children: _react.PropTypes.any,
-	
-	  width: _react.PropTypes.number,
-	  height: _react.PropTypes.number,
-	  fluid: _react.PropTypes.bool,
-	  muted: _react.PropTypes.bool,
-	  playsInline: _react.PropTypes.bool,
-	  aspectRatio: _react.PropTypes.string,
-	
-	  startTime: _react.PropTypes.number,
-	  loop: _react.PropTypes.bool,
-	  autoPlay: _react.PropTypes.bool,
-	  src: _react.PropTypes.string,
-	  poster: _react.PropTypes.string,
-	  preload: _react2.default.PropTypes.oneOf(['auto', 'metadata', 'none']),
-	
-	  onLoadStart: _react.PropTypes.func,
-	  onWaiting: _react.PropTypes.func,
-	  onCanPlay: _react.PropTypes.func,
-	  onCanPlayThrough: _react.PropTypes.func,
-	  onPlaying: _react.PropTypes.func,
-	  onEnded: _react.PropTypes.func,
-	  onSeeking: _react.PropTypes.func,
-	  onSeeked: _react.PropTypes.func,
-	  onPlay: _react.PropTypes.func,
-	  onPause: _react.PropTypes.func,
-	  onProgress: _react.PropTypes.func,
-	  onDurationChange: _react.PropTypes.func,
-	  onError: _react.PropTypes.func,
-	  onSuspend: _react.PropTypes.func,
-	  onAbort: _react.PropTypes.func,
-	  onEmptied: _react.PropTypes.func,
-	  onStalled: _react.PropTypes.func,
-	  onLoadedMetadata: _react.PropTypes.func,
-	  onLoadedData: _react.PropTypes.func,
-	  onTimeUpdate: _react.PropTypes.func,
-	  onRateChange: _react.PropTypes.func,
-	  onVolumeChange: _react.PropTypes.func
-	};
-	
-	var defaultProps = {
-	  fluid: true,
-	  aspectRatio: 'auto'
-	};
-	
-	var Player = function (_Component) {
-	  _inherits(Player, _Component);
-	
-	  function Player(props) {
-	    _classCallCheck(this, Player);
-	
-	    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
-	
-	    _this.controlsHideTimer = null;
-	
-	    _this.video = null; // the Video component
-	    _this.manager = new _Manager2.default();
-	    _this.actions = _this.manager.getActions();
-	    _this.manager.subscribeToPlayerStateChange(_this.handleStateChange.bind(_this));
-	
-	    _this.getStyle = _this.getStyle.bind(_this);
-	    _this.handleResize = _this.handleResize.bind(_this);
-	    _this.getChildren = _this.getChildren.bind(_this);
-	    _this.handleMouseMove = _this.handleMouseMove.bind(_this);
-	    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
-	    _this.startControlsTimer = _this.startControlsTimer.bind(_this);
-	    _this.handleFullScreenChange = _this.handleFullScreenChange.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Player, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.handleResize();
-	      window.addEventListener('resize', this.handleResize);
-	
-	      _fullscreen2.default.addEventListener(this.handleFullScreenChange);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      // Remove event listener
-	      window.addEventListener('resize', this.handleResize);
-	      _fullscreen2.default.removeEventListener(this.handleFullScreenChange);
-	      if (this.controlsHideTimer) {
-	        window.clearTimeout(this.controlsHideTimer);
-	      }
-	    }
-	
-	    // play the video
-	
-	  }, {
-	    key: 'play',
-	    value: function play() {
-	      this.video.play();
-	    }
-	
-	    // pause the video
-	
-	  }, {
-	    key: 'pause',
-	    value: function pause() {
-	      this.video.pause();
-	    }
-	
-	    // Change the video source and re-load the video:
-	
-	  }, {
-	    key: 'load',
-	    value: function load() {
-	      this.video.load();
-	    }
-	
-	    // Add a new text track to the video
-	
-	  }, {
-	    key: 'addTextTrack',
-	    value: function addTextTrack() {
-	      var _video;
-	
-	      (_video = this.video).addTextTrack.apply(_video, arguments);
-	    }
-	
-	    // Check if your browser can play different types of video:
-	
-	  }, {
-	    key: 'canPlayType',
-	    value: function canPlayType() {
-	      var _video2;
-	
-	      (_video2 = this.video).canPlayType.apply(_video2, arguments);
-	    }
-	
-	    // player resize
-	
-	  }, {
-	    key: 'handleResize',
-	    value: function handleResize() {}
-	  }, {
-	    key: 'handleFullScreenChange',
-	    value: function handleFullScreenChange() {
-	      this.actions.handleFullscreenChange(_fullscreen2.default.isFullscreen);
-	    }
-	  }, {
-	    key: 'handleMouseDown',
-	    value: function handleMouseDown() {
-	      this.startControlsTimer();
-	    }
-	  }, {
-	    key: 'handleMouseMove',
-	    value: function handleMouseMove() {
-	      this.startControlsTimer();
-	    }
-	  }, {
-	    key: 'startControlsTimer',
-	    value: function startControlsTimer() {
-	      var _this2 = this;
-	
-	      this.actions.activate(true);
-	      clearTimeout(this.controlsHideTimer);
-	      this.controlsHideTimer = setTimeout(function () {
-	        _this2.actions.activate(false);
-	      }, 3000);
-	    }
-	  }, {
-	    key: 'getStyle',
-	    value: function getStyle() {
-	      var fluid = this.props.fluid;
-	
-	      var _manager$getState = this.manager.getState(),
-	          player = _manager$getState.player;
-	
-	      var style = {};
-	      var width = void 0;
-	      var height = void 0;
-	      var aspectRatio = void 0;
-	
-	      // The aspect ratio is either used directly or to calculate width and height.
-	      if (this.props.aspectRatio !== undefined && this.props.aspectRatio !== 'auto') {
-	        // Use any aspectRatio that's been specifically set
-	        aspectRatio = this.props.aspectRatio;
-	      } else if (player.videoWidth) {
-	        // Otherwise try to get the aspect ratio from the video metadata
-	        aspectRatio = player.videoWidth + ':' + player.videoHeight;
-	      } else {
-	        // Or use a default. The video element's is 2:1, but 16:9 is more common.
-	        aspectRatio = '16:9';
-	      }
-	
-	      // Get the ratio as a decimal we can use to calculate dimensions
-	      var ratioParts = aspectRatio.split(':');
-	      var ratioMultiplier = ratioParts[1] / ratioParts[0];
-	
-	      if (this.props.width !== undefined) {
-	        // Use any width that's been specifically set
-	        width = this.props.width;
-	      } else if (this.props.height !== undefined) {
-	        // Or calulate the width from the aspect ratio if a height has been set
-	        width = this.props.height / ratioMultiplier;
-	      } else {
-	        // Or use the video's metadata, or use the video el's default of 300
-	        width = player.videoWidth || 400;
-	      }
-	
-	      if (this.props.height !== undefined) {
-	        // Use any height that's been specifically set
-	        height = this.props.height;
-	      } else {
-	        // Otherwise calculate the height from the ratio and the width
-	        height = width * ratioMultiplier;
-	      }
-	
-	      if (fluid) {
-	        style.paddingTop = ratioMultiplier * 100 + '%';
-	      } else {
-	        style.width = width + 'px';
-	        style.height = height + 'px';
-	      }
-	
-	      return style;
-	    }
-	  }, {
-	    key: 'getDefaultChildren',
-	    value: function getDefaultChildren(props, fullProps) {
-	      var _this3 = this;
-	
-	      return [_react2.default.createElement(_Video2.default, _extends({
-	        ref: function ref(c) {
-	          _this3.manager.video = _this3.video = c;
-	        },
-	        key: 'video',
-	        order: 0.0
-	      }, fullProps)), _react2.default.createElement(_PosterImage2.default, _extends({
-	        key: 'poster-image',
-	        order: 1.0
-	      }, props)), _react2.default.createElement(_LoadingSpinner2.default, _extends({
-	        key: 'loading-spinner',
-	        order: 2.0
-	      }, props)), _react2.default.createElement(_Bezel2.default, _extends({
-	        key: 'bezel',
-	        order: 3.0
-	      }, props)), _react2.default.createElement(_BigPlayButton2.default, _extends({
-	        key: 'big-play-button',
-	        order: 4.0
-	      }, props)), _react2.default.createElement(_ControlBar2.default, _extends({
-	        key: 'control-bar',
-	        order: 5.0
-	      }, props)), _react2.default.createElement(_Shortcut2.default, _extends({
-	        key: 'shortcut',
-	        order: 99.0
-	      }, props))];
-	    }
-	  }, {
-	    key: 'getChildren',
-	    value: function getChildren(props) {
-	      var propsWithoutChildren = _extends({}, props, {
-	        children: null
-	      });
-	      var children = _react2.default.Children.toArray(this.props.children).filter(function (e) {
-	        return !(0, _utils.isVideoChild)(e);
-	      });
-	      var defaultChildren = this.getDefaultChildren(propsWithoutChildren, props);
-	      return (0, _utils.mergeAndSortChildren)(defaultChildren, children, propsWithoutChildren);
-	    }
-	  }, {
-	    key: 'handleStateChange',
-	    value: function handleStateChange(state, prevState) {
-	      if (state.isFullscreen !== prevState.isFullscreen) {
-	        this.handleResize();
-	      }
-	      this.forceUpdate(); // re-render
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this4 = this;
-	
-	      var fluid = this.props.fluid;
-	
-	      var _manager$getState2 = this.manager.getState(),
-	          player = _manager$getState2.player;
-	
-	      var paused = player.paused,
-	          hasStarted = player.hasStarted,
-	          waiting = player.waiting,
-	          seeking = player.seeking,
-	          isFullscreen = player.isFullscreen,
-	          userActivity = player.userActivity;
-	
-	      var props = _extends({}, this.props, {
-	        player: player,
-	        actions: this.actions,
-	        manager: this.manager,
-	        store: this.manager.store
-	      });
-	      var children = this.getChildren(props);
-	
-	      return _react2.default.createElement(
-	        'div',
-	        {
-	          className: (0, _classnames2.default)({
-	            'video-react-controls-enabled': true,
-	            'video-react-has-started': hasStarted,
-	            'video-react-paused': paused,
-	            'video-react-playing': !paused,
-	            'video-react-waiting': waiting,
-	            'video-react-seeking': seeking,
-	            'video-react-fluid': fluid,
-	            'video-react-fullscreen': isFullscreen,
-	            'video-react-user-inactive': !userActivity,
-	            'video-react-user-active': userActivity,
-	            'video-react-workinghover': !browser.IS_IOS
-	          }, 'video-react'),
-	          style: this.getStyle(),
-	          ref: function ref(c) {
-	            _this4.manager.rootElement = c;
-	          },
-	          onTouchStart: this.handleMouseDown,
-	          onMouseDown: this.handleMouseDown,
-	          onMouseMove: this.handleMouseMove
-	        },
-	        children
-	      );
-	    }
-	  }]);
-	
-	  return Player;
-	}(_react.Component);
-	
-	exports.default = Player;
-	
-	
-	Player.propTypes = propTypes;
-	Player.defaultProps = defaultProps;
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  children: _react.PropTypes.any
-	};
-	
-	var Menu = function (_Component) {
-	  _inherits(Menu, _Component);
-	
-	  function Menu(props, context) {
-	    _classCallCheck(this, Menu);
-	
-	    var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props, context));
-	
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Menu, [{
-	    key: "handleClick",
-	    value: function handleClick(event) {
-	      event.preventDefault();
-	      event.stopPropagation();
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        {
-	          className: "video-react-menu",
-	          role: "presentation",
-	          onClick: this.handleClick
-	        },
-	        _react2.default.createElement(
-	          "ul",
-	          { className: "video-react-menu-content" },
-	          this.props.children
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Menu;
-	}(_react.Component);
-	
-	exports.default = Menu;
-	
-	
-	Menu.propTypes = propTypes;
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _classnames = __webpack_require__(2);
-	
-	var _classnames2 = _interopRequireDefault(_classnames);
-	
-	var _Menu = __webpack_require__(36);
-	
-	var _Menu2 = _interopRequireDefault(_Menu);
-	
-	var _MenuItem = __webpack_require__(38);
-	
-	var _MenuItem2 = _interopRequireDefault(_MenuItem);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  inline: _react.PropTypes.bool,
-	  items: _react.PropTypes.array,
-	  className: _react.PropTypes.string,
-	  onClick: _react.PropTypes.func,
-	  children: _react.PropTypes.any
-	};
-	
-	var MenuButton = function (_Component) {
-	  _inherits(MenuButton, _Component);
-	
-	  function MenuButton(props, context) {
-	    _classCallCheck(this, MenuButton);
-	
-	    var _this = _possibleConstructorReturn(this, (MenuButton.__proto__ || Object.getPrototypeOf(MenuButton)).call(this, props, context));
-	
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    _this.renderMenu = _this.renderMenu.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(MenuButton, [{
-	    key: 'handleClick',
-	    value: function handleClick(event) {
-	      if (this.props.onClick) {
-	        this.props.onClick(event);
-	      }
-	    }
-	  }, {
-	    key: 'renderMenu',
-	    value: function renderMenu() {
-	      var items = this.props.items;
-	
-	      var i = 0;
-	      return _react2.default.createElement(
-	        _Menu2.default,
-	        null,
-	        items.reverse().map(function (item) {
-	          return _react2.default.createElement(_MenuItem2.default, { item: item, key: 'item-' + i++ });
-	        })
-	      );
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          inline = _props.inline,
-	          className = _props.className;
-	
-	
-	      return _react2.default.createElement(
-	        'div',
-	        {
-	          className: (0, _classnames2.default)(className, {
-	            'video-react-menu-button-inline': !!inline,
-	            'video-react-menu-button-popup': !inline
-	          }, 'video-react-control video-react-button video-react-menu-button'),
-	          role: 'presentation',
-	          onClick: this.handleClick
-	        },
-	        this.props.children,
-	        this.renderMenu()
-	      );
-	    }
-	  }]);
-	
-	  return MenuButton;
-	}(_react.Component);
-	
-	exports.default = MenuButton;
-	
-	
-	MenuButton.propTypes = propTypes;
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _classnames = __webpack_require__(2);
-	
-	var _classnames2 = _interopRequireDefault(_classnames);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  item: _react.PropTypes.object
-	};
-	
-	var MenuItem = function (_Component) {
-	  _inherits(MenuItem, _Component);
-	
-	  function MenuItem(props, context) {
-	    _classCallCheck(this, MenuItem);
-	
-	    var _this = _possibleConstructorReturn(this, (MenuItem.__proto__ || Object.getPrototypeOf(MenuItem)).call(this, props, context));
-	
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(MenuItem, [{
-	    key: 'handleClick',
-	    value: function handleClick() {
-	      var item = this.props.item;
-	
-	      if (item.onClick) {
-	        item.onClick(item);
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var item = this.props.item;
-	
-	      return _react2.default.createElement(
-	        'li',
-	        {
-	          className: (0, _classnames2.default)({
-	            'video-react-menu-item': true,
-	            'video-react-selected': item.selected
-	          }),
-	          onClick: this.handleClick
-	        },
-	        item.label,
-	        _react2.default.createElement('span', { className: 'video-react-control-text' })
-	      );
-	    }
-	  }]);
-	
-	  return MenuItem;
-	}(_react.Component);
-	
-	exports.default = MenuItem;
-	
-	
-	MenuItem.propTypes = propTypes;
-
-/***/ },
-/* 39 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  player: _react.PropTypes.object,
-	  children: _react.PropTypes.any
-	};
-	
-	var Popup = function (_Component) {
-	  _inherits(Popup, _Component);
-	
-	  function Popup(props, context) {
-	    _classCallCheck(this, Popup);
-	
-	    var _this = _possibleConstructorReturn(this, (Popup.__proto__ || Object.getPrototypeOf(Popup)).call(this, props, context));
-	
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Popup, [{
-	    key: "handleClick",
-	    value: function handleClick(event) {
-	      event.preventDefault();
-	      event.stopPropagation();
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      var children = this.props.children;
-	
-	      return _react2.default.createElement(
-	        "div",
-	        {
-	          className: "video-react-menu",
-	          onClick: this.handleClick
-	        },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "video-react-menu-content" },
-	          children
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Popup;
-	}(_react.Component);
-	
-	exports.default = Popup;
-	
-	
-	Popup.propTypes = propTypes;
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _classnames = __webpack_require__(2);
-	
-	var _classnames2 = _interopRequireDefault(_classnames);
-	
-	var _Popup = __webpack_require__(39);
-	
-	var _Popup2 = _interopRequireDefault(_Popup);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  inline: _react.PropTypes.bool,
-	  onClick: _react.PropTypes.func.isRequired,
-	  className: _react.PropTypes.string
-	};
-	
-	var defaultProps = {
-	  inline: true
-	};
-	
-	var PopupButton = function (_Component) {
-	  _inherits(PopupButton, _Component);
-	
-	  function PopupButton(props, context) {
-	    _classCallCheck(this, PopupButton);
-	
-	    var _this = _possibleConstructorReturn(this, (PopupButton.__proto__ || Object.getPrototypeOf(PopupButton)).call(this, props, context));
-	
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(PopupButton, [{
-	    key: 'handleClick',
-	    value: function handleClick(event) {
-	      var onClick = this.props.onClick;
-	
-	      onClick(event);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var inline = this.props.inline;
-	
-	      return _react2.default.createElement(
-	        'div',
-	        {
-	          className: (0, _classnames2.default)(this.props.className, {
-	            'video-react-menu-button-inline': !!inline,
-	            'video-react-menu-button-popup': !inline
-	          }, 'video-react-control video-react-button video-react-menu-button'),
-	          role: 'button',
-	          onClick: this.handleClick
-	        },
-	        _react2.default.createElement(_Popup2.default, this.props)
-	      );
-	    }
-	  }]);
-	
-	  return PopupButton;
-	}(_react.Component);
-	
-	exports.default = PopupButton;
-	
-	
-	PopupButton.propTypes = propTypes;
-	PopupButton.defaultProps = defaultProps;
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Slider = __webpack_require__(6);
-	
-	var _Slider2 = _interopRequireDefault(_Slider);
-	
-	var _VolumeLevel = __webpack_require__(42);
-	
-	var _VolumeLevel2 = _interopRequireDefault(_VolumeLevel);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var propTypes = {
-	  actions: _react.PropTypes.object,
-	  player: _react.PropTypes.object
-	};
-	
-	var VolumeBar = function (_Component) {
-	  _inherits(VolumeBar, _Component);
-	
-	  function VolumeBar(props, context) {
-	    _classCallCheck(this, VolumeBar);
-	
-	    var _this = _possibleConstructorReturn(this, (VolumeBar.__proto__ || Object.getPrototypeOf(VolumeBar)).call(this, props, context));
-	
-	    _this.state = {
-	      percentage: '0%'
-	    };
-	
-	    _this.handleMouseMove = _this.handleMouseMove.bind(_this);
-	    _this.handlePercentageChange = _this.handlePercentageChange.bind(_this);
-	    _this.checkMuted = _this.checkMuted.bind(_this);
-	    _this.getPercent = _this.getPercent.bind(_this);
-	    _this.stepForward = _this.stepForward.bind(_this);
-	    _this.stepBack = _this.stepBack.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(VolumeBar, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
-	  }, {
-	    key: 'getPercent',
-	    value: function getPercent() {
-	      var player = this.props.player;
-	
-	      if (player.muted) {
-	        return 0;
-	      }
-	      return player.volume;
-	    }
-	  }, {
-	    key: 'checkMuted',
-	    value: function checkMuted() {
-	      var _props = this.props,
-	          player = _props.player,
-	          actions = _props.actions;
-	
-	      if (player.muted) {
-	        actions.toggleMuted(false);
-	      }
-	    }
-	  }, {
-	    key: 'handleMouseMove',
-	    value: function handleMouseMove(event) {
-	      var actions = this.props.actions;
-	
-	      this.checkMuted();
-	      var distance = this.slider.calculateDistance(event);
-	      actions.changeVolume(distance);
-	    }
-	  }, {
-	    key: 'stepForward',
-	    value: function stepForward() {
-	      var _props2 = this.props,
-	          player = _props2.player,
-	          actions = _props2.actions;
-	
-	      this.checkMuted();
-	      actions.changeVolume(player.volume + 0.1);
-	    }
-	  }, {
-	    key: 'stepBack',
-	    value: function stepBack() {
-	      var _props3 = this.props,
-	          player = _props3.player,
-	          actions = _props3.actions;
-	
-	      this.checkMuted();
-	      actions.changeVolume(player.volume - 0.1);
-	    }
-	  }, {
-	    key: 'handlePercentageChange',
-	    value: function handlePercentageChange(percentage) {
-	      if (percentage !== this.state.percentage) {
-	        this.setState({
-	          percentage: percentage
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-	
-	      var player = this.props.player;
-	
-	
-	      var volume = (player.volume * 100).toFixed(2);
-	      return _react2.default.createElement(
-	        _Slider2.default,
-	        _extends({
-	          ref: function ref(c) {
-	            _this2.slider = c;
-	          },
-	          label: 'volume level',
-	          valuenow: volume,
-	          valuetext: volume + '%',
-	          onMouseMove: this.handleMouseMove,
-	          getPercent: this.getPercent,
-	          onPercentageChange: this.handlePercentageChange,
-	          className: 'video-react-volume-bar video-react-slider-bar'
-	        }, this.props),
-	        _react2.default.createElement(_VolumeLevel2.default, this.props)
-	      );
-	    }
-	  }]);
-	
-	  return VolumeBar;
-	}(_react.Component);
-	
-	VolumeBar.propTypes = propTypes;
-	
-	exports.default = VolumeBar;
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var propTypes = {
-	  percentage: _react.PropTypes.string,
-	  vertical: _react.PropTypes.bool
-	};
-	
-	var defaultProps = {
-	  percentage: '100%',
-	  vertical: false
-	};
-	
-	function VolumeLevel(_ref) {
-	  var percentage = _ref.percentage,
-	      vertical = _ref.vertical;
-	
-	  var style = {};
-	  if (vertical) {
-	    style.height = percentage;
-	  } else {
-	    style.width = percentage;
-	  }
-	
-	  return _react2.default.createElement(
-	    'div',
-	    {
-	      className: 'video-react-volume-level',
-	      style: style
-	    },
-	    _react2.default.createElement('span', { className: 'video-react-control-text' })
-	  );
-	}
-	
-	VolumeLevel.propTypes = propTypes;
-	VolumeLevel.defaultProps = defaultProps;
-	exports.default = VolumeLevel;
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.PlaybackRate = exports.VolumeMenuButton = exports.TimeDivider = exports.DurationDisplay = exports.CurrentTimeDisplay = exports.RemainingTimeDisplay = exports.MouseTimeDisplay = exports.LoadProgressBar = exports.PlayProgressBar = exports.Slider = exports.SeekBar = exports.ProgressControl = exports.FullscreenToggle = exports.ReplayControl = exports.ForwardControl = exports.PlayToggle = exports.ControlBar = exports.Shortcut = exports.Bezel = exports.PosterImage = exports.LoadingSpinner = exports.BigPlayButton = exports.Video = exports.Player = undefined;
-	
-	var _Player = __webpack_require__(35);
-	
-	var _Player2 = _interopRequireDefault(_Player);
-	
-	var _Video = __webpack_require__(14);
-	
-	var _Video2 = _interopRequireDefault(_Video);
-	
-	var _BigPlayButton = __webpack_require__(10);
-	
-	var _BigPlayButton2 = _interopRequireDefault(_BigPlayButton);
-	
-	var _LoadingSpinner = __webpack_require__(11);
-	
-	var _LoadingSpinner2 = _interopRequireDefault(_LoadingSpinner);
-	
-	var _PosterImage = __webpack_require__(12);
-	
-	var _PosterImage2 = _interopRequireDefault(_PosterImage);
-	
-	var _Slider = __webpack_require__(6);
-	
-	var _Slider2 = _interopRequireDefault(_Slider);
-	
-	var _Bezel = __webpack_require__(9);
-	
-	var _Bezel2 = _interopRequireDefault(_Bezel);
-	
-	var _Shortcut = __webpack_require__(13);
-	
-	var _Shortcut2 = _interopRequireDefault(_Shortcut);
-	
-	var _ControlBar = __webpack_require__(15);
-	
-	var _ControlBar2 = _interopRequireDefault(_ControlBar);
-	
-	var _PlayToggle = __webpack_require__(22);
-	
-	var _PlayToggle2 = _interopRequireDefault(_PlayToggle);
-	
-	var _ForwardControl = __webpack_require__(16);
-	
-	var _ForwardControl2 = _interopRequireDefault(_ForwardControl);
-	
-	var _ReplayControl = __webpack_require__(25);
-	
-	var _ReplayControl2 = _interopRequireDefault(_ReplayControl);
-	
-	var _FullscreenToggle = __webpack_require__(18);
-	
-	var _FullscreenToggle2 = _interopRequireDefault(_FullscreenToggle);
-	
-	var _ProgressControl = __webpack_require__(24);
-	
-	var _ProgressControl2 = _interopRequireDefault(_ProgressControl);
-	
-	var _SeekBar = __webpack_require__(26);
-	
-	var _SeekBar2 = _interopRequireDefault(_SeekBar);
-	
-	var _PlayProgressBar = __webpack_require__(21);
-	
-	var _PlayProgressBar2 = _interopRequireDefault(_PlayProgressBar);
-	
-	var _LoadProgressBar = __webpack_require__(19);
-	
-	var _LoadProgressBar2 = _interopRequireDefault(_LoadProgressBar);
-	
-	var _MouseTimeDisplay = __webpack_require__(20);
-	
-	var _MouseTimeDisplay2 = _interopRequireDefault(_MouseTimeDisplay);
-	
-	var _VolumeMenuButton = __webpack_require__(27);
-	
-	var _VolumeMenuButton2 = _interopRequireDefault(_VolumeMenuButton);
-	
-	var _PlaybackRate = __webpack_require__(23);
-	
-	var _PlaybackRate2 = _interopRequireDefault(_PlaybackRate);
-	
-	var _RemainingTimeDisplay = __webpack_require__(30);
-	
-	var _RemainingTimeDisplay2 = _interopRequireDefault(_RemainingTimeDisplay);
-	
-	var _CurrentTimeDisplay = __webpack_require__(28);
-	
-	var _CurrentTimeDisplay2 = _interopRequireDefault(_CurrentTimeDisplay);
-	
-	var _DurationDisplay = __webpack_require__(29);
-	
-	var _DurationDisplay2 = _interopRequireDefault(_DurationDisplay);
-	
-	var _TimeDivider = __webpack_require__(31);
-	
-	var _TimeDivider2 = _interopRequireDefault(_TimeDivider);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.Player = _Player2.default;
-	exports.Video = _Video2.default;
-	exports.BigPlayButton = _BigPlayButton2.default;
-	exports.LoadingSpinner = _LoadingSpinner2.default;
-	exports.PosterImage = _PosterImage2.default;
-	exports.Bezel = _Bezel2.default;
-	exports.Shortcut = _Shortcut2.default;
-	exports.ControlBar = _ControlBar2.default;
-	exports.PlayToggle = _PlayToggle2.default;
-	exports.ForwardControl = _ForwardControl2.default;
-	exports.ReplayControl = _ReplayControl2.default;
-	exports.FullscreenToggle = _FullscreenToggle2.default;
-	exports.ProgressControl = _ProgressControl2.default;
-	exports.SeekBar = _SeekBar2.default;
-	exports.Slider = _Slider2.default;
-	exports.PlayProgressBar = _PlayProgressBar2.default;
-	exports.LoadProgressBar = _LoadProgressBar2.default;
-	exports.MouseTimeDisplay = _MouseTimeDisplay2.default;
-	exports.RemainingTimeDisplay = _RemainingTimeDisplay2.default;
-	exports.CurrentTimeDisplay = _CurrentTimeDisplay2.default;
-	exports.DurationDisplay = _DurationDisplay2.default;
-	exports.TimeDivider = _TimeDivider2.default;
-	exports.VolumeMenuButton = _VolumeMenuButton2.default;
-	exports.PlaybackRate = _PlaybackRate2.default;
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var action = arguments[1];
-	
-	  return {
-	    player: (0, _player2.default)(state.player, action),
-	    operation: (0, _operation2.default)(state.operation, action)
-	  };
-	};
-	
-	var _player = __webpack_require__(46);
-	
-	var _player2 = _interopRequireDefault(_player);
-	
-	var _operation = __webpack_require__(45);
-	
-	var _operation2 = _interopRequireDefault(_operation);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports.default = operation;
-	
-	var _player = __webpack_require__(5);
-	
-	var initialState = {
-	  count: 0,
-	  operation: {
-	    action: '',
-	    source: ''
-	  }
-	};
-	
-	function operation() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case _player.OPERATE:
-	      return _extends({}, state, {
-	        count: state.count + 1,
-	        operation: _extends({}, state.operation, action.operation)
-	      });
-	    case _player.REFRESH_OPERATION:
-	      return _extends({}, state, {
-	        count: state.count + 1
-	      });
-	    default:
-	      return state;
-	  }
-	}
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports.default = video;
-	
-	var _video = __webpack_require__(8);
-	
-	var _player = __webpack_require__(5);
-	
-	var initialState = {
-	  duration: 0,
-	  currentTime: 0,
-	  seekingTime: 0,
-	  buffered: null,
-	  waiting: true,
-	  seeking: false,
-	  paused: true,
-	  autoPaused: false,
-	  ended: false,
-	  playbackRate: 1,
-	  muted: false,
-	  volume: 1,
-	  readyState: 0,
-	  networkState: 0,
-	  videoWidth: 0,
-	  videoHeight: 0,
-	  hasStarted: false,
-	  userActivity: true,
-	  isFullscreen: false
-	};
-	
-	function video() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case _video.VOLUME_MUTE:
-	      return _extends({}, state, {
-	        muted: action.muted
-	      });
-	    case _video.LOAD_START:
-	      return _extends({}, state, {
-	        hasStarted: false,
-	        ended: false,
-	        buffered: action.buffered
-	      });
-	    case _video.CAN_PLAY:
-	      return _extends({}, state, {
-	        waiting: false,
-	        videoWidth: action.videoWidth,
-	        videoHeight: action.videoHeight,
-	        duration: action.duration
-	      });
-	    case _video.WAITING:
-	      return _extends({}, state, {
-	        waiting: true
-	      });
-	    case _video.CAN_PLAY_THROUGH:
-	    case _video.PLAYING:
-	      return _extends({}, state, {
-	        waiting: false
-	      });
-	    case _video.PLAY:
-	      return _extends({}, state, {
-	        ended: false,
-	        paused: false,
-	        autoPaused: false,
-	        waiting: false,
-	        hasStarted: true,
-	        duration: action.duration
-	      });
-	    case _video.PAUSE:
-	      return _extends({}, state, {
-	        paused: true
-	      });
-	    case _video.END:
-	      return _extends({}, state, {
-	        ended: true
-	      });
-	    case _video.SEEKING:
-	      return _extends({}, state, {
-	        seeking: true
-	      });
-	    case _video.SEEKED:
-	      return _extends({}, state, {
-	        seeking: false
-	      });
-	    case _video.SEEKING_TIME:
-	      return _extends({}, state, {
-	        seekingTime: action.time
-	      });
-	    case _video.END_SEEKING:
-	      return _extends({}, state, {
-	        seekingTime: 0,
-	        currentTime: action.time
-	      });
-	    case _video.DURATION_CHANGE:
-	      return _extends({}, state, {
-	        duration: action.duration
-	      });
-	    case _video.TIME_UPDATE:
-	      return _extends({}, state, {
-	        currentTime: action.time
-	      });
-	    case _video.VOLUME_CHANGE:
-	      return _extends({}, state, {
-	        volume: action.volume
-	      });
-	    case _video.PROGRESS_CHANGE:
-	      return _extends({}, state, {
-	        buffered: action.buffered
-	      });
-	    case _video.RATE_CHANGE:
-	      return _extends({}, state, {
-	        playbackRate: action.rate
-	      });
-	    case _player.FULLSCREEN_CHANGE:
-	      return _extends({}, state, {
-	        isFullscreen: action.isFullscreen
-	      });
-	    case _player.PLAYER_ACTIVATE:
-	      return _extends({}, state, {
-	        userActivity: action.activity
-	      });
-	    default:
-	      return state;
-	  }
-	}
-
-/***/ },
-/* 47 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var USER_AGENT = typeof window !== 'undefined' && window.navigator ? window.navigator.userAgent : '';
-	var webkitVersionMap = /AppleWebKit\/([\d.]+)/i.exec(USER_AGENT);
-	var appleWebkitVersion = webkitVersionMap ? parseFloat(webkitVersionMap.pop()) : null;
-	
-	/*
-	 * Device is an iPhone
-	 *
-	 * @type {Boolean}
-	 * @constant
-	 * @private
-	 */
-	var IS_IPAD = exports.IS_IPAD = /iPad/i.test(USER_AGENT);
-	
-	// The Facebook app's UIWebView identifies as both an iPhone and iPad, so
-	// to identify iPhones, we need to exclude iPads.
-	// http://artsy.github.io/blog/2012/10/18/the-perils-of-ios-user-agent-sniffing/
-	var IS_IPHONE = exports.IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD;
-	var IS_IPOD = exports.IS_IPOD = /iPod/i.test(USER_AGENT);
-	var IS_IOS = exports.IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD;
-
-/***/ },
-/* 48 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 49 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5857,12 +4317,1655 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 50 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(33),
-	    getRawTag = __webpack_require__(53),
-	    objectToString = __webpack_require__(54);
+	var root = __webpack_require__(58);
+	
+	/** Built-in value references. */
+	var Symbol = root.Symbol;
+	
+	module.exports = Symbol;
+
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _createStore = __webpack_require__(61);
+	
+	var _createStore2 = _interopRequireDefault(_createStore);
+	
+	var _reducers = __webpack_require__(47);
+	
+	var _reducers2 = _interopRequireDefault(_reducers);
+	
+	var _player = __webpack_require__(5);
+	
+	var playerActions = _interopRequireWildcard(_player);
+	
+	var _video = __webpack_require__(9);
+	
+	var videoActions = _interopRequireWildcard(_video);
+	
+	var _events = __webpack_require__(8);
+	
+	var eventsActions = _interopRequireWildcard(_events);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Manager = function () {
+	  function Manager(video, rootElement) {
+	    _classCallCheck(this, Manager);
+	
+	    this.store = (0, _createStore2.default)(_reducers2.default);
+	
+	    this.video = video;
+	    this.rootElement = rootElement;
+	  }
+	
+	  _createClass(Manager, [{
+	    key: 'getActions',
+	    value: function getActions() {
+	      var manager = this;
+	      var dispatch = this.store.dispatch;
+	
+	      var actions = _extends({}, playerActions, videoActions, eventsActions);
+	
+	      function bindActionCreator(actionCreator) {
+	        return function () {
+	          var action = actionCreator.apply(manager, arguments);
+	          if (typeof action !== 'undefined') {
+	            dispatch(action);
+	          }
+	        };
+	      }
+	
+	      return Object.keys(actions).filter(function (key) {
+	        return typeof actions[key] === 'function';
+	      }).reduce(function (boundActions, key) {
+	        boundActions[key] = bindActionCreator(actions[key]);
+	        return boundActions;
+	      }, {});
+	    }
+	  }, {
+	    key: 'getState',
+	    value: function getState() {
+	      return this.store.getState();
+	    }
+	
+	    // subscribe state change
+	
+	  }, {
+	    key: 'subscribeToStateChange',
+	    value: function subscribeToStateChange(listener, getState) {
+	      if (!getState) {
+	        getState = this.getState.bind(this);
+	      }
+	
+	      var prevState = getState();
+	
+	      var handleChange = function handleChange() {
+	        var state = getState();
+	        if (state === prevState) {
+	          return;
+	        }
+	        var prevStateCopy = prevState;
+	        prevState = state;
+	        listener(state, prevStateCopy);
+	      };
+	
+	      return this.store.subscribe(handleChange);
+	    }
+	
+	    // subscribe to operation state change
+	
+	  }, {
+	    key: 'subscribeToOperationStateChange',
+	    value: function subscribeToOperationStateChange(listener) {
+	      var _this = this;
+	
+	      return this.subscribeToStateChange(listener, function () {
+	        return _this.getState().operation;
+	      });
+	    }
+	
+	    // subscribe to player state change
+	
+	  }, {
+	    key: 'subscribeToPlayerStateChange',
+	    value: function subscribeToPlayerStateChange(listener) {
+	      var _this2 = this;
+	
+	      return this.subscribeToStateChange(listener, function () {
+	        return _this2.getState().player;
+	      });
+	    }
+	
+	    // subscribe to events state change
+	
+	  }, {
+	    key: 'subscribeToEventsStateChange',
+	    value: function subscribeToEventsStateChange(listener) {
+	      var _this3 = this;
+	
+	      return this.subscribeToStateChange(listener, function () {
+	        return _this3.getState().events;
+	      });
+	    }
+	  }]);
+	
+	  return Manager;
+	}();
+	
+	exports.default = Manager;
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames = __webpack_require__(2);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	var _lodash = __webpack_require__(34);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	var _Manager = __webpack_require__(36);
+	
+	var _Manager2 = _interopRequireDefault(_Manager);
+	
+	var _BigPlayButton = __webpack_require__(11);
+	
+	var _BigPlayButton2 = _interopRequireDefault(_BigPlayButton);
+	
+	var _LoadingSpinner = __webpack_require__(12);
+	
+	var _LoadingSpinner2 = _interopRequireDefault(_LoadingSpinner);
+	
+	var _PosterImage = __webpack_require__(13);
+	
+	var _PosterImage2 = _interopRequireDefault(_PosterImage);
+	
+	var _Video = __webpack_require__(15);
+	
+	var _Video2 = _interopRequireDefault(_Video);
+	
+	var _Bezel = __webpack_require__(10);
+	
+	var _Bezel2 = _interopRequireDefault(_Bezel);
+	
+	var _Shortcut = __webpack_require__(14);
+	
+	var _Shortcut2 = _interopRequireDefault(_Shortcut);
+	
+	var _ControlBar = __webpack_require__(16);
+	
+	var _ControlBar2 = _interopRequireDefault(_ControlBar);
+	
+	var _browser = __webpack_require__(50);
+	
+	var browser = _interopRequireWildcard(_browser);
+	
+	var _utils = __webpack_require__(3);
+	
+	var _fullscreen = __webpack_require__(33);
+	
+	var _fullscreen2 = _interopRequireDefault(_fullscreen);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  children: _react.PropTypes.any,
+	
+	  width: _react.PropTypes.number,
+	  height: _react.PropTypes.number,
+	  fluid: _react.PropTypes.bool,
+	  muted: _react.PropTypes.bool,
+	  playsInline: _react.PropTypes.bool,
+	  aspectRatio: _react.PropTypes.string,
+	
+	  startTime: _react.PropTypes.number,
+	  loop: _react.PropTypes.bool,
+	  autoPlay: _react.PropTypes.bool,
+	  src: _react.PropTypes.string,
+	  poster: _react.PropTypes.string,
+	  preload: _react2.default.PropTypes.oneOf(['auto', 'metadata', 'none']),
+	
+	  onLoadStart: _react.PropTypes.func,
+	  onWaiting: _react.PropTypes.func,
+	  onCanPlay: _react.PropTypes.func,
+	  onCanPlayThrough: _react.PropTypes.func,
+	  onPlaying: _react.PropTypes.func,
+	  onEnded: _react.PropTypes.func,
+	  onSeeking: _react.PropTypes.func,
+	  onSeeked: _react.PropTypes.func,
+	  onPlay: _react.PropTypes.func,
+	  onPause: _react.PropTypes.func,
+	  onProgress: _react.PropTypes.func,
+	  onDurationChange: _react.PropTypes.func,
+	  onError: _react.PropTypes.func,
+	  onSuspend: _react.PropTypes.func,
+	  onAbort: _react.PropTypes.func,
+	  onEmptied: _react.PropTypes.func,
+	  onStalled: _react.PropTypes.func,
+	  onLoadedMetadata: _react.PropTypes.func,
+	  onLoadedData: _react.PropTypes.func,
+	  onTimeUpdate: _react.PropTypes.func,
+	  onRateChange: _react.PropTypes.func,
+	  onVolumeChange: _react.PropTypes.func
+	};
+	
+	var defaultProps = {
+	  fluid: true,
+	  aspectRatio: 'auto'
+	};
+	
+	var Player = function (_Component) {
+	  _inherits(Player, _Component);
+	
+	  function Player(props) {
+	    _classCallCheck(this, Player);
+	
+	    var _this = _possibleConstructorReturn(this, (Player.__proto__ || Object.getPrototypeOf(Player)).call(this, props));
+	
+	    _this.controlsHideTimer = null;
+	
+	    _this.video = null; // the Video component
+	    _this.manager = new _Manager2.default();
+	    _this.actions = _this.manager.getActions();
+	    _this.manager.subscribeToPlayerStateChange(_this.handleStateChange.bind(_this));
+	
+	    _this.getStyle = _this.getStyle.bind(_this);
+	    _this.handleResize = _this.handleResize.bind(_this);
+	    _this.getChildren = _this.getChildren.bind(_this);
+	    _this.handleMouseMove = (0, _lodash2.default)(_this.handleMouseMove.bind(_this), 250);
+	    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
+	    _this.startControlsTimer = _this.startControlsTimer.bind(_this);
+	    _this.handleFullScreenChange = _this.handleFullScreenChange.bind(_this);
+	    _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Player, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.handleResize();
+	      window.addEventListener('resize', this.handleResize);
+	
+	      _fullscreen2.default.addEventListener(this.handleFullScreenChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      // Remove event listener
+	      window.addEventListener('resize', this.handleResize);
+	      _fullscreen2.default.removeEventListener(this.handleFullScreenChange);
+	      if (this.controlsHideTimer) {
+	        window.clearTimeout(this.controlsHideTimer);
+	      }
+	    }
+	
+	    // play the video
+	
+	  }, {
+	    key: 'play',
+	    value: function play() {
+	      this.video.play();
+	    }
+	
+	    // pause the video
+	
+	  }, {
+	    key: 'pause',
+	    value: function pause() {
+	      this.video.pause();
+	    }
+	
+	    // Change the video source and re-load the video:
+	
+	  }, {
+	    key: 'load',
+	    value: function load() {
+	      this.video.load();
+	    }
+	
+	    // Add a new text track to the video
+	
+	  }, {
+	    key: 'addTextTrack',
+	    value: function addTextTrack() {
+	      var _video;
+	
+	      (_video = this.video).addTextTrack.apply(_video, arguments);
+	    }
+	
+	    // Check if your browser can play different types of video:
+	
+	  }, {
+	    key: 'canPlayType',
+	    value: function canPlayType() {
+	      var _video2;
+	
+	      (_video2 = this.video).canPlayType.apply(_video2, arguments);
+	    }
+	
+	    // player resize
+	
+	  }, {
+	    key: 'handleResize',
+	    value: function handleResize() {}
+	  }, {
+	    key: 'handleFullScreenChange',
+	    value: function handleFullScreenChange() {
+	      this.actions.handleFullscreenChange(_fullscreen2.default.isFullscreen);
+	    }
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown() {
+	      this.startControlsTimer();
+	    }
+	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove() {
+	      this.startControlsTimer();
+	    }
+	  }, {
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      this.actions.handleKeyDown(e);
+	    }
+	  }, {
+	    key: 'startControlsTimer',
+	    value: function startControlsTimer() {
+	      var _this2 = this;
+	
+	      this.actions.activate(true);
+	      clearTimeout(this.controlsHideTimer);
+	      this.controlsHideTimer = setTimeout(function () {
+	        _this2.actions.activate(false);
+	      }, 3000);
+	    }
+	  }, {
+	    key: 'getStyle',
+	    value: function getStyle() {
+	      var fluid = this.props.fluid;
+	
+	      var _manager$getState = this.manager.getState(),
+	          player = _manager$getState.player;
+	
+	      var style = {};
+	      var width = void 0;
+	      var height = void 0;
+	      var aspectRatio = void 0;
+	
+	      // The aspect ratio is either used directly or to calculate width and height.
+	      if (this.props.aspectRatio !== undefined && this.props.aspectRatio !== 'auto') {
+	        // Use any aspectRatio that's been specifically set
+	        aspectRatio = this.props.aspectRatio;
+	      } else if (player.videoWidth) {
+	        // Otherwise try to get the aspect ratio from the video metadata
+	        aspectRatio = player.videoWidth + ':' + player.videoHeight;
+	      } else {
+	        // Or use a default. The video element's is 2:1, but 16:9 is more common.
+	        aspectRatio = '16:9';
+	      }
+	
+	      // Get the ratio as a decimal we can use to calculate dimensions
+	      var ratioParts = aspectRatio.split(':');
+	      var ratioMultiplier = ratioParts[1] / ratioParts[0];
+	
+	      if (this.props.width !== undefined) {
+	        // Use any width that's been specifically set
+	        width = this.props.width;
+	      } else if (this.props.height !== undefined) {
+	        // Or calulate the width from the aspect ratio if a height has been set
+	        width = this.props.height / ratioMultiplier;
+	      } else {
+	        // Or use the video's metadata, or use the video el's default of 300
+	        width = player.videoWidth || 400;
+	      }
+	
+	      if (this.props.height !== undefined) {
+	        // Use any height that's been specifically set
+	        height = this.props.height;
+	      } else {
+	        // Otherwise calculate the height from the ratio and the width
+	        height = width * ratioMultiplier;
+	      }
+	
+	      if (fluid) {
+	        style.paddingTop = ratioMultiplier * 100 + '%';
+	      } else {
+	        style.width = width + 'px';
+	        style.height = height + 'px';
+	      }
+	
+	      return style;
+	    }
+	  }, {
+	    key: 'getDefaultChildren',
+	    value: function getDefaultChildren(props, fullProps) {
+	      var _this3 = this;
+	
+	      return [_react2.default.createElement(_Video2.default, _extends({
+	        ref: function ref(c) {
+	          _this3.manager.video = _this3.video = c;
+	        },
+	        key: 'video',
+	        order: 0.0
+	      }, fullProps)), _react2.default.createElement(_PosterImage2.default, _extends({
+	        key: 'poster-image',
+	        order: 1.0
+	      }, props)), _react2.default.createElement(_LoadingSpinner2.default, _extends({
+	        key: 'loading-spinner',
+	        order: 2.0
+	      }, props)), _react2.default.createElement(_Bezel2.default, _extends({
+	        key: 'bezel',
+	        order: 3.0
+	      }, props)), _react2.default.createElement(_BigPlayButton2.default, _extends({
+	        key: 'big-play-button',
+	        order: 4.0
+	      }, props)), _react2.default.createElement(_ControlBar2.default, _extends({
+	        key: 'control-bar',
+	        order: 5.0
+	      }, props)), _react2.default.createElement(_Shortcut2.default, _extends({
+	        key: 'shortcut',
+	        order: 99.0
+	      }, props))];
+	    }
+	  }, {
+	    key: 'getChildren',
+	    value: function getChildren(props) {
+	      var propsWithoutChildren = _extends({}, props, {
+	        children: null
+	      });
+	      var children = _react2.default.Children.toArray(this.props.children).filter(function (e) {
+	        return !(0, _utils.isVideoChild)(e);
+	      });
+	      var defaultChildren = this.getDefaultChildren(propsWithoutChildren, props);
+	      return (0, _utils.mergeAndSortChildren)(defaultChildren, children, propsWithoutChildren);
+	    }
+	  }, {
+	    key: 'handleStateChange',
+	    value: function handleStateChange(state, prevState) {
+	      if (state.isFullscreen !== prevState.isFullscreen) {
+	        this.handleResize();
+	      }
+	      this.forceUpdate(); // re-render
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this4 = this;
+	
+	      var fluid = this.props.fluid;
+	
+	      var _manager$getState2 = this.manager.getState(),
+	          player = _manager$getState2.player;
+	
+	      var paused = player.paused,
+	          hasStarted = player.hasStarted,
+	          waiting = player.waiting,
+	          seeking = player.seeking,
+	          isFullscreen = player.isFullscreen,
+	          userActivity = player.userActivity;
+	
+	      var props = _extends({}, this.props, {
+	        player: player,
+	        actions: this.actions,
+	        manager: this.manager,
+	        store: this.manager.store,
+	        video: this.video ? this.video.video : null
+	      });
+	      var children = this.getChildren(props);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          className: (0, _classnames2.default)({
+	            'video-react-controls-enabled': true,
+	            'video-react-has-started': hasStarted,
+	            'video-react-paused': paused,
+	            'video-react-playing': !paused,
+	            'video-react-waiting': waiting,
+	            'video-react-seeking': seeking,
+	            'video-react-fluid': fluid,
+	            'video-react-fullscreen': isFullscreen,
+	            'video-react-user-inactive': !userActivity,
+	            'video-react-user-active': userActivity,
+	            'video-react-workinghover': !browser.IS_IOS
+	          }, 'video-react'),
+	          style: this.getStyle(),
+	          ref: function ref(c) {
+	            _this4.manager.rootElement = c;
+	          },
+	          onTouchStart: this.handleMouseDown,
+	          onMouseDown: this.handleMouseDown,
+	          onMouseMove: this.handleMouseMove,
+	          onKeyDown: this.handleKeyDown,
+	          tabIndex: '-1'
+	        },
+	        children
+	      );
+	    }
+	  }]);
+	
+	  return Player;
+	}(_react.Component);
+	
+	exports.default = Player;
+	
+	
+	Player.propTypes = propTypes;
+	Player.defaultProps = defaultProps;
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  children: _react.PropTypes.any
+	};
+	
+	var Menu = function (_Component) {
+	  _inherits(Menu, _Component);
+	
+	  function Menu(props, context) {
+	    _classCallCheck(this, Menu);
+	
+	    var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props, context));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Menu, [{
+	    key: "handleClick",
+	    value: function handleClick(event) {
+	      event.preventDefault();
+	      event.stopPropagation();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        {
+	          className: "video-react-menu",
+	          role: "presentation",
+	          onClick: this.handleClick
+	        },
+	        _react2.default.createElement(
+	          "ul",
+	          { className: "video-react-menu-content" },
+	          this.props.children
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Menu;
+	}(_react.Component);
+	
+	exports.default = Menu;
+	
+	
+	Menu.propTypes = propTypes;
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames = __webpack_require__(2);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	var _Menu = __webpack_require__(38);
+	
+	var _Menu2 = _interopRequireDefault(_Menu);
+	
+	var _MenuItem = __webpack_require__(40);
+	
+	var _MenuItem2 = _interopRequireDefault(_MenuItem);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  inline: _react.PropTypes.bool,
+	  items: _react.PropTypes.array,
+	  className: _react.PropTypes.string,
+	  onClick: _react.PropTypes.func,
+	  children: _react.PropTypes.any
+	};
+	
+	var MenuButton = function (_Component) {
+	  _inherits(MenuButton, _Component);
+	
+	  function MenuButton(props, context) {
+	    _classCallCheck(this, MenuButton);
+	
+	    var _this = _possibleConstructorReturn(this, (MenuButton.__proto__ || Object.getPrototypeOf(MenuButton)).call(this, props, context));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    _this.renderMenu = _this.renderMenu.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(MenuButton, [{
+	    key: 'handleClick',
+	    value: function handleClick(event) {
+	      if (this.props.onClick) {
+	        this.props.onClick(event);
+	      }
+	    }
+	  }, {
+	    key: 'renderMenu',
+	    value: function renderMenu() {
+	      var items = this.props.items;
+	
+	      var i = 0;
+	      return _react2.default.createElement(
+	        _Menu2.default,
+	        null,
+	        items.reverse().map(function (item) {
+	          return _react2.default.createElement(_MenuItem2.default, { item: item, key: 'item-' + i++ });
+	        })
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props,
+	          inline = _props.inline,
+	          className = _props.className;
+	
+	
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          className: (0, _classnames2.default)(className, {
+	            'video-react-menu-button-inline': !!inline,
+	            'video-react-menu-button-popup': !inline
+	          }, 'video-react-control video-react-button video-react-menu-button'),
+	          role: 'presentation',
+	          onClick: this.handleClick
+	        },
+	        this.props.children,
+	        this.renderMenu()
+	      );
+	    }
+	  }]);
+	
+	  return MenuButton;
+	}(_react.Component);
+	
+	exports.default = MenuButton;
+	
+	
+	MenuButton.propTypes = propTypes;
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames = __webpack_require__(2);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  item: _react.PropTypes.object
+	};
+	
+	var MenuItem = function (_Component) {
+	  _inherits(MenuItem, _Component);
+	
+	  function MenuItem(props, context) {
+	    _classCallCheck(this, MenuItem);
+	
+	    var _this = _possibleConstructorReturn(this, (MenuItem.__proto__ || Object.getPrototypeOf(MenuItem)).call(this, props, context));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(MenuItem, [{
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      var item = this.props.item;
+	
+	      if (item.onClick) {
+	        item.onClick(item);
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var item = this.props.item;
+	
+	      return _react2.default.createElement(
+	        'li',
+	        {
+	          className: (0, _classnames2.default)({
+	            'video-react-menu-item': true,
+	            'video-react-selected': item.selected
+	          }),
+	          onClick: this.handleClick
+	        },
+	        item.label,
+	        _react2.default.createElement('span', { className: 'video-react-control-text' })
+	      );
+	    }
+	  }]);
+	
+	  return MenuItem;
+	}(_react.Component);
+	
+	exports.default = MenuItem;
+	
+	
+	MenuItem.propTypes = propTypes;
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  player: _react.PropTypes.object,
+	  children: _react.PropTypes.any
+	};
+	
+	var Popup = function (_Component) {
+	  _inherits(Popup, _Component);
+	
+	  function Popup(props, context) {
+	    _classCallCheck(this, Popup);
+	
+	    var _this = _possibleConstructorReturn(this, (Popup.__proto__ || Object.getPrototypeOf(Popup)).call(this, props, context));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Popup, [{
+	    key: "handleClick",
+	    value: function handleClick(event) {
+	      event.preventDefault();
+	      event.stopPropagation();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var children = this.props.children;
+	
+	      return _react2.default.createElement(
+	        "div",
+	        {
+	          className: "video-react-menu",
+	          onClick: this.handleClick
+	        },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "video-react-menu-content" },
+	          children
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Popup;
+	}(_react.Component);
+	
+	exports.default = Popup;
+	
+	
+	Popup.propTypes = propTypes;
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames = __webpack_require__(2);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	var _Popup = __webpack_require__(41);
+	
+	var _Popup2 = _interopRequireDefault(_Popup);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  inline: _react.PropTypes.bool,
+	  onClick: _react.PropTypes.func.isRequired,
+	  className: _react.PropTypes.string
+	};
+	
+	var defaultProps = {
+	  inline: true
+	};
+	
+	var PopupButton = function (_Component) {
+	  _inherits(PopupButton, _Component);
+	
+	  function PopupButton(props, context) {
+	    _classCallCheck(this, PopupButton);
+	
+	    var _this = _possibleConstructorReturn(this, (PopupButton.__proto__ || Object.getPrototypeOf(PopupButton)).call(this, props, context));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(PopupButton, [{
+	    key: 'handleClick',
+	    value: function handleClick(event) {
+	      var onClick = this.props.onClick;
+	
+	      onClick(event);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var inline = this.props.inline;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          className: (0, _classnames2.default)(this.props.className, {
+	            'video-react-menu-button-inline': !!inline,
+	            'video-react-menu-button-popup': !inline
+	          }, 'video-react-control video-react-button video-react-menu-button'),
+	          role: 'button',
+	          onClick: this.handleClick
+	        },
+	        _react2.default.createElement(_Popup2.default, this.props)
+	      );
+	    }
+	  }]);
+	
+	  return PopupButton;
+	}(_react.Component);
+	
+	exports.default = PopupButton;
+	
+	
+	PopupButton.propTypes = propTypes;
+	PopupButton.defaultProps = defaultProps;
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Slider = __webpack_require__(6);
+	
+	var _Slider2 = _interopRequireDefault(_Slider);
+	
+	var _VolumeLevel = __webpack_require__(44);
+	
+	var _VolumeLevel2 = _interopRequireDefault(_VolumeLevel);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var propTypes = {
+	  actions: _react.PropTypes.object,
+	  player: _react.PropTypes.object
+	};
+	
+	var VolumeBar = function (_Component) {
+	  _inherits(VolumeBar, _Component);
+	
+	  function VolumeBar(props, context) {
+	    _classCallCheck(this, VolumeBar);
+	
+	    var _this = _possibleConstructorReturn(this, (VolumeBar.__proto__ || Object.getPrototypeOf(VolumeBar)).call(this, props, context));
+	
+	    _this.state = {
+	      percentage: '0%'
+	    };
+	
+	    _this.handleMouseMove = _this.handleMouseMove.bind(_this);
+	    _this.handlePercentageChange = _this.handlePercentageChange.bind(_this);
+	    _this.checkMuted = _this.checkMuted.bind(_this);
+	    _this.getPercent = _this.getPercent.bind(_this);
+	    _this.stepForward = _this.stepForward.bind(_this);
+	    _this.stepBack = _this.stepBack.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(VolumeBar, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {}
+	  }, {
+	    key: 'getPercent',
+	    value: function getPercent() {
+	      var player = this.props.player;
+	
+	      if (player.muted) {
+	        return 0;
+	      }
+	      return player.volume;
+	    }
+	  }, {
+	    key: 'checkMuted',
+	    value: function checkMuted() {
+	      var _props = this.props,
+	          player = _props.player,
+	          actions = _props.actions;
+	
+	      if (player.muted) {
+	        actions.toggleMuted(false);
+	      }
+	    }
+	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove(event) {
+	      var actions = this.props.actions;
+	
+	      this.checkMuted();
+	      var distance = this.slider.calculateDistance(event);
+	      actions.changeVolume(distance);
+	    }
+	  }, {
+	    key: 'stepForward',
+	    value: function stepForward() {
+	      var _props2 = this.props,
+	          player = _props2.player,
+	          actions = _props2.actions;
+	
+	      this.checkMuted();
+	      actions.changeVolume(player.volume + 0.1);
+	    }
+	  }, {
+	    key: 'stepBack',
+	    value: function stepBack() {
+	      var _props3 = this.props,
+	          player = _props3.player,
+	          actions = _props3.actions;
+	
+	      this.checkMuted();
+	      actions.changeVolume(player.volume - 0.1);
+	    }
+	  }, {
+	    key: 'handlePercentageChange',
+	    value: function handlePercentageChange(percentage) {
+	      if (percentage !== this.state.percentage) {
+	        this.setState({
+	          percentage: percentage
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var player = this.props.player;
+	
+	
+	      var volume = (player.volume * 100).toFixed(2);
+	      return _react2.default.createElement(
+	        _Slider2.default,
+	        _extends({
+	          ref: function ref(c) {
+	            _this2.slider = c;
+	          },
+	          label: 'volume level',
+	          valuenow: volume,
+	          valuetext: volume + '%',
+	          onMouseMove: this.handleMouseMove,
+	          getPercent: this.getPercent,
+	          onPercentageChange: this.handlePercentageChange,
+	          className: 'video-react-volume-bar video-react-slider-bar'
+	        }, this.props),
+	        _react2.default.createElement(_VolumeLevel2.default, this.props)
+	      );
+	    }
+	  }]);
+	
+	  return VolumeBar;
+	}(_react.Component);
+	
+	VolumeBar.propTypes = propTypes;
+	
+	exports.default = VolumeBar;
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var propTypes = {
+	  percentage: _react.PropTypes.string,
+	  vertical: _react.PropTypes.bool
+	};
+	
+	var defaultProps = {
+	  percentage: '100%',
+	  vertical: false
+	};
+	
+	function VolumeLevel(_ref) {
+	  var percentage = _ref.percentage,
+	      vertical = _ref.vertical;
+	
+	  var style = {};
+	  if (vertical) {
+	    style.height = percentage;
+	  } else {
+	    style.width = percentage;
+	  }
+	
+	  return _react2.default.createElement(
+	    'div',
+	    {
+	      className: 'video-react-volume-level',
+	      style: style
+	    },
+	    _react2.default.createElement('span', { className: 'video-react-control-text' })
+	  );
+	}
+	
+	VolumeLevel.propTypes = propTypes;
+	VolumeLevel.defaultProps = defaultProps;
+	exports.default = VolumeLevel;
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.PlaybackRate = exports.VolumeMenuButton = exports.TimeDivider = exports.DurationDisplay = exports.CurrentTimeDisplay = exports.RemainingTimeDisplay = exports.MouseTimeDisplay = exports.LoadProgressBar = exports.PlayProgressBar = exports.Slider = exports.SeekBar = exports.ProgressControl = exports.FullscreenToggle = exports.ReplayControl = exports.ForwardControl = exports.PlayToggle = exports.ControlBar = exports.Shortcut = exports.Bezel = exports.PosterImage = exports.LoadingSpinner = exports.BigPlayButton = exports.Video = exports.Player = undefined;
+	
+	var _Player = __webpack_require__(37);
+	
+	var _Player2 = _interopRequireDefault(_Player);
+	
+	var _Video = __webpack_require__(15);
+	
+	var _Video2 = _interopRequireDefault(_Video);
+	
+	var _BigPlayButton = __webpack_require__(11);
+	
+	var _BigPlayButton2 = _interopRequireDefault(_BigPlayButton);
+	
+	var _LoadingSpinner = __webpack_require__(12);
+	
+	var _LoadingSpinner2 = _interopRequireDefault(_LoadingSpinner);
+	
+	var _PosterImage = __webpack_require__(13);
+	
+	var _PosterImage2 = _interopRequireDefault(_PosterImage);
+	
+	var _Slider = __webpack_require__(6);
+	
+	var _Slider2 = _interopRequireDefault(_Slider);
+	
+	var _Bezel = __webpack_require__(10);
+	
+	var _Bezel2 = _interopRequireDefault(_Bezel);
+	
+	var _Shortcut = __webpack_require__(14);
+	
+	var _Shortcut2 = _interopRequireDefault(_Shortcut);
+	
+	var _ControlBar = __webpack_require__(16);
+	
+	var _ControlBar2 = _interopRequireDefault(_ControlBar);
+	
+	var _PlayToggle = __webpack_require__(23);
+	
+	var _PlayToggle2 = _interopRequireDefault(_PlayToggle);
+	
+	var _ForwardControl = __webpack_require__(17);
+	
+	var _ForwardControl2 = _interopRequireDefault(_ForwardControl);
+	
+	var _ReplayControl = __webpack_require__(26);
+	
+	var _ReplayControl2 = _interopRequireDefault(_ReplayControl);
+	
+	var _FullscreenToggle = __webpack_require__(19);
+	
+	var _FullscreenToggle2 = _interopRequireDefault(_FullscreenToggle);
+	
+	var _ProgressControl = __webpack_require__(25);
+	
+	var _ProgressControl2 = _interopRequireDefault(_ProgressControl);
+	
+	var _SeekBar = __webpack_require__(27);
+	
+	var _SeekBar2 = _interopRequireDefault(_SeekBar);
+	
+	var _PlayProgressBar = __webpack_require__(22);
+	
+	var _PlayProgressBar2 = _interopRequireDefault(_PlayProgressBar);
+	
+	var _LoadProgressBar = __webpack_require__(20);
+	
+	var _LoadProgressBar2 = _interopRequireDefault(_LoadProgressBar);
+	
+	var _MouseTimeDisplay = __webpack_require__(21);
+	
+	var _MouseTimeDisplay2 = _interopRequireDefault(_MouseTimeDisplay);
+	
+	var _VolumeMenuButton = __webpack_require__(28);
+	
+	var _VolumeMenuButton2 = _interopRequireDefault(_VolumeMenuButton);
+	
+	var _PlaybackRate = __webpack_require__(24);
+	
+	var _PlaybackRate2 = _interopRequireDefault(_PlaybackRate);
+	
+	var _RemainingTimeDisplay = __webpack_require__(31);
+	
+	var _RemainingTimeDisplay2 = _interopRequireDefault(_RemainingTimeDisplay);
+	
+	var _CurrentTimeDisplay = __webpack_require__(29);
+	
+	var _CurrentTimeDisplay2 = _interopRequireDefault(_CurrentTimeDisplay);
+	
+	var _DurationDisplay = __webpack_require__(30);
+	
+	var _DurationDisplay2 = _interopRequireDefault(_DurationDisplay);
+	
+	var _TimeDivider = __webpack_require__(32);
+	
+	var _TimeDivider2 = _interopRequireDefault(_TimeDivider);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.Player = _Player2.default;
+	exports.Video = _Video2.default;
+	exports.BigPlayButton = _BigPlayButton2.default;
+	exports.LoadingSpinner = _LoadingSpinner2.default;
+	exports.PosterImage = _PosterImage2.default;
+	exports.Bezel = _Bezel2.default;
+	exports.Shortcut = _Shortcut2.default;
+	exports.ControlBar = _ControlBar2.default;
+	exports.PlayToggle = _PlayToggle2.default;
+	exports.ForwardControl = _ForwardControl2.default;
+	exports.ReplayControl = _ReplayControl2.default;
+	exports.FullscreenToggle = _FullscreenToggle2.default;
+	exports.ProgressControl = _ProgressControl2.default;
+	exports.SeekBar = _SeekBar2.default;
+	exports.Slider = _Slider2.default;
+	exports.PlayProgressBar = _PlayProgressBar2.default;
+	exports.LoadProgressBar = _LoadProgressBar2.default;
+	exports.MouseTimeDisplay = _MouseTimeDisplay2.default;
+	exports.RemainingTimeDisplay = _RemainingTimeDisplay2.default;
+	exports.CurrentTimeDisplay = _CurrentTimeDisplay2.default;
+	exports.DurationDisplay = _DurationDisplay2.default;
+	exports.TimeDivider = _TimeDivider2.default;
+	exports.VolumeMenuButton = _VolumeMenuButton2.default;
+	exports.PlaybackRate = _PlaybackRate2.default;
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports.default = events;
+	
+	var _events = __webpack_require__(8);
+	
+	var initialState = {
+	  keyDown: {
+	    event: null,
+	    count: 0
+	  }
+	};
+	
+	function events() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _events.EVENT_KEYDOWN:
+	      return _extends({}, state, {
+	        keyDown: {
+	          event: action.event,
+	          count: state.keyDown.count + 1
+	        }
+	      });
+	    default:
+	      return state;
+	  }
+	}
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function () {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  return {
+	    player: (0, _player2.default)(state.player, action),
+	    operation: (0, _operation2.default)(state.operation, action),
+	    events: (0, _events2.default)(state.events, action)
+	  };
+	};
+	
+	var _player = __webpack_require__(49);
+	
+	var _player2 = _interopRequireDefault(_player);
+	
+	var _operation = __webpack_require__(48);
+	
+	var _operation2 = _interopRequireDefault(_operation);
+	
+	var _events = __webpack_require__(46);
+	
+	var _events2 = _interopRequireDefault(_events);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports.default = operation;
+	
+	var _player = __webpack_require__(5);
+	
+	var initialState = {
+	  count: 0,
+	  operation: {
+	    action: '',
+	    source: ''
+	  }
+	};
+	
+	function operation() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _player.OPERATE:
+	      return _extends({}, state, {
+	        count: state.count + 1,
+	        operation: _extends({}, state.operation, action.operation)
+	      });
+	    case _player.REFRESH_OPERATION:
+	      return _extends({}, state, {
+	        count: state.count + 1
+	      });
+	    default:
+	      return state;
+	  }
+	}
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports.default = video;
+	
+	var _video = __webpack_require__(9);
+	
+	var _player = __webpack_require__(5);
+	
+	var initialState = {
+	  duration: 0,
+	  currentTime: 0,
+	  seekingTime: 0,
+	  buffered: null,
+	  waiting: true,
+	  seeking: false,
+	  paused: true,
+	  autoPaused: false,
+	  ended: false,
+	  playbackRate: 1,
+	  muted: false,
+	  volume: 1,
+	  readyState: 0,
+	  networkState: 0,
+	  videoWidth: 0,
+	  videoHeight: 0,
+	  hasStarted: false,
+	  userActivity: true,
+	  isFullscreen: false
+	};
+	
+	function video() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _video.VOLUME_MUTE:
+	      return _extends({}, state, {
+	        muted: action.muted
+	      });
+	    case _video.LOAD_START:
+	      return _extends({}, state, {
+	        hasStarted: false,
+	        ended: false,
+	        buffered: action.buffered
+	      });
+	    case _video.CAN_PLAY:
+	      return _extends({}, state, {
+	        waiting: false,
+	        videoWidth: action.videoWidth,
+	        videoHeight: action.videoHeight,
+	        duration: action.duration
+	      });
+	    case _video.WAITING:
+	      return _extends({}, state, {
+	        waiting: true
+	      });
+	    case _video.CAN_PLAY_THROUGH:
+	    case _video.PLAYING:
+	      return _extends({}, state, {
+	        waiting: false
+	      });
+	    case _video.PLAY:
+	      return _extends({}, state, {
+	        ended: false,
+	        paused: false,
+	        autoPaused: false,
+	        waiting: false,
+	        hasStarted: true,
+	        duration: action.duration
+	      });
+	    case _video.PAUSE:
+	      return _extends({}, state, {
+	        paused: true
+	      });
+	    case _video.END:
+	      return _extends({}, state, {
+	        ended: true
+	      });
+	    case _video.SEEKING:
+	      return _extends({}, state, {
+	        seeking: true
+	      });
+	    case _video.SEEKED:
+	      return _extends({}, state, {
+	        seeking: false
+	      });
+	    case _video.SEEKING_TIME:
+	      return _extends({}, state, {
+	        seekingTime: action.time
+	      });
+	    case _video.END_SEEKING:
+	      return _extends({}, state, {
+	        seekingTime: 0,
+	        currentTime: action.time
+	      });
+	    case _video.DURATION_CHANGE:
+	      return _extends({}, state, {
+	        duration: action.duration
+	      });
+	    case _video.TIME_UPDATE:
+	      return _extends({}, state, {
+	        currentTime: action.time
+	      });
+	    case _video.VOLUME_CHANGE:
+	      return _extends({}, state, {
+	        volume: action.volume
+	      });
+	    case _video.PROGRESS_CHANGE:
+	      return _extends({}, state, {
+	        buffered: action.buffered
+	      });
+	    case _video.RATE_CHANGE:
+	      return _extends({}, state, {
+	        playbackRate: action.rate
+	      });
+	    case _player.FULLSCREEN_CHANGE:
+	      return _extends({}, state, {
+	        isFullscreen: action.isFullscreen
+	      });
+	    case _player.PLAYER_ACTIVATE:
+	      return _extends({}, state, {
+	        userActivity: action.activity
+	      });
+	    default:
+	      return state;
+	  }
+	}
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var USER_AGENT = typeof window !== 'undefined' && window.navigator ? window.navigator.userAgent : '';
+	var webkitVersionMap = /AppleWebKit\/([\d.]+)/i.exec(USER_AGENT);
+	var appleWebkitVersion = webkitVersionMap ? parseFloat(webkitVersionMap.pop()) : null;
+	
+	/*
+	 * Device is an iPhone
+	 *
+	 * @type {Boolean}
+	 * @constant
+	 * @private
+	 */
+	var IS_IPAD = exports.IS_IPAD = /iPad/i.test(USER_AGENT);
+	
+	// The Facebook app's UIWebView identifies as both an iPhone and iPad, so
+	// to identify iPhones, we need to exclude iPads.
+	// http://artsy.github.io/blog/2012/10/18/the-perils-of-ios-user-agent-sniffing/
+	var IS_IPHONE = exports.IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD;
+	var IS_IPOD = exports.IS_IPOD = /iPod/i.test(USER_AGENT);
+	var IS_IOS = exports.IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD;
+
+/***/ },
+/* 51 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Symbol = __webpack_require__(35),
+	    getRawTag = __webpack_require__(55),
+	    objectToString = __webpack_require__(56);
 	
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -5892,7 +5995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 51 */
+/* 53 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -5903,10 +6006,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 52 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(55);
+	var overArg = __webpack_require__(57);
 	
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -5915,10 +6018,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 53 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(33);
+	var Symbol = __webpack_require__(35);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -5967,7 +6070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 54 */
+/* 56 */
 /***/ function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -5995,7 +6098,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports) {
 
 	/**
@@ -6016,10 +6119,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var freeGlobal = __webpack_require__(51);
+	var freeGlobal = __webpack_require__(53);
 	
 	/** Detect free variable `self`. */
 	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -6031,7 +6134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports) {
 
 	/**
@@ -6066,12 +6169,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGetTag = __webpack_require__(50),
-	    getPrototype = __webpack_require__(52),
-	    isObjectLike = __webpack_require__(57);
+	var baseGetTag = __webpack_require__(52),
+	    getPrototype = __webpack_require__(54),
+	    isObjectLike = __webpack_require__(59);
 	
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -6134,7 +6237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 59 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6143,11 +6246,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ActionTypes = undefined;
 	exports['default'] = createStore;
 	
-	var _isPlainObject = __webpack_require__(58);
+	var _isPlainObject = __webpack_require__(60);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _symbolObservable = __webpack_require__(60);
+	var _symbolObservable = __webpack_require__(62);
 	
 	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 	
@@ -6400,14 +6503,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(61);
+	module.exports = __webpack_require__(63);
 
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
@@ -6416,7 +6519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _ponyfill = __webpack_require__(62);
+	var _ponyfill = __webpack_require__(64);
 	
 	var _ponyfill2 = _interopRequireDefault(_ponyfill);
 	
@@ -6439,10 +6542,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var result = (0, _ponyfill2['default'])(root);
 	exports['default'] = result;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(63)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(65)(module)))
 
 /***/ },
-/* 62 */
+/* 64 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6470,7 +6573,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
