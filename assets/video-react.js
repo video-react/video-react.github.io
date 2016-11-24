@@ -131,6 +131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	exports.formatTime = formatTime;
+	exports.isVideoChild = isVideoChild;
 	exports.mergeAndSortChildren = mergeAndSortChildren;
 	
 	var _react = __webpack_require__(1);
@@ -180,6 +181,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  s = s < 10 ? '0' + s : s;
 	
 	  return h + m + s;
+	}
+	
+	// Check if the element belongs to a video element
+	// only accept <source />, <track />,
+	// <MyComponent type="source" />,
+	// <MyComponent type="track" />
+	// elements
+	function isVideoChild(c) {
+	  var type = c.type;
+	  if (c.props && c.props.type) {
+	    type = c.props.type;
+	  }
+	  return type === 'source' || type === 'track';
 	}
 	
 	// merge default children
@@ -1456,11 +1470,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'mergeShortcuts',
 	    value: function mergeShortcuts() {
+	      var gradeShortcut = function gradeShortcut(s) {
+	        var score = 0;
+	        var ps = ['ctrl', 'shift', 'alt'];
+	        ps.forEach(function (key) {
+	          if (s[key]) {
+	            score++;
+	          }
+	        });
+	        return score;
+	      };
+	
 	      var shortcuts = (this.props.shortcuts || []).filter(function (s) {
 	        return s.keyCode && s.handle && typeof s.handle === 'function';
 	      });
 	
-	      this.shortcuts = [].concat(_toConsumableArray(shortcuts), _toConsumableArray(this.defaultShortcuts));
+	      this.shortcuts = [].concat(_toConsumableArray(shortcuts), _toConsumableArray(this.defaultShortcuts)).sort(function (a, b) {
+	        return gradeShortcut(b) - gradeShortcut(a);
+	      });
 	    }
 	  }, {
 	    key: 'togglePlay',
@@ -1491,16 +1518,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	      var keyCode = e.keyCode || e.which;
-	      var ctrl = e.ctrlKey;
+	      var ctrl = e.ctrlKey || e.metaKey;
 	      var shift = e.shiftKey;
 	      var alt = e.altKey;
-	      var command = e.metaKey;
 	
 	      var shortcut = this.shortcuts.find(function (s) {
 	        if (s.keyCode != keyCode) {
 	          return false;
 	        }
-	        if (s.ctrl !== undefined && s.ctrl !== ctrl || s.shift !== undefined && s.shift !== shift || s.alt !== undefined && s.alt !== alt || s.command !== undefined && s.command !== command) {
+	        if (s.ctrl !== undefined && s.ctrl !== ctrl || s.shift !== undefined && s.shift !== shift || s.alt !== undefined && s.alt !== alt) {
 	          return false;
 	        }
 	        return true;
@@ -1549,6 +1575,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _lodash = __webpack_require__(49);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	var _utils = __webpack_require__(3);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1660,6 +1688,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'pause',
 	    value: function pause() {
 	      this.video.pause();
+	    }
+	
+	    // Change the video source and re-load the video:
+	
+	  }, {
+	    key: 'load',
+	    value: function load() {
+	      this.video.load();
+	    }
+	
+	    // Add a new text track to the video
+	
+	  }, {
+	    key: 'addTextTrack',
+	    value: function addTextTrack() {
+	      var _video;
+	
+	      (_video = this.video).addTextTrack.apply(_video, arguments);
+	    }
+	
+	    // Check if your browser can play different types of video:
+	
+	  }, {
+	    key: 'canPlayType',
+	    value: function canPlayType() {
+	      var _video2;
+	
+	      (_video2 = this.video).canPlayType.apply(_video2, arguments);
 	    }
 	
 	    // toggle play
@@ -2155,11 +2211,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          autoPlay = _props18.autoPlay,
 	          playsInline = _props18.playsInline;
 	
-	      // only keep <source /> elements
+	      // only keep <source />, <track />, <MyComponent type="source" /> elements
 	
-	      var children = _react2.default.Children.toArray(this.props.children).filter(function (c) {
-	        return c.type === 'source';
-	      });
+	      var children = _react2.default.Children.toArray(this.props.children).filter(_utils.isVideoChild);
 	
 	      return _react2.default.createElement(
 	        'video',
@@ -4093,6 +4147,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
+	    // play the video
+	
+	  }, {
+	    key: 'play',
+	    value: function play() {
+	      this.video.play();
+	    }
+	
+	    // pause the video
+	
+	  }, {
+	    key: 'pause',
+	    value: function pause() {
+	      this.video.pause();
+	    }
+	
+	    // Change the video source and re-load the video:
+	
+	  }, {
+	    key: 'load',
+	    value: function load() {
+	      this.video.load();
+	    }
+	
+	    // Add a new text track to the video
+	
+	  }, {
+	    key: 'addTextTrack',
+	    value: function addTextTrack() {
+	      var _video;
+	
+	      (_video = this.video).addTextTrack.apply(_video, arguments);
+	    }
+	
+	    // Check if your browser can play different types of video:
+	
+	  }, {
+	    key: 'canPlayType',
+	    value: function canPlayType() {
+	      var _video2;
+	
+	      (_video2 = this.video).canPlayType.apply(_video2, arguments);
+	    }
+	
 	    // player resize
 	
 	  }, {
@@ -4183,7 +4281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'getDefaultChildren',
-	    value: function getDefaultChildren(props) {
+	    value: function getDefaultChildren(props, fullProps) {
 	      var _this3 = this;
 	
 	      return [_react2.default.createElement(_Video2.default, _extends({
@@ -4192,7 +4290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        key: 'video',
 	        order: 0.0
-	      }, props)), _react2.default.createElement(_PosterImage2.default, _extends({
+	      }, fullProps)), _react2.default.createElement(_PosterImage2.default, _extends({
 	        key: 'poster-image',
 	        order: 1.0
 	      }, props)), _react2.default.createElement(_LoadingSpinner2.default, _extends({
@@ -4219,9 +4317,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        children: null
 	      });
 	      var children = _react2.default.Children.toArray(this.props.children).filter(function (e) {
-	        return e.type !== 'source';
+	        return !(0, _utils.isVideoChild)(e);
 	      });
-	      var defaultChildren = this.getDefaultChildren(propsWithoutChildren);
+	      var defaultChildren = this.getDefaultChildren(propsWithoutChildren, props);
 	      return (0, _utils.mergeAndSortChildren)(defaultChildren, children, propsWithoutChildren);
 	    }
 	  }, {
