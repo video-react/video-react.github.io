@@ -886,13 +886,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	function handleCanPlay(_ref) {
 	  var videoWidth = _ref.videoWidth,
 	      videoHeight = _ref.videoHeight,
-	      duration = _ref.duration;
+	      duration = _ref.duration,
+	      currentSrc = _ref.currentSrc;
 	
 	  return {
 	    type: CAN_PLAY,
 	    videoWidth: videoWidth,
 	    videoHeight: videoHeight,
-	    duration: duration
+	    duration: duration,
+	    currentSrc: currentSrc
 	  };
 	}
 	
@@ -915,11 +917,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function handlePlay(_ref2) {
-	  var duration = _ref2.duration;
+	  var duration = _ref2.duration,
+	      currentSrc = _ref2.currentSrc;
 	
 	  return {
 	    type: PLAY,
-	    duration: duration
+	    duration: duration,
+	    currentSrc: currentSrc
 	  };
 	}
 	
@@ -1865,8 +1869,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _this.forward = _this.forward.bind(_this);
 	    _this.replay = _this.replay.bind(_this);
 	    _this.toggleFullscreen = _this.toggleFullscreen.bind(_this);
-	    _this.videoWidth = _this.videoWidth.bind(_this);
-	    _this.videoHeight = _this.videoHeight.bind(_this);
 	    _this.handleLoadStart = _this.handleLoadStart.bind(_this);
 	    _this.handleCanPlay = _this.handleCanPlay.bind(_this);
 	    _this.handleCanPlayThrough = _this.handleCanPlayThrough.bind(_this);
@@ -1954,22 +1956,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
-	    // video width
-	
-	  }, {
-	    key: 'videoWidth',
-	    value: function videoWidth() {
-	      return this.video.videoWidth;
-	    }
-	
-	    // video height
-	
-	  }, {
-	    key: 'videoHeight',
-	    value: function videoHeight() {
-	      return this.video.videoHeight;
-	    }
-	
 	    // seek video by time
 	
 	  }, {
@@ -2024,7 +2010,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (player.paused && player.hasStarted) {
 	        actions.handleLoadStart(this.video.buffered);
 	      }
-	
 	      if (onLoadStart) {
 	        onLoadStart.apply(undefined, arguments);
 	      }
@@ -2042,9 +2027,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	      actions.handleCanPlay({
-	        videoWidth: this.videoWidth(),
-	        videoHeight: this.videoHeight(),
-	        duration: this.video.duration
+	        videoWidth: this.videoWidth,
+	        videoHeight: this.videoHeight,
+	        duration: this.video.duration,
+	        currentSrc: this.video.currentSrc
 	      });
 	
 	      if (onCanPlay) {
@@ -2104,6 +2090,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (player.paused) {
 	        actions.handlePlay({
+	          currentSrc: this.video.currentSrc,
 	          duration: this.video.duration
 	        });
 	      }
@@ -2514,7 +2501,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.video.volume;
 	    },
 	    set: function set(val) {
+	      if (val > 1) {
+	        val = 1;
+	      }
+	      if (val < 0) {
+	        val = 0;
+	      }
 	      this.video.volume = val;
+	    }
+	
+	    // video width
+	
+	  }, {
+	    key: 'videoWidth',
+	    get: function get() {
+	      return this.video.videoWidth;
+	    }
+	
+	    // video height
+	
+	  }, {
+	    key: 'videoHeight',
+	    get: function get() {
+	      return this.video.videoHeight;
 	    }
 	  }]);
 	
@@ -2634,12 +2643,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return [_react2.default.createElement(_PlayToggle2.default, _extends({}, this.props, {
 	        key: 'play-toggle',
 	        order: 1
-	      })), _react2.default.createElement(_ReplayControl2.default, _extends({}, this.props, {
-	        key: 'replay-control',
-	        order: 2
-	      })), _react2.default.createElement(_ForwardControl2.default, _extends({}, this.props, {
-	        key: 'forward-control',
-	        order: 3
 	      })), _react2.default.createElement(_VolumeMenuButton2.default, _extends({}, this.props, {
 	        key: 'volume-menu-button',
 	        order: 4
@@ -4610,13 +4613,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Manager = function () {
-	  function Manager(video, rootElement) {
+	  function Manager() {
 	    _classCallCheck(this, Manager);
 	
 	    this.store = (0, _createStore2.default)(_reducers2.default);
 	
-	    this.video = video;
-	    this.rootElement = rootElement;
+	    this.video = null;
+	    this.rootElement = null;
 	  }
 	
 	  _createClass(Manager, [{
@@ -4874,6 +4877,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
+	    // get playback rate
+	
+	  }, {
+	    key: 'getState',
+	
+	
+	    // get redux state
+	    // { player, operation }
+	    value: function getState() {
+	      return this.manager.getState();
+	    }
+	
 	    // play the video
 	
 	  }, {
@@ -4918,6 +4933,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	      (_video2 = this.video).canPlayType.apply(_video2, arguments);
 	    }
 	
+	    // seek video by time
+	
+	  }, {
+	    key: 'seek',
+	    value: function seek(time) {
+	      this.video.seek(time);
+	    }
+	
+	    // jump forward x seconds
+	
+	  }, {
+	    key: 'forward',
+	    value: function forward(seconds) {
+	      this.video.forward(seconds);
+	    }
+	
+	    // jump back x seconds
+	
+	  }, {
+	    key: 'replay',
+	    value: function replay(seconds) {
+	      this.video.replay(seconds);
+	    }
+	
+	    // enter or exist full screen
+	
+	  }, {
+	    key: 'toggleFullscreen',
+	    value: function toggleFullscreen() {
+	      this.video.toggleFullscreen();
+	    }
+	
+	    // subscribe to player state change
+	
+	  }, {
+	    key: 'subscribeToStateChange',
+	    value: function subscribeToStateChange(listener) {
+	      this.manager.subscribeToPlayerStateChange(listener);
+	    }
+	
 	    // player resize
 	
 	  }, {
@@ -4940,7 +4995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: 'handleKeyDown',
-	    value: function handleKeyDown(e) {
+	    value: function handleKeyDown() {
 	      this.startControlsTimer();
 	    }
 	  }, {
@@ -5128,6 +5183,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        children
 	      );
+	    }
+	  }, {
+	    key: 'playbackRate',
+	    get: function get() {
+	      return this.video.playbackRate;
+	    }
+	
+	    // set playback rate
+	    // speed of video
+	    ,
+	    set: function set(rate) {
+	      this.video.playbackRate = rate;
+	    }
+	  }, {
+	    key: 'muted',
+	    get: function get() {
+	      return this.video.muted;
+	    },
+	    set: function set(val) {
+	      this.video.muted = val;
+	    }
+	  }, {
+	    key: 'volume',
+	    get: function get() {
+	      return this.video.volume;
+	    },
+	    set: function set(val) {
+	      this.video.volume = val;
+	    }
+	
+	    // video width
+	
+	  }, {
+	    key: 'videoWidth',
+	    get: function get() {
+	      return this.video.videoWidth;
+	    }
+	
+	    // video height
+	
+	  }, {
+	    key: 'videoHeight',
+	    get: function get() {
+	      return this.video.videoHeight;
 	    }
 	  }]);
 	
@@ -6031,6 +6130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _player = __webpack_require__(4);
 	
 	var initialState = {
+	  currentSrc: null,
 	  duration: 0,
 	  currentTime: 0,
 	  seekingTime: 0,
@@ -6073,7 +6173,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        waiting: false,
 	        videoWidth: action.videoWidth,
 	        videoHeight: action.videoHeight,
-	        duration: action.duration
+	        duration: action.duration,
+	        currentSrc: action.currentSrc
 	      });
 	    case _video.WAITING:
 	      return _extends({}, state, {
@@ -6091,7 +6192,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        autoPaused: false,
 	        waiting: false,
 	        hasStarted: true,
-	        duration: action.duration
+	        duration: action.duration,
+	        currentSrc: action.currentSrc
 	      });
 	    case _video.PAUSE:
 	      return _extends({}, state, {
