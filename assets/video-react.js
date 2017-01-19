@@ -6243,7 +6243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    case _player.FULLSCREEN_CHANGE:
 	      return _extends({}, state, {
-	        isFullscreen: action.isFullscreen
+	        isFullscreen: !!action.isFullscreen
 	      });
 	    case _player.USER_ACTIVATE:
 	      return _extends({}, state, {

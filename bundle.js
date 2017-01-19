@@ -25453,18 +25453,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'Using keyboard shortcut to control the player.'
 	        ),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'docs-example' },
-	          _react2.default.createElement(_Shortcut2.default, null)
-	        ),
-	        _react2.default.createElement(
-	          'pre',
-	          null,
+	          _reactstrap.Alert,
+	          { color: 'warning' },
 	          _react2.default.createElement(
-	            _reactPrism.PrismCode,
-	            { className: 'language-jsx' },
-	            ShortcutExampleSource
-	          )
+	            'strong',
+	            null,
+	            'Warning!'
+	          ),
+	          'The shortcut can work only if the player is in active.'
 	        ),
 	        _react2.default.createElement(
 	          'h4',
@@ -25686,19 +25682,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	                'Shift + ',
 	                '<'
 	              )
-	            ),
-	            _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement('td', null),
-	              _react2.default.createElement('td', null)
-	            ),
-	            _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement('td', null),
-	              _react2.default.createElement('td', null)
 	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          'Example'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'docs-example' },
+	          _react2.default.createElement(_Shortcut2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'pre',
+	          null,
+	          _react2.default.createElement(
+	            _reactPrism.PrismCode,
+	            { className: 'language-jsx' },
+	            ShortcutExampleSource
 	          )
 	        )
 	      );
@@ -26283,10 +26286,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    null,
 	    _react2.default.createElement(
 	      _reactstrap.Jumbotron,
-	      { tag: 'section', className: 'jumbotron-header text-xs-center m-b-3' },
+	      { tag: 'section', className: 'jumbotron-header text-center mb-3' },
 	      _react2.default.createElement(
 	        _reactstrap.Container,
-	        { fluid: true },
+	        null,
 	        _react2.default.createElement(
 	          _reactstrap.Row,
 	          null,
@@ -26357,7 +26360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _react2.default.createElement(
 	              _reactPrism.PrismCode,
 	              { className: 'language-bash' },
-	              'npm install --save video-react react react-dom'
+	              'npm install --save video-react react react-dom redux'
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -29243,7 +29246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    case _player.FULLSCREEN_CHANGE:
 	      return _extends({}, state, {
-	        isFullscreen: action.isFullscreen
+	        isFullscreen: !!action.isFullscreen
 	      });
 	    case _player.USER_ACTIVATE:
 	      return _extends({}, state, {
