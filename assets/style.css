@@ -6382,7 +6382,6 @@ body.video-react-full-window {
     bottom: 1.5em;
     max-height: 15em; }
 
-.video-react-workinghover .video-react-menu-button-popup:hover .video-react-menu,
 .video-react-menu-button-popup .video-react-menu.video-react-lock-showing {
   display: block; }
 
@@ -6709,6 +6708,14 @@ body.video-react-full-window {
   -ms-flex: none;
   flex: none; }
 
+.video-react.video-react-fullscreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9999; }
+
 .video-react .video-react-time-control {
   -webkit-box-flex: none;
   -moz-box-flex: none;
@@ -6824,13 +6831,7 @@ body.video-react-full-window {
   background-color: transparent !important; }
 
 .video-react .video-react-playback-rate .video-react-playback-rate-value {
-  font-size: 1.5em;
-  line-height: 2;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  line-height: 3em;
   text-align: center; }
 
 .video-react .video-react-playback-rate .video-react-menu {
