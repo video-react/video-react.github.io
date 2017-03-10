@@ -495,6 +495,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  onMouseUp: _react.PropTypes.func,
 	  onFocus: _react.PropTypes.func,
 	  onBlur: _react.PropTypes.func,
+	  onClick: _react.PropTypes.func,
 	  getPercent: _react.PropTypes.func,
 	  vertical: _react.PropTypes.bool,
 	  children: _react.PropTypes.node,
@@ -551,9 +552,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'handleMouseDown',
 	    value: function handleMouseDown(event) {
 	      var onMouseDown = this.props.onMouseDown;
-	
-	      event.preventDefault();
-	      event.stopPropagation();
+	      // event.preventDefault();
+	      // event.stopPropagation();
 	
 	      document.addEventListener('mousemove', this.handleMouseMove, true);
 	      document.addEventListener('mouseup', this.handleMouseUp, true);
@@ -628,7 +628,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'handleClick',
 	    value: function handleClick(event) {
 	      event.preventDefault();
-	      event.stopPropagation();
+	      // event.stopPropagation();
+	      if (this.props.onClick) {
+	        this.props.onClick(event);
+	      }
 	    }
 	  }, {
 	    key: 'handleKeyPress',
@@ -1580,7 +1583,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return _react2.default.createElement("div", {
 	    className: "video-react-poster",
-	    tabIndex: "-1",
 	    style: {
 	      backgroundImage: "url(\"" + poster + "\")"
 	    },
@@ -1864,7 +1866,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!player.isActive) {
 	        return;
 	      }
-	      if (document.activeElement && ((0, _dom.hasClass)(document.activeElement, 'video-react-control') || (0, _dom.hasClass)(document.activeElement, 'video-react-menu-button-active') || (0, _dom.hasClass)(document.activeElement, 'video-react-slider') || (0, _dom.hasClass)(document.activeElement, 'video-react-big-play-button'))) {
+	      if (document.activeElement && ((0, _dom.hasClass)(document.activeElement, 'video-react-control') || (0, _dom.hasClass)(document.activeElement, 'video-react-menu-button-active')
+	      // || hasClass(document.activeElement, 'video-react-slider')
+	      || (0, _dom.hasClass)(document.activeElement, 'video-react-big-play-button'))) {
 	        return;
 	      }
 	
@@ -1910,7 +1914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return;
 	      }
 	      this.togglePlay(player, actions);
-	      e.preventDefault();
+	      // e.preventDefault();
 	    }
 	  }, {
 	    key: 'handleDoubleClick',
@@ -1923,7 +1927,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return;
 	      }
 	      this.toggleFullscreen(player, actions);
-	      e.preventDefault();
+	      // e.preventDefault();
 	    }
 	
 	    // this component dose not render anything
@@ -2605,16 +2609,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (typeof c.type === 'string') {
 	          // add onError to <source />
 	          if (c.type === 'source') {
-	            (function () {
-	              cprops = _extends({}, c.props);
-	              var preOnError = cprops.onError;
-	              cprops.onError = function () {
-	                if (preOnError) {
-	                  preOnError.apply(undefined, arguments);
-	                }
-	                _this3.handleError.apply(_this3, arguments);
-	              };
-	            })();
+	            cprops = _extends({}, c.props);
+	            var preOnError = cprops.onError;
+	            cprops.onError = function () {
+	              if (preOnError) {
+	                preOnError.apply(undefined, arguments);
+	              }
+	              _this3.handleError.apply(_this3, arguments);
+	            };
 	          }
 	        } else {
 	          cprops = props;
@@ -5422,7 +5424,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "handleClick",
 	    value: function handleClick(event) {
 	      event.preventDefault();
-	      event.stopPropagation();
+	      // event.stopPropagation();
 	    }
 	  }, {
 	    key: "render",
@@ -5856,7 +5858,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "handleClick",
 	    value: function handleClick(event) {
 	      event.preventDefault();
-	      event.stopPropagation();
+	      // event.stopPropagation();
 	    }
 	  }, {
 	    key: "render",
@@ -6014,6 +6016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _this.stepBack = _this.stepBack.bind(_this);
 	    _this.handleFocus = _this.handleFocus.bind(_this);
 	    _this.handleBlur = _this.handleBlur.bind(_this);
+	    _this.handleClick = _this.handleClick.bind(_this);
 	    return _this;
 	  }
 	
@@ -6094,6 +6097,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(event) {
+	      event.stopPropagation();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -6114,6 +6122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          onMouseMove: this.handleMouseMove,
 	          onFocus: this.handleFocus,
 	          onBlur: this.handleBlur,
+	          onClick: this.handleClick,
 	          sliderActive: this.handleFocus,
 	          sliderInactive: this.handleBlur,
 	          getPercent: this.getPercent,
@@ -6582,8 +6591,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (value == null) {
 	    return value === undefined ? undefinedTag : nullTag;
 	  }
-	  value = Object(value);
-	  return (symToStringTag && symToStringTag in value)
+	  return (symToStringTag && symToStringTag in Object(value))
 	    ? getRawTag(value)
 	    : objectToString(value);
 	}
