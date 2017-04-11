@@ -225,7 +225,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var parentProps = _extends({}, _parentProps);
 	  return children.filter(function (e) {
 	    return !e.props.disabled;
-	  }).concat(find(defaultChildren, function (c) {
+	  }).concat(defaultChildren.filter(function (c) {
 	    return !find(children, function (component) {
 	      return component.type === c.type;
 	    });
