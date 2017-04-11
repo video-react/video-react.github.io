@@ -131,6 +131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
+	exports.find = find;
 	exports.formatTime = formatTime;
 	exports.isVideoChild = isVideoChild;
 	exports.mergeAndSortChildren = mergeAndSortChildren;
@@ -141,6 +142,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// use instead of `Array.prototype.find` for support ie 11.
+	function find(list, predicate) {
+	  if (!Array.isArray(list)) {
+	    throw new TypeError('list must be a array');
+	  }
+	  if (typeof predicate !== 'function') {
+	    throw new TypeError('predicate must be a function');
+	  }
+	  var length = list.length;
+	  for (var i = 0; i < length; i++) {
+	    var value = list[i];
+	    if (predicate(value, i, list)) {
+	      return value;
+	    }
+	  }
+	  return undefined;
+	}
 	
 	/**
 	 * @file format-time.js
@@ -206,12 +225,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var parentProps = _extends({}, _parentProps);
 	  return children.filter(function (e) {
 	    return !e.props.disabled;
-	  }).concat(defaultChildren.filter(function (c) {
-	    return !children.find(function (component) {
+	  }).concat(find(defaultChildren, function (c) {
+	    return !find(children, function (component) {
 	      return component.type === c.type;
 	    });
 	  })).map(function (element) {
-	    var defaultComponent = defaultChildren.find(function (c) {
+	    var defaultComponent = find(defaultChildren, function (c) {
 	      return c.type === element.type;
 	    });
 	    delete parentProps.order;
@@ -1612,6 +1631,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react = __webpack_require__(1);
 	
+	var _utils = __webpack_require__(3);
+	
 	var _dom = __webpack_require__(7);
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -1877,7 +1898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var shift = e.shiftKey;
 	      var alt = e.altKey;
 	
-	      var shortcut = this.shortcuts.find(function (s) {
+	      var shortcut = (0, _utils.find)(this.shortcuts, function (s) {
 	        if (!s.keyCode || s.keyCode - keyCode !== 0) {
 	          return false;
 	        }
