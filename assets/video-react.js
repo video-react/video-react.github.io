@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("react"), require("react-dom"));
 	else if(typeof define === 'function' && define.amd)
-		define("video-react", ["react", "react-dom"], factory);
+		define(["react", "react-dom"], factory);
 	else if(typeof exports === 'object')
-		exports["video-react"] = factory(require("react"), require("react-dom"));
+		exports["VideoReact"] = factory(require("react"), require("react-dom"));
 	else
-		root["video-react"] = factory(root["React"], root["ReactDOM"]);
+		root["VideoReact"] = factory(root["React"], root["ReactDOM"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_93__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -55,8 +55,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(164);
-	__webpack_require__(159);
-	module.exports = __webpack_require__(346);
+	module.exports = __webpack_require__(159);
 
 
 /***/ },
@@ -9401,6 +9400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.PlaybackRate = exports.PlaybackRateMenuButton = exports.VolumeMenuButton = exports.TimeDivider = exports.DurationDisplay = exports.CurrentTimeDisplay = exports.RemainingTimeDisplay = exports.MouseTimeDisplay = exports.LoadProgressBar = exports.PlayProgressBar = exports.Slider = exports.SeekBar = exports.ProgressControl = exports.FullscreenToggle = exports.ReplayControl = exports.ForwardControl = exports.PlayToggle = exports.ControlBar = exports.Shortcut = exports.Bezel = exports.PosterImage = exports.LoadingSpinner = exports.BigPlayButton = exports.Video = exports.Player = undefined;
+	
+	__webpack_require__(346);
 	
 	var _Player = __webpack_require__(150);
 	
