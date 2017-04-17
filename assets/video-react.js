@@ -55,7 +55,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(164);
-	module.exports = __webpack_require__(159);
+	__webpack_require__(159);
+	module.exports = __webpack_require__(346);
 
 
 /***/ },
@@ -9401,8 +9402,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.PlaybackRate = exports.PlaybackRateMenuButton = exports.VolumeMenuButton = exports.TimeDivider = exports.DurationDisplay = exports.CurrentTimeDisplay = exports.RemainingTimeDisplay = exports.MouseTimeDisplay = exports.LoadProgressBar = exports.PlayProgressBar = exports.Slider = exports.SeekBar = exports.ProgressControl = exports.FullscreenToggle = exports.ReplayControl = exports.ForwardControl = exports.PlayToggle = exports.ControlBar = exports.Shortcut = exports.Bezel = exports.PosterImage = exports.LoadingSpinner = exports.BigPlayButton = exports.Video = exports.Player = undefined;
 	
-	__webpack_require__(346);
-	
 	var _Player = __webpack_require__(150);
 	
 	var _Player2 = _interopRequireDefault(_Player);
@@ -9529,7 +9528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.TimeDivider = _TimeDivider2.default;
 	exports.VolumeMenuButton = _VolumeMenuButton2.default;
 	exports.PlaybackRateMenuButton = _PlaybackRateMenuButton2.default;
-	exports.PlaybackRate = _PlaybackRate2.default;
+	exports.PlaybackRate = _PlaybackRate2.default; // import '../styles/scss/video-react.scss';
 
 /***/ },
 /* 160 */
