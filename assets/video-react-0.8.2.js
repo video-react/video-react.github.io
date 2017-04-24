@@ -16385,4 +16385,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=video-react.js.map
+//# sourceMappingURL=video-react-0.8.2.js.map
