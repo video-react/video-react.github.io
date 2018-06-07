@@ -37,7 +37,7 @@ export default class ShortcutExample extends Component {
           const duration = player.duration;
           // jump to the postion of 10%
           actions.seek(duration * 0.1);
-        }
+        },
       },
       // Ctrl/Cmd + Right arrow to go forward 30 seconds
       {
@@ -52,11 +52,11 @@ export default class ShortcutExample extends Component {
           // helps to display a bezel
           const operation = {
             action: &#x27;forward-30&#x27;,
-            source: &#x27;shortcut&#x27;
+            source: &#x27;shortcut&#x27;,
           };
           actions.forward(30, operation); // Go forward 30 seconds
-        }
-      }
+        },
+      },
     ];
   }
 
@@ -66,6 +66,7 @@ export default class ShortcutExample extends Component {
         src=&quot;http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4&quot;
       &gt;
         &lt;Shortcut
+          clickable={false}
           shortcuts={this.newShortcuts}
         /&gt;
       &lt;/Player&gt;
