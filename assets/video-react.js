@@ -4480,11 +4480,13 @@ var propTypes$8 = {
   children: propTypes$1.any,
   autoHide: propTypes$1.bool,
   disableDefaultControls: propTypes$1.bool,
+  disableCompletely: propTypes$1.bool,
   className: propTypes$1.string
 };
 
 var defaultProps$4 = {
-  autoHide: true
+  autoHide: true,
+  disableCompletely: false
 };
 
 var ControlBar = function (_Component) {
@@ -4577,11 +4579,12 @@ var ControlBar = function (_Component) {
     value: function render() {
       var _props = this.props,
           autoHide = _props.autoHide,
-          className = _props.className;
+          className = _props.className,
+          disableCompletely = _props.disableCompletely;
 
       var children = this.getChildren();
 
-      return React__default.createElement(
+      return disableCompletely ? null : React__default.createElement(
         'div',
         {
           className: classnames('video-react-control-bar', {
