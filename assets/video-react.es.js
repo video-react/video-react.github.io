@@ -286,7 +286,20 @@ var createClass = function () {
 
 
 
+var defineProperty = function (obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
 
+  return obj;
+};
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -4399,8 +4412,8 @@ var IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD;
 var propTypes = {
   children: PropTypes.any,
 
-  width: PropTypes.number,
-  height: PropTypes.number,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fluid: PropTypes.bool,
   muted: PropTypes.bool,
   playsInline: PropTypes.bool,
@@ -4539,6 +4552,21 @@ var Player = function (_Component) {
       return mergeAndSortChildren(defaultChildren, children, propsWithoutChildren);
     }
   }, {
+    key: 'setWidthOrHeight',
+    value: function setWidthOrHeight(style, name, value) {
+      var styleVal = void 0;
+      if (typeof value === 'string') {
+        if (value === 'auto') {
+          styleVal = 'auto';
+        } else if (value.match(/\d+%/)) {
+          styleVal = value;
+        }
+      } else if (typeof value === 'number') {
+        styleVal = value + 'px';
+      }
+      Object.assign(style, defineProperty({}, name, styleVal));
+    }
+  }, {
     key: 'getStyle',
     value: function getStyle() {
       var fluid = this.props.fluid;
@@ -4590,14 +4618,8 @@ var Player = function (_Component) {
         style.paddingTop = ratioMultiplier * 100 + '%';
       } else {
         // If Width contains "auto", set "auto" in style
-        if (width = "auto") {
-          style.width = 'auto';
-        } else {
-          // If Width contains size in pixels, set this size in style
-          style.width = width + 'px';
-        }
-
-        style.height = height + 'px';
+        this.setWidthOrHeight(style, 'width', width);
+        this.setWidthOrHeight(style, 'height', height);
       }
 
       return style;
@@ -4800,6 +4822,7 @@ var Player = function (_Component) {
           ref: function ref(c) {
             _this4.manager.rootElement = c;
           },
+          role: 'region',
           onTouchStart: this.handleMouseDown,
           onMouseDown: this.handleMouseDown,
           onMouseMove: this.handleMouseMove,
