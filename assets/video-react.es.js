@@ -2287,6 +2287,30 @@ var Shortcut = function (_Component) {
   }, {
     key: 'mergeShortcuts',
     value: function mergeShortcuts() {
+      var getShortcutKey = function getShortcutKey(_ref) {
+        var _ref$keyCode = _ref.keyCode,
+            keyCode = _ref$keyCode === undefined ? 0 : _ref$keyCode,
+            _ref$ctrl = _ref.ctrl,
+            ctrl = _ref$ctrl === undefined ? false : _ref$ctrl,
+            _ref$shift = _ref.shift,
+            shift = _ref$shift === undefined ? false : _ref$shift,
+            _ref$alt = _ref.alt,
+            alt = _ref$alt === undefined ? false : _ref$alt;
+        return keyCode + ':' + ctrl + ':' + shift + ':' + alt;
+      };
+      var defaultShortcuts = this.defaultShortcuts.reduce(function (shortcuts, shortcut) {
+        return Object.assign(shortcuts, defineProperty({}, getShortcutKey(shortcut), shortcut));
+      }, {});
+      var mergedShortcuts = (this.props.shortcuts || []).reduce(function (shortcuts, shortcut) {
+        var keyCode = shortcut.keyCode,
+            handle = shortcut.handle;
+
+        if (keyCode && typeof handle === 'function') {
+          return Object.assign(shortcuts, defineProperty({}, getShortcutKey(shortcut), shortcut));
+        }
+        return shortcuts;
+      }, defaultShortcuts);
+
       var gradeShortcut = function gradeShortcut(s) {
         var score = 0;
         var ps = ['ctrl', 'shift', 'alt'];
@@ -2298,11 +2322,9 @@ var Shortcut = function (_Component) {
         return score;
       };
 
-      var shortcuts = (this.props.shortcuts || []).filter(function (s) {
-        return s.keyCode && s.handle && typeof s.handle === 'function';
-      });
-
-      this.shortcuts = [].concat(toConsumableArray(shortcuts), toConsumableArray(this.defaultShortcuts)).sort(function (a, b) {
+      this.shortcuts = Object.keys(mergedShortcuts).map(function (key) {
+        return mergedShortcuts[key];
+      }).sort(function (a, b) {
         return gradeShortcut(b) - gradeShortcut(a);
       });
     }
