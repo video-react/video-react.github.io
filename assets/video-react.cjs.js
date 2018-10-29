@@ -4023,10 +4023,14 @@ var MenuButton = function (_Component) {
     return _this;
   }
 
-  // componentDidUpdate(prevProps) {
-  // }
-
   createClass(MenuButton, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.selectedIndex !== this.props.selectedIndex) {
+        this.activateMenuItem(this.props.selectedIndex);
+      }
+    }
+  }, {
     key: 'commitSelection',
     value: function commitSelection(index) {
       this.setState({
