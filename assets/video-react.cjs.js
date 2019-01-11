@@ -348,7 +348,17 @@ var inherits = function (subClass, superClass) {
 
 
 
+var objectWithoutProperties = function (obj, keys) {
+  var target = {};
 
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
 
 var possibleConstructorReturn = function (self, call) {
   if (!self) {
@@ -1100,7 +1110,9 @@ function mergeAndSortChildren(defaultChildren, _children, _parentProps) {
   var defaultOrder = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 
   var children = React__default.Children.toArray(_children);
-  var parentProps = _extends({}, _parentProps);
+  var order = _parentProps.order,
+      parentProps = objectWithoutProperties(_parentProps, ['order']); // ignore order from parent
+
   return children.filter(function (e) {
     return !e.props.disabled;
   }) // filter the disabled components
@@ -1112,7 +1124,7 @@ function mergeAndSortChildren(defaultChildren, _children, _parentProps) {
     var defaultComponent = find(defaultChildren, function (c) {
       return isTypeEqual(c, element);
     });
-    delete parentProps.order;
+
     var defaultProps = defaultComponent ? defaultComponent.props : {};
     var props = _extends({}, parentProps, defaultProps, element.props);
     var e = React__default.cloneElement(element, props, element.props.children);
@@ -4325,82 +4337,86 @@ var ControlBar = function (_Component) {
   createClass(ControlBar, [{
     key: 'getDefaultChildren',
     value: function getDefaultChildren() {
-      return [React__default.createElement(PlayToggle, _extends({}, this.props, {
+      return [React__default.createElement(PlayToggle, {
         key: 'play-toggle',
         order: 1
-      })), React__default.createElement(VolumeMenuButton, _extends({}, this.props, {
+      }), React__default.createElement(VolumeMenuButton, {
         key: 'volume-menu-button',
         order: 4
-      })), React__default.createElement(CurrentTimeDisplay, _extends({}, this.props, {
+      }), React__default.createElement(CurrentTimeDisplay, {
         key: 'current-time-display',
         order: 5.1
-      })), React__default.createElement(TimeDivider, _extends({}, this.props, {
+      }), React__default.createElement(TimeDivider, {
         key: 'time-divider',
         order: 5.2
-      })), React__default.createElement(DurationDisplay, _extends({}, this.props, {
+      }), React__default.createElement(DurationDisplay, {
         key: 'duration-display',
         order: 5.3
-      })), React__default.createElement(ProgressControl, _extends({}, this.props, {
+      }), React__default.createElement(ProgressControl, {
         key: 'progress-control',
         order: 6
-      })), React__default.createElement(FullscreenToggle, _extends({}, this.props, {
+      }), React__default.createElement(FullscreenToggle, {
         key: 'fullscreen-toggle',
         order: 8
-      }))];
+      })];
     }
   }, {
     key: 'getFullChildren',
     value: function getFullChildren() {
-      return [React__default.createElement(PlayToggle, _extends({}, this.props, {
+      return [React__default.createElement(PlayToggle, {
         key: 'play-toggle',
         order: 1
-      })), React__default.createElement(ReplayControl, _extends({}, this.props, {
+      }), React__default.createElement(ReplayControl, {
         key: 'replay-control',
         order: 2
-      })), React__default.createElement(ForwardControl, _extends({}, this.props, {
+      }), React__default.createElement(ForwardControl, {
         key: 'forward-control',
         order: 3
-      })), React__default.createElement(VolumeMenuButton, _extends({}, this.props, {
+      }), React__default.createElement(VolumeMenuButton, {
         key: 'volume-menu-button',
         order: 4
-      })), React__default.createElement(CurrentTimeDisplay, _extends({}, this.props, {
+      }), React__default.createElement(CurrentTimeDisplay, {
         key: 'current-time-display',
         order: 5
-      })), React__default.createElement(TimeDivider, _extends({}, this.props, {
+      }), React__default.createElement(TimeDivider, {
         key: 'time-divider',
         order: 6
-      })), React__default.createElement(DurationDisplay, _extends({}, this.props, {
+      }), React__default.createElement(DurationDisplay, {
         key: 'duration-display',
         order: 7
-      })), React__default.createElement(ProgressControl, _extends({}, this.props, {
+      }), React__default.createElement(ProgressControl, {
         key: 'progress-control',
         order: 8
-      })), React__default.createElement(RemainingTimeDisplay, _extends({}, this.props, {
+      }), React__default.createElement(RemainingTimeDisplay, {
         key: 'remaining-time-display',
         order: 9
-      })), React__default.createElement(PlaybackRateMenuButton, _extends({}, this.props, {
+      }), React__default.createElement(PlaybackRateMenuButton, {
         rates: [1, 1.25, 1.5, 2],
         key: 'playback-rate',
         order: 10
-      })), React__default.createElement(FullscreenToggle, _extends({}, this.props, {
+      }), React__default.createElement(FullscreenToggle, {
         key: 'fullscreen-toggle',
         order: 11
-      }))];
+      })];
     }
   }, {
     key: 'getChildren',
     value: function getChildren() {
       var children = React__default.Children.toArray(this.props.children);
       var defaultChildren = this.props.disableDefaultControls ? [] : this.getDefaultChildren();
-      return mergeAndSortChildren(defaultChildren, children, this.props);
+      var _props = this.props,
+          className = _props.className,
+          parentProps = objectWithoutProperties(_props, ['className']); // remove className
+
+      return mergeAndSortChildren(defaultChildren, children, parentProps);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          autoHide = _props.autoHide,
-          className = _props.className,
-          disableCompletely = _props.disableCompletely;
+      var _props2 = this.props,
+          autoHide = _props2.autoHide,
+          className = _props2.className,
+          disableCompletely = _props2.disableCompletely;
 
       var children = this.getChildren();
 
@@ -4542,46 +4558,51 @@ var Player = function (_Component) {
     }
   }, {
     key: 'getDefaultChildren',
-    value: function getDefaultChildren(props, fullProps) {
+    value: function getDefaultChildren(originalChildren) {
       var _this2 = this;
 
-      return [React__default.createElement(Video, _extends({
-        ref: function ref(c) {
-          _this2.video = c;
-          _this2.manager.video = _this2.video;
+      return [React__default.createElement(
+        Video,
+        {
+          ref: function ref(c) {
+            _this2.video = c;
+            _this2.manager.video = _this2.video;
+          },
+          key: 'video',
+          order: 0.0
         },
-        key: 'video',
-        order: 0.0
-      }, fullProps)), React__default.createElement(PosterImage, _extends({
+        originalChildren
+      ), React__default.createElement(PosterImage, {
         key: 'poster-image',
         order: 1.0
-      }, props)), React__default.createElement(LoadingSpinner, _extends({
+      }), React__default.createElement(LoadingSpinner, {
         key: 'loading-spinner',
         order: 2.0
-      }, props)), React__default.createElement(Bezel, _extends({
+      }), React__default.createElement(Bezel, {
         key: 'bezel',
         order: 3.0
-      }, props)), React__default.createElement(BigPlayButton, _extends({
+      }), React__default.createElement(BigPlayButton, {
         key: 'big-play-button',
         order: 4.0
-      }, props)), React__default.createElement(ControlBar, _extends({
+      }), React__default.createElement(ControlBar, {
         key: 'control-bar',
         order: 5.0
-      }, props)), React__default.createElement(Shortcut, _extends({
+      }), React__default.createElement(Shortcut, {
         key: 'shortcut',
         order: 99.0
-      }, props))];
+      })];
     }
   }, {
     key: 'getChildren',
     value: function getChildren(props) {
-      var propsWithoutChildren = _extends({}, props, {
-        children: null
-      });
+      var _ = props.className,
+          originalChildren = props.children,
+          propsWithoutChildren = objectWithoutProperties(props, ['className', 'children']);
+
       var children = React__default.Children.toArray(this.props.children).filter(function (e) {
         return !isVideoChild(e);
       });
-      var defaultChildren = this.getDefaultChildren(propsWithoutChildren, props);
+      var defaultChildren = this.getDefaultChildren(originalChildren);
       return mergeAndSortChildren(defaultChildren, children, propsWithoutChildren);
     }
   }, {
