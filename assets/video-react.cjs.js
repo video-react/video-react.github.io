@@ -1148,7 +1148,7 @@ function throttle(callback, limit) {
   var wait = false;
   return function () {
     if (!wait) {
-      callback.apply(null, _arguments);
+      callback.apply(undefined, _arguments);
       wait = true;
       setTimeout(function () {
         wait = false;
@@ -2726,8 +2726,7 @@ function PlayProgressBar(_ref) {
         null,
         'Progress'
       ),
-      ': ',
-      percentage
+      ': ' + percentage
     )
   );
 }
@@ -3313,8 +3312,7 @@ function RemainingTimeDisplay(_ref) {
         { className: 'video-react-control-text' },
         'Remaining Time '
       ),
-      '-',
-      formattedTime
+      '-' + formattedTime
     )
   );
 }
@@ -4295,8 +4293,7 @@ var PlaybackRateMenuButton = function (_Component) {
         React__default.createElement(
           'div',
           { className: 'video-react-playback-rate-value' },
-          player.playbackRate.toFixed(2),
-          'x'
+          player.playbackRate.toFixed(2) + 'x'
         )
       );
     }

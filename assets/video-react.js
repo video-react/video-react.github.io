@@ -10,85 +10,6 @@ function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-var emptyFunction_1 = emptyFunction;
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-var invariant_1 = invariant;
-
 /*
 object-assign
 (c) Sindre Sorhus
@@ -337,13 +258,17 @@ var toConsumableArray = function (arr) {
   }
 };
 
+function emptyFunction() {}
+
 var factoryWithThrowingShims = function factoryWithThrowingShims() {
   function shim(props, propName, componentName, location, propFullName, secret) {
     if (secret === ReactPropTypesSecret_1) {
       // It is still safe when called from React.
       return;
     }
-    invariant_1(false, 'Calling PropTypes validators directly is not supported by the `prop-types` package. ' + 'Use PropTypes.checkPropTypes() to call them. ' + 'Read more at http://fb.me/use-check-prop-types');
+    var err = new Error('Calling PropTypes validators directly is not supported by the `prop-types` package. ' + 'Use PropTypes.checkPropTypes() to call them. ' + 'Read more at http://fb.me/use-check-prop-types');
+    err.name = 'Invariant Violation';
+    throw err;
   }
   shim.isRequired = shim;
   function getShim() {
@@ -372,7 +297,7 @@ var factoryWithThrowingShims = function factoryWithThrowingShims() {
     exact: getShim
   };
 
-  ReactPropTypes.checkPropTypes = emptyFunction_1;
+  ReactPropTypes.checkPropTypes = emptyFunction;
   ReactPropTypes.PropTypes = ReactPropTypes;
 
   return ReactPropTypes;
@@ -395,7 +320,7 @@ var propTypes$1 = createCommonjsModule(function (module) {
 
 var classnames = createCommonjsModule(function (module) {
 	/*!
-   Copyright (c) 2016 Jed Watson.
+   Copyright (c) 2017 Jed Watson.
    Licensed under the MIT License (MIT), see
    http://jedwatson.github.io/classnames
  */
@@ -417,8 +342,11 @@ var classnames = createCommonjsModule(function (module) {
 
 				if (argType === 'string' || argType === 'number') {
 					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
+				} else if (Array.isArray(arg) && arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
 				} else if (argType === 'object') {
 					for (var key in arg) {
 						if (hasOwn.call(arg, key) && arg[key]) {
@@ -432,6 +360,7 @@ var classnames = createCommonjsModule(function (module) {
 		}
 
 		if ('object' !== 'undefined' && module.exports) {
+			classNames.default = classNames;
 			module.exports = classNames;
 		} else if (typeof undefined === 'function' && _typeof(undefined.amd) === 'object' && undefined.amd) {
 			// register as 'classnames', consistent with npm package name
@@ -1450,7 +1379,7 @@ function throttle(callback, limit) {
   var wait = false;
   return function () {
     if (!wait) {
-      callback.apply(null, _arguments);
+      callback.apply(undefined, _arguments);
       wait = true;
       setTimeout(function () {
         wait = false;
@@ -3028,8 +2957,7 @@ function PlayProgressBar(_ref) {
         null,
         'Progress'
       ),
-      ': ',
-      percentage
+      ': ' + percentage
     )
   );
 }
@@ -3615,8 +3543,7 @@ function RemainingTimeDisplay(_ref) {
         { className: 'video-react-control-text' },
         'Remaining Time '
       ),
-      '-',
-      formattedTime
+      '-' + formattedTime
     )
   );
 }
@@ -4597,8 +4524,7 @@ var PlaybackRateMenuButton = function (_Component) {
         React__default.createElement(
           'div',
           { className: 'video-react-playback-rate-value' },
-          player.playbackRate.toFixed(2),
-          'x'
+          player.playbackRate.toFixed(2) + 'x'
         )
       );
     }
