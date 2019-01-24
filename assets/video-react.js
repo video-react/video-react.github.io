@@ -1002,12 +1002,7 @@ function player() {
     case LOADED_META_DATA:
     case LOADED_DATA:
     case RESIZE:
-      var newState = _extends({}, state, action.videoProps);
-      if (action.videoProps.paused === false) {
-        newState.hasStarted = true;
-        newState.waiting = false;
-      }
-      return newState;
+      return _extends({}, state, action.videoProps, action.videoProps.paused === false ? { hasStarted: true, waiting: false } : {});
     default:
       return state;
   }
@@ -1260,6 +1255,12 @@ function PosterImage(_ref) {
 PosterImage.propTypes = propTypes$4;
 PosterImage.displayName = 'PosterImage';
 
+// NaN is the only value in javascript which is not equal to itself.
+// eslint-disable-next-line no-self-compare
+var isNaN = Number.isNaN || function (value) {
+  return value !== value;
+};
+
 /**
  * @file format-time.js
  *
@@ -1287,7 +1288,9 @@ function formatTime() {
   if (isNaN(seconds) || seconds === Infinity) {
     // '-' is false for all relational operators (e.g. <, >=) so this setting
     // will add the minimum number of fields specified by the guide
-    h = m = s = '-';
+    h = '-';
+    m = '-';
+    s = '-';
   }
 
   // Check if we need to show hours
@@ -1379,6 +1382,7 @@ function throttle(callback, limit) {
   var wait = false;
   return function () {
     if (!wait) {
+      // eslint-disable-next-line prefer-rest-params
       callback.apply(undefined, _arguments);
       wait = true;
       setTimeout(function () {
@@ -1511,7 +1515,7 @@ var Video = function (_Component) {
     value: function play() {
       var promise = this.video.play();
       if (promise !== undefined) {
-        promise.catch(function (error) {}).then(function () {});
+        promise.catch(function () {}).then(function () {});
       }
     }
 
@@ -1522,7 +1526,7 @@ var Video = function (_Component) {
     value: function pause() {
       var promise = this.video.pause();
       if (promise !== undefined) {
-        promise.catch(function (error) {}).then(function () {});
+        promise.catch(function () {}).then(function () {});
       }
     }
 
@@ -2269,8 +2273,10 @@ function findElPosition(el) {
     };
   }
 
-  var docEl = document.documentElement;
-  var body = document.body;
+  var _document = document,
+      body = _document.body,
+      docEl = _document.documentElement;
+
 
   var clientLeft = docEl.clientLeft || body.clientLeft || 0;
   var scrollLeft = window.pageXOffset || body.scrollLeft;
@@ -2305,16 +2311,16 @@ function getPointerPosition(el, event) {
 
   var boxY = box.top;
   var boxX = box.left;
-  var pageY = event.pageY;
-  var pageX = event.pageX;
+  var evtPageY = event.pageY;
+  var evtPageX = event.pageX;
 
   if (event.changedTouches) {
-    pageX = event.changedTouches[0].pageX;
-    pageY = event.changedTouches[0].pageY;
+    evtPageX = event.changedTouches[0].pageX;
+    evtPageY = event.changedTouches[0].pageY;
   }
 
-  position.y = Math.max(0, Math.min(1, (boxY - pageY + boxH) / boxH));
-  position.x = Math.max(0, Math.min(1, (pageX - boxX) / boxW));
+  position.y = Math.max(0, Math.min(1, (boxY - evtPageY + boxH) / boxH));
+  position.x = Math.max(0, Math.min(1, (evtPageX - boxX) / boxW));
 
   return position;
 }
@@ -2458,6 +2464,7 @@ var Shortcut = function (_Component) {
       handle: function handle(player, actions) {
         // Increase speed
         var playbackRate = player.playbackRate;
+
         if (playbackRate >= 1.5) {
           playbackRate = 2;
         } else if (playbackRate >= 1.25) {
@@ -2482,6 +2489,7 @@ var Shortcut = function (_Component) {
       handle: function handle(player, actions) {
         // Decrease speed
         var playbackRate = player.playbackRate;
+
         if (playbackRate <= 0.5) {
           playbackRate = 0.25;
         } else if (playbackRate <= 1.0) {
@@ -2766,8 +2774,7 @@ var Slider = function (_Component) {
       document.addEventListener('touchend', this.handleMouseUp, true);
 
       this.setState({
-        active: true,
-        distance: 0
+        active: true
       });
 
       if (this.props.sliderActive) {
@@ -2905,6 +2912,7 @@ var Slider = function (_Component) {
             'video-react-sliding': this.state.active
           }, 'video-react-slider'),
           tabIndex: '0',
+          role: 'slider',
           onMouseDown: this.handleMouseDown,
           onTouchStart: this.handleMouseDown,
           onFocus: this.handleFocus,
@@ -3412,8 +3420,8 @@ var ForwardReplayControl = (function (mode) {
 
         var classNames = ['video-react-control', 'video-react-button', 'video-react-icon'];
         classNames.push('video-react-icon-' + mode + '-' + seconds, 'video-react-' + mode + '-control');
-        if (this.props.className) {
-          classNames.push(this.props.className);
+        if (className) {
+          classNames.push(className);
         }
         return React__default.createElement(
           'button',
@@ -3653,7 +3661,7 @@ TimeDivider.propTypes = propTypes$20;
 TimeDivider.displayName = 'TimeDivider';
 
 var propTypes$23 = {
-  tagName: propTypes$1.string.isRequired,
+  tagName: propTypes$1.string,
   onClick: propTypes$1.func.isRequired,
   onFocus: propTypes$1.func,
   onBlur: propTypes$1.func,
@@ -4212,6 +4220,7 @@ var MenuItem = function (_Component) {
             'video-react-menu-item': true,
             'video-react-selected': index === activateIndex
           }),
+          role: 'menuitem',
           onClick: this.handleClick
         },
         item.label,
@@ -4298,8 +4307,10 @@ var MenuButton = function (_Component) {
   }, {
     key: 'handleClick',
     value: function handleClick() {
-      this.setState({
-        active: !this.state.active
+      this.setState(function (prevState) {
+        return {
+          active: !prevState.active
+        };
       });
     }
   }, {
@@ -4439,7 +4450,7 @@ var MenuButton = function (_Component) {
             'video-react-menu-button-popup': !inline,
             'video-react-menu-button-active': this.state.active
           }, 'video-react-control video-react-button video-react-menu-button'),
-          role: 'presentation',
+          role: 'button',
           tabIndex: '0',
           ref: function ref(c) {
             _this3.menuButton = c;
@@ -4851,7 +4862,11 @@ var Player = function (_Component) {
   }, {
     key: 'getStyle',
     value: function getStyle() {
-      var fluid = this.props.fluid;
+      var _props = this.props,
+          fluid = _props.fluid,
+          propsAspectRatio = _props.aspectRatio,
+          propsHeight = _props.height,
+          propsWidth = _props.width;
 
       var _manager$getState = this.manager.getState(),
           player = _manager$getState.player;
@@ -4862,9 +4877,9 @@ var Player = function (_Component) {
       var aspectRatio = void 0;
 
       // The aspect ratio is either used directly or to calculate width and height.
-      if (this.props.aspectRatio !== undefined && this.props.aspectRatio !== 'auto') {
+      if (propsAspectRatio !== undefined && propsAspectRatio !== 'auto') {
         // Use any aspectRatio that's been specifically set
-        aspectRatio = this.props.aspectRatio;
+        aspectRatio = propsAspectRatio;
       } else if (player.videoWidth) {
         // Otherwise try to get the aspect ratio from the video metadata
         aspectRatio = player.videoWidth + ':' + player.videoHeight;
@@ -4877,20 +4892,20 @@ var Player = function (_Component) {
       var ratioParts = aspectRatio.split(':');
       var ratioMultiplier = ratioParts[1] / ratioParts[0];
 
-      if (this.props.width !== undefined) {
+      if (propsWidth !== undefined) {
         // Use any width that's been specifically set
-        width = this.props.width;
-      } else if (this.props.height !== undefined) {
+        width = propsWidth;
+      } else if (propsHeight !== undefined) {
         // Or calulate the width from the aspect ratio if a height has been set
-        width = this.props.height / ratioMultiplier;
+        width = propsHeight / ratioMultiplier;
       } else {
         // Or use the video's metadata, or use the video el's default of 300
         width = player.videoWidth || 400;
       }
 
-      if (this.props.height !== undefined) {
+      if (propsHeight !== undefined) {
         // Use any height that's been specifically set
-        height = this.props.height;
+        height = propsHeight;
       } else {
         // Otherwise calculate the height from the ratio and the width
         height = width * ratioMultiplier;
