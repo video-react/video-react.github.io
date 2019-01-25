@@ -2722,12 +2722,7 @@ function PlayProgressBar(_ref) {
     React.createElement(
       'span',
       { className: 'video-react-control-text' },
-      React.createElement(
-        'span',
-        null,
-        'Progress'
-      ),
-      ': ' + percentage
+      'Progress: ' + percentage
     )
   );
 }
@@ -2796,12 +2791,7 @@ function LoadProgressBar(_ref) {
     React.createElement(
       'span',
       { className: 'video-react-control-text' },
-      React.createElement(
-        'span',
-        null,
-        'Loaded'
-      ),
-      ': 0%'
+      'Loaded: 0%'
     ),
     parts
   );
