@@ -35,7 +35,6 @@ export default class HLSSource extends Component {
     }
   }
 
-
   componentWillUnmount() {
     // destroy hls video source
     if (this.hls) {
@@ -56,7 +55,7 @@ export default class HLSSource extends Component {
 import { Player } from &#x27;video-react&#x27;;
 import HLSSource from &#x27;./HLSSource&#x27;;
 
-export default (props) =&gt; {
+export default props =&gt; {
   // Add customized HLSSource component into video-react Player
   // The Component with `isVideoChild` attribute will be added into `Video` component
   // Please use this url if you test it from local:
