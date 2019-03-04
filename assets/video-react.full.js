@@ -1653,6 +1653,9 @@
     onVolumeChange: propTypes.func,
     onResize: propTypes.func
   };
+  var defaultProps$1 = {
+    preload: 'auto'
+  };
 
   var Video =
   /*#__PURE__*/
@@ -2251,6 +2254,7 @@
     return Video;
   }(React.Component);
   Video.propTypes = propTypes$4;
+  Video.defaultProps = defaultProps$1;
   Video.displayName = 'Video';
 
   var propTypes$5 = {
@@ -2425,7 +2429,7 @@
     player: propTypes.object,
     shortcuts: propTypes.array
   };
-  var defaultProps$1 = {
+  var defaultProps$2 = {
     clickable: true,
     dblclickable: true
   };
@@ -2787,7 +2791,7 @@
     return Shortcut;
   }(React.Component);
   Shortcut.propTypes = propTypes$6;
-  Shortcut.defaultProps = defaultProps$1;
+  Shortcut.defaultProps = defaultProps$2;
   Shortcut.displayName = 'Shortcut';
 
   var propTypes$7 = {
@@ -3380,7 +3384,7 @@
     className: propTypes.string,
     seconds: propTypes.oneOf([5, 10, 30])
   };
-  var defaultProps$2 = {
+  var defaultProps$3 = {
     seconds: 10
   };
   var ForwardReplayControl = (function (mode) {
@@ -3440,7 +3444,7 @@
     }(React.Component);
 
     ForwardReplayControl.propTypes = propTypes$d;
-    ForwardReplayControl.defaultProps = defaultProps$2;
+    ForwardReplayControl.defaultProps = defaultProps$3;
     return ForwardReplayControl;
   });
 
@@ -3599,7 +3603,7 @@
     onBlur: propTypes.func,
     className: propTypes.string
   };
-  var defaultProps$3 = {
+  var defaultProps$4 = {
     tagName: 'div'
   };
 
@@ -3670,7 +3674,7 @@
     return ClickableComponent;
   }(React.Component);
   ClickableComponent.propTypes = propTypes$j;
-  ClickableComponent.defaultProps = defaultProps$3;
+  ClickableComponent.defaultProps = defaultProps$4;
   ClickableComponent.displayName = 'ClickableComponent';
 
   var propTypes$k = {
@@ -3719,7 +3723,7 @@
     onBlur: propTypes.func,
     className: propTypes.string
   };
-  var defaultProps$4 = {
+  var defaultProps$5 = {
     inline: true
   };
   function PopupButton(props) {
@@ -3739,7 +3743,7 @@
     }, ps), React__default.createElement(Popup, props));
   }
   PopupButton.propTypes = propTypes$l;
-  PopupButton.defaultProps = defaultProps$4;
+  PopupButton.defaultProps = defaultProps$5;
   PopupButton.displayName = 'PopupButton';
 
   var propTypes$m = {
@@ -3747,7 +3751,7 @@
     vertical: propTypes.bool,
     className: propTypes.string
   };
-  var defaultProps$5 = {
+  var defaultProps$6 = {
     percentage: '100%',
     vertical: false
   };
@@ -3773,7 +3777,7 @@
   }
 
   VolumeLevel.propTypes = propTypes$m;
-  VolumeLevel.defaultProps = defaultProps$5;
+  VolumeLevel.defaultProps = defaultProps$6;
   VolumeLevel.displayName = 'VolumeLevel';
 
   var propTypes$n = {
@@ -3921,7 +3925,7 @@
     className: propTypes.string,
     alwaysShowVolume: propTypes.bool
   };
-  var defaultProps$6 = {
+  var defaultProps$7 = {
     vertical: false
   };
 
@@ -4015,7 +4019,7 @@
   }(React.Component);
 
   VolumeMenuButton.propTypes = propTypes$o;
-  VolumeMenuButton.defaultProps = defaultProps$6;
+  VolumeMenuButton.defaultProps = defaultProps$7;
   VolumeMenuButton.displayName = 'VolumeMenuButton';
 
   var propTypes$p = {
@@ -4325,7 +4329,7 @@
     rates: propTypes.array,
     className: propTypes.string
   };
-  var defaultProps$7 = {
+  var defaultProps$8 = {
     rates: [2, 1.5, 1.25, 1, 0.5, 0.25]
   };
 
@@ -4381,17 +4385,19 @@
   }(React.Component);
 
   PlaybackRateMenuButton.propTypes = propTypes$s;
-  PlaybackRateMenuButton.defaultProps = defaultProps$7;
+  PlaybackRateMenuButton.defaultProps = defaultProps$8;
   PlaybackRateMenuButton.displayName = 'PlaybackRateMenuButton';
 
   var propTypes$t = {
     children: propTypes.any,
     autoHide: propTypes.bool,
+    autoHideTime: propTypes.number,
+    // used in Player
     disableDefaultControls: propTypes.bool,
     disableCompletely: propTypes.bool,
     className: propTypes.string
   };
-  var defaultProps$8 = {
+  var defaultProps$9 = {
     autoHide: true,
     disableCompletely: false
   };
@@ -4503,7 +4509,7 @@
     return ControlBar;
   }(React.Component);
   ControlBar.propTypes = propTypes$t;
-  ControlBar.defaultProps = defaultProps$8;
+  ControlBar.defaultProps = defaultProps$9;
   ControlBar.displayName = 'ControlBar';
 
   var USER_AGENT = typeof window !== 'undefined' && window.navigator ? window.navigator.userAgent : ''; // const webkitVersionMap = (/AppleWebKit\/([\d.]+)/i).exec(USER_AGENT);
@@ -4565,11 +4571,10 @@
     onVolumeChange: propTypes.func,
     store: propTypes.object
   };
-  var defaultProps$9 = {
+  var defaultProps$a = {
     fluid: true,
     muted: false,
     playsInline: false,
-    preload: 'auto',
     aspectRatio: 'auto'
   };
 
@@ -4825,11 +4830,23 @@
     _proto.startControlsTimer = function startControlsTimer() {
       var _this3 = this;
 
+      var controlBarActiveTime = 3000;
+      React__default.Children.forEach(this.props.children, function (element) {
+        if (!React__default.isValidElement(element) || element.type !== ControlBar) {
+          return;
+        }
+
+        var autoHideTime = element.props.autoHideTime;
+
+        if (typeof autoHideTime === 'number') {
+          controlBarActiveTime = autoHideTime;
+        }
+      });
       this.actions.userActivate(true);
       clearTimeout(this.controlsHideTimer);
       this.controlsHideTimer = setTimeout(function () {
         _this3.actions.userActivate(false);
-      }, 3000);
+      }, controlBarActiveTime);
     };
 
     _proto.handleStateChange = function handleStateChange(state, prevState) {
@@ -4947,7 +4964,7 @@
     store: propTypes.object
   };
   Player.propTypes = propTypes$u;
-  Player.defaultProps = defaultProps$9;
+  Player.defaultProps = defaultProps$a;
   Player.displayName = 'Player';
 
   var PlaybackRate =
