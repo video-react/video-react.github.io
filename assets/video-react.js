@@ -4056,8 +4056,6 @@
   var propTypes$t = {
     children: propTypes.any,
     autoHide: propTypes.bool,
-    autoHideTime: propTypes.number,
-    // used in Player
     disableDefaultControls: propTypes.bool,
     disableCompletely: propTypes.bool,
     className: propTypes.string
@@ -4496,23 +4494,11 @@
     _proto.startControlsTimer = function startControlsTimer() {
       var _this3 = this;
 
-      var controlBarActiveTime = 3000;
-      React__default.Children.forEach(this.props.children, function (element) {
-        if (!React__default.isValidElement(element) || element.type !== ControlBar) {
-          return;
-        }
-
-        var autoHideTime = element.props.autoHideTime;
-
-        if (typeof autoHideTime === 'number') {
-          controlBarActiveTime = autoHideTime;
-        }
-      });
       this.actions.userActivate(true);
       clearTimeout(this.controlsHideTimer);
       this.controlsHideTimer = setTimeout(function () {
         _this3.actions.userActivate(false);
-      }, controlBarActiveTime);
+      }, 3000);
     };
 
     _proto.handleStateChange = function handleStateChange(state, prevState) {
