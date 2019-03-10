@@ -3845,6 +3845,8 @@ PlaybackRateMenuButton.displayName = 'PlaybackRateMenuButton';
 var propTypes$s = {
   children: PropTypes.any,
   autoHide: PropTypes.bool,
+  autoHideTime: PropTypes.number,
+  // used in Player
   disableDefaultControls: PropTypes.bool,
   disableCompletely: PropTypes.bool,
   className: PropTypes.string
@@ -4283,11 +4285,23 @@ function (_Component) {
   _proto.startControlsTimer = function startControlsTimer() {
     var _this3 = this;
 
+    var controlBarActiveTime = 3000;
+    React__default.Children.forEach(this.props.children, function (element) {
+      if (!React__default.isValidElement(element) || element.type !== ControlBar) {
+        return;
+      }
+
+      var autoHideTime = element.props.autoHideTime;
+
+      if (typeof autoHideTime === 'number') {
+        controlBarActiveTime = autoHideTime;
+      }
+    });
     this.actions.userActivate(true);
     clearTimeout(this.controlsHideTimer);
     this.controlsHideTimer = setTimeout(function () {
       _this3.actions.userActivate(false);
-    }, 3000);
+    }, controlBarActiveTime);
   };
 
   _proto.handleStateChange = function handleStateChange(state, prevState) {
