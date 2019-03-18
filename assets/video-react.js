@@ -903,10 +903,7 @@
       case LOADED_META_DATA:
       case LOADED_DATA:
       case RESIZE:
-        return _extends({}, state, action.videoProps, action.videoProps.paused === false ? {
-          hasStarted: true,
-          waiting: false
-        } : {});
+        return _extends({}, state, action.videoProps);
 
       default:
         return state;
