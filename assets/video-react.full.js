@@ -1234,7 +1234,10 @@
       case LOADED_META_DATA:
       case LOADED_DATA:
       case RESIZE:
-        return _extends({}, state, action.videoProps);
+        return _extends({}, state, action.videoProps, action.videoProps.paused === false ? {
+          hasStarted: true,
+          waiting: false
+        } : {});
 
       default:
         return state;
@@ -2835,6 +2838,14 @@
     }
 
     var _proto = Slider.prototype;
+
+    _proto.componentWillUnmount = function componentWillUnmount() {
+      document.removeEventListener('mousemove', this.handleMouseMove, true);
+      document.removeEventListener('mouseup', this.handleMouseUp, true);
+      document.removeEventListener('touchmove', this.handleMouseMove, true);
+      document.removeEventListener('touchend', this.handleMouseUp, true);
+      document.removeEventListener('keydown', this.handleKeyPress, true);
+    };
 
     _proto.getProgress = function getProgress() {
       var getPercent = this.props.getPercent;
