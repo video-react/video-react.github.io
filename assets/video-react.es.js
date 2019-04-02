@@ -4443,5 +4443,5 @@ function (_Component) {
 }(Component);
 PlaybackRate.displayName = 'PlaybackRate';
 
-export { Player, Video, BigPlayButton, LoadingSpinner, PosterImage, Bezel, Shortcut, ControlBar, PlayToggle, ForwardControl, ReplayControl, FullscreenToggle, ProgressControl, SeekBar, Slider, PlayProgressBar, LoadProgressBar, MouseTimeDisplay, RemainingTimeDisplay, CurrentTimeDisplay, DurationDisplay, TimeDivider, VolumeMenuButton, PlaybackRateMenuButton, PlaybackRate, playerActions, videoActions, playerReducer, operationReducer };
+export { Player, Video, BigPlayButton, LoadingSpinner, PosterImage, Bezel, Shortcut, ControlBar, PlayToggle, ForwardControl, ReplayControl, FullscreenToggle, ProgressControl, SeekBar, Slider, PlayProgressBar, LoadProgressBar, MouseTimeDisplay, RemainingTimeDisplay, CurrentTimeDisplay, DurationDisplay, TimeDivider, VolumeMenuButton, PlaybackRateMenuButton, PlaybackRate, MenuButton, playerActions, videoActions, playerReducer, operationReducer };
 //# sourceMappingURL=video-react.es.js.map

@@ -5017,6 +5017,7 @@
   exports.VolumeMenuButton = VolumeMenuButton;
   exports.PlaybackRateMenuButton = PlaybackRateMenuButton;
   exports.PlaybackRate = PlaybackRate;
+  exports.MenuButton = MenuButton;
   exports.playerActions = playerActions;
   exports.videoActions = videoActions;
   exports.playerReducer = playerReducer;
