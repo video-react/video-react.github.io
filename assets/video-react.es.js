@@ -1644,7 +1644,8 @@ function (_Component) {
       onLoadedData: this.handleLoadedData,
       onTimeUpdate: this.handleTimeUpdate,
       onRateChange: this.handleRateChange,
-      onVolumeChange: this.handleVolumeChange
+      onVolumeChange: this.handleVolumeChange,
+      tabIndex: "-1"
     }, this.renderChildren());
   };
 
