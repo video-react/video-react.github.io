@@ -1854,6 +1854,14 @@ function getPointerPosition(el, event) {
   return position;
 } // blur an element
 
+function focusNode(reactNode) {
+  var domNode = findDOMNode(reactNode);
+
+  if (domNode && domNode.focus) {
+    domNode.focus();
+  }
+} // check if an element has a class name
+
 function hasClass(elm, cls) {
   var classes = elm.className.split(' ');
 
@@ -4305,7 +4313,9 @@ function (_Component) {
 
   _proto.handleStateChange = function handleStateChange(state, prevState) {
     if (state.isFullscreen !== prevState.isFullscreen) {
-      this.handleResize();
+      this.handleResize(); // focus root when switching fullscreen mode to avoid confusion #276
+
+      focusNode(this.manager.rootElement);
     }
 
     this.forceUpdate(); // re-render
