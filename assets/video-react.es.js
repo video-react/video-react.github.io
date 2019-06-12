@@ -832,7 +832,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1113,38 +1113,38 @@ function (_Component) {
     _this = _Component.call(this, props) || this;
     _this.video = null; // the html5 video
 
-    _this.play = _this.play.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.pause = _this.pause.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.seek = _this.seek.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.forward = _this.forward.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.replay = _this.replay.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.toggleFullscreen = _this.toggleFullscreen.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.getProperties = _this.getProperties.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.renderChildren = _this.renderChildren.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleLoadStart = _this.handleLoadStart.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleCanPlay = _this.handleCanPlay.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleCanPlayThrough = _this.handleCanPlayThrough.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handlePlay = _this.handlePlay.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handlePlaying = _this.handlePlaying.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handlePause = _this.handlePause.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleEnded = _this.handleEnded.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleWaiting = _this.handleWaiting.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleSeeking = _this.handleSeeking.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleSeeked = _this.handleSeeked.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFullscreenChange = _this.handleFullscreenChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleError = _this.handleError.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleSuspend = _this.handleSuspend.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleAbort = _this.handleAbort.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleEmptied = _this.handleEmptied.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleStalled = _this.handleStalled.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleLoadedMetaData = _this.handleLoadedMetaData.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleLoadedData = _this.handleLoadedData.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleTimeUpdate = _this.handleTimeUpdate.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleRateChange = _this.handleRateChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleVolumeChange = _this.handleVolumeChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleDurationChange = _this.handleDurationChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleProgress = throttle(_this.handleProgress.bind(_assertThisInitialized(_assertThisInitialized(_this))), 250);
-    _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.play = _this.play.bind(_assertThisInitialized(_this));
+    _this.pause = _this.pause.bind(_assertThisInitialized(_this));
+    _this.seek = _this.seek.bind(_assertThisInitialized(_this));
+    _this.forward = _this.forward.bind(_assertThisInitialized(_this));
+    _this.replay = _this.replay.bind(_assertThisInitialized(_this));
+    _this.toggleFullscreen = _this.toggleFullscreen.bind(_assertThisInitialized(_this));
+    _this.getProperties = _this.getProperties.bind(_assertThisInitialized(_this));
+    _this.renderChildren = _this.renderChildren.bind(_assertThisInitialized(_this));
+    _this.handleLoadStart = _this.handleLoadStart.bind(_assertThisInitialized(_this));
+    _this.handleCanPlay = _this.handleCanPlay.bind(_assertThisInitialized(_this));
+    _this.handleCanPlayThrough = _this.handleCanPlayThrough.bind(_assertThisInitialized(_this));
+    _this.handlePlay = _this.handlePlay.bind(_assertThisInitialized(_this));
+    _this.handlePlaying = _this.handlePlaying.bind(_assertThisInitialized(_this));
+    _this.handlePause = _this.handlePause.bind(_assertThisInitialized(_this));
+    _this.handleEnded = _this.handleEnded.bind(_assertThisInitialized(_this));
+    _this.handleWaiting = _this.handleWaiting.bind(_assertThisInitialized(_this));
+    _this.handleSeeking = _this.handleSeeking.bind(_assertThisInitialized(_this));
+    _this.handleSeeked = _this.handleSeeked.bind(_assertThisInitialized(_this));
+    _this.handleFullscreenChange = _this.handleFullscreenChange.bind(_assertThisInitialized(_this));
+    _this.handleError = _this.handleError.bind(_assertThisInitialized(_this));
+    _this.handleSuspend = _this.handleSuspend.bind(_assertThisInitialized(_this));
+    _this.handleAbort = _this.handleAbort.bind(_assertThisInitialized(_this));
+    _this.handleEmptied = _this.handleEmptied.bind(_assertThisInitialized(_this));
+    _this.handleStalled = _this.handleStalled.bind(_assertThisInitialized(_this));
+    _this.handleLoadedMetaData = _this.handleLoadedMetaData.bind(_assertThisInitialized(_this));
+    _this.handleLoadedData = _this.handleLoadedData.bind(_assertThisInitialized(_this));
+    _this.handleTimeUpdate = _this.handleTimeUpdate.bind(_assertThisInitialized(_this));
+    _this.handleRateChange = _this.handleRateChange.bind(_assertThisInitialized(_this));
+    _this.handleVolumeChange = _this.handleVolumeChange.bind(_assertThisInitialized(_this));
+    _this.handleDurationChange = _this.handleDurationChange.bind(_assertThisInitialized(_this));
+    _this.handleProgress = throttle(_this.handleProgress.bind(_assertThisInitialized(_this)), 250);
+    _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1717,7 +1717,7 @@ function (_Component) {
 
     _this = _Component.call(this, props, context) || this;
     _this.timer = null;
-    props.manager.subscribeToOperationStateChange(_this.handleStateChange.bind(_assertThisInitialized(_assertThisInitialized(_this))));
+    props.manager.subscribeToOperationStateChange(_this.handleStateChange.bind(_assertThisInitialized(_this)));
     _this.state = {
       hidden: true,
       operation: {}
@@ -2068,10 +2068,10 @@ function (_Component) {
       }
     }];
     _this.shortcuts = [].concat(_this.defaultShortcuts);
-    _this.mergeShortcuts = _this.mergeShortcuts.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleDoubleClick = _this.handleDoubleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.mergeShortcuts = _this.mergeShortcuts.bind(_assertThisInitialized(_this));
+    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleDoubleClick = _this.handleDoubleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2276,18 +2276,18 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.calculateDistance = _this.calculateDistance.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.getProgress = _this.getProgress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.renderChildren = _this.renderChildren.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
+    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_this));
+    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
+    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_this));
+    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_this));
+    _this.calculateDistance = _this.calculateDistance.bind(_assertThisInitialized(_this));
+    _this.getProgress = _this.getProgress.bind(_assertThisInitialized(_this));
+    _this.renderChildren = _this.renderChildren.bind(_assertThisInitialized(_this));
     _this.state = {
       active: false
     };
@@ -2603,13 +2603,13 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.getPercent = _this.getPercent.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.getNewTime = _this.getNewTime.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.getPercent = _this.getPercent.bind(_assertThisInitialized(_this));
+    _this.getNewTime = _this.getNewTime.bind(_assertThisInitialized(_this));
+    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_this));
+    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_this));
+    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
+    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_this));
+    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2733,7 +2733,7 @@ function (_Component) {
         position: 0
       }
     };
-    _this.handleMouseMoveThrottle = _this.handleMouseMove.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleMouseMoveThrottle = _this.handleMouseMove.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2791,7 +2791,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2858,7 +2858,7 @@ var ForwardReplayControl = (function (mode) {
       var _this;
 
       _this = _Component.call(this, props, context) || this;
-      _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+      _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
       return _this;
     }
 
@@ -2882,18 +2882,18 @@ var ForwardReplayControl = (function (mode) {
       var _this$props2 = this.props,
           seconds = _this$props2.seconds,
           className = _this$props2.className;
-      var classNames$$1 = ['video-react-control', 'video-react-button', 'video-react-icon'];
-      classNames$$1.push("video-react-icon-" + mode + "-" + seconds, "video-react-" + mode + "-control");
+      var classNames = ['video-react-control', 'video-react-button', 'video-react-icon'];
+      classNames.push("video-react-icon-" + mode + "-" + seconds, "video-react-" + mode + "-control");
 
       if (className) {
-        classNames$$1.push(className);
+        classNames.push(className);
       }
 
       return React.createElement("button", {
         ref: function ref(c) {
           _this2.button = c;
         },
-        className: classNames$$1.join(' '),
+        className: classNames.join(' '),
         type: "button",
         onClick: this.handleClick
       }, React.createElement("span", {
@@ -2930,7 +2930,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3077,10 +3077,10 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
+    _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3152,7 +3152,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3261,15 +3261,15 @@ function (_Component) {
     _this.state = {
       percentage: '0%'
     };
-    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handlePercentageChange = _this.handlePercentageChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.checkMuted = _this.checkMuted.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.getPercent = _this.getPercent.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_this));
+    _this.handlePercentageChange = _this.handlePercentageChange.bind(_assertThisInitialized(_this));
+    _this.checkMuted = _this.checkMuted.bind(_assertThisInitialized(_this));
+    _this.getPercent = _this.getPercent.bind(_assertThisInitialized(_this));
+    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_this));
+    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3402,9 +3402,9 @@ function (_Component) {
     _this.state = {
       active: false
     };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3496,7 +3496,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3537,7 +3537,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3594,20 +3594,20 @@ function (_Component) {
       active: false,
       activateIndex: props.selectedIndex || 0
     };
-    _this.commitSelection = _this.commitSelection.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.activateMenuItem = _this.activateMenuItem.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.renderMenu = _this.renderMenu.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleUpArrow = _this.handleUpArrow.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleDownArrow = _this.handleDownArrow.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleEscape = _this.handleEscape.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleReturn = _this.handleReturn.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleTab = _this.handleTab.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleIndexChange = _this.handleIndexChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.commitSelection = _this.commitSelection.bind(_assertThisInitialized(_this));
+    _this.activateMenuItem = _this.activateMenuItem.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.renderMenu = _this.renderMenu.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
+    _this.handleUpArrow = _this.handleUpArrow.bind(_assertThisInitialized(_this));
+    _this.handleDownArrow = _this.handleDownArrow.bind(_assertThisInitialized(_this));
+    _this.handleEscape = _this.handleEscape.bind(_assertThisInitialized(_this));
+    _this.handleReturn = _this.handleReturn.bind(_assertThisInitialized(_this));
+    _this.handleTab = _this.handleTab.bind(_assertThisInitialized(_this));
+    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
+    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_this));
+    _this.handleIndexChange = _this.handleIndexChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3803,7 +3803,7 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props, context) || this;
-    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3872,8 +3872,8 @@ function (_Component) {
     var _this;
 
     _this = _Component.call(this, props) || this;
-    _this.getDefaultChildren = _this.getDefaultChildren.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.getFullChildren = _this.getFullChildren.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.getDefaultChildren = _this.getDefaultChildren.bind(_assertThisInitialized(_this));
+    _this.getFullChildren = _this.getFullChildren.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4055,18 +4055,18 @@ function (_Component) {
     _this.manager = new Manager(props.store);
     _this.actions = _this.manager.getActions();
 
-    _this.manager.subscribeToPlayerStateChange(_this.handleStateChange.bind(_assertThisInitialized(_assertThisInitialized(_this))));
+    _this.manager.subscribeToPlayerStateChange(_this.handleStateChange.bind(_assertThisInitialized(_this)));
 
-    _this.getStyle = _this.getStyle.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleResize = _this.handleResize.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.getChildren = _this.getChildren.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleMouseMove = throttle(_this.handleMouseMove.bind(_assertThisInitialized(_assertThisInitialized(_this))), 250);
-    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.startControlsTimer = _this.startControlsTimer.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFullScreenChange = _this.handleFullScreenChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleKeyDown = _this.handleKeyDown.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.getStyle = _this.getStyle.bind(_assertThisInitialized(_this));
+    _this.handleResize = _this.handleResize.bind(_assertThisInitialized(_this));
+    _this.getChildren = _this.getChildren.bind(_assertThisInitialized(_this));
+    _this.handleMouseMove = throttle(_this.handleMouseMove.bind(_assertThisInitialized(_this)), 250);
+    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
+    _this.startControlsTimer = _this.startControlsTimer.bind(_assertThisInitialized(_this));
+    _this.handleFullScreenChange = _this.handleFullScreenChange.bind(_assertThisInitialized(_this));
+    _this.handleKeyDown = _this.handleKeyDown.bind(_assertThisInitialized(_this));
+    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
+    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4454,5 +4454,5 @@ function (_Component) {
 }(Component);
 PlaybackRate.displayName = 'PlaybackRate';
 
-export { Player, Video, BigPlayButton, LoadingSpinner, PosterImage, Bezel, Shortcut, ControlBar, PlayToggle, ForwardControl, ReplayControl, FullscreenToggle, ProgressControl, SeekBar, Slider, PlayProgressBar, LoadProgressBar, MouseTimeDisplay, RemainingTimeDisplay, CurrentTimeDisplay, DurationDisplay, TimeDivider, VolumeMenuButton, PlaybackRateMenuButton, PlaybackRate, MenuButton, playerActions, videoActions, playerReducer, operationReducer };
+export { Bezel, BigPlayButton, ControlBar, CurrentTimeDisplay, DurationDisplay, ForwardControl, FullscreenToggle, LoadProgressBar, LoadingSpinner, MenuButton, MouseTimeDisplay, PlayProgressBar, PlayToggle, PlaybackRate, PlaybackRateMenuButton, Player, PosterImage, ProgressControl, RemainingTimeDisplay, ReplayControl, SeekBar, Shortcut, Slider, TimeDivider, Video, VolumeMenuButton, operationReducer, playerActions, playerReducer, videoActions };
 //# sourceMappingURL=video-react.es.js.map
