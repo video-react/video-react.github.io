@@ -570,7 +570,6 @@ body.video-react-full-window .video-react-fullscreen {
   background-color: rgba(115, 133, 159, 0.5);
 }
 .video-react .video-react-slider:focus {
-  text-shadow: 0em 0em 1em white;
   -webkit-box-shadow: 0 0 1em #fff;
   -moz-box-shadow: 0 0 1em #fff;
   box-shadow: 0 0 1em #fff;
@@ -595,7 +594,7 @@ body.video-react-full-window .video-react-fullscreen {
   line-height: 1.67;
 }
 .video-react .video-react-control:focus:before, .video-react .video-react-control:hover:before, .video-react .video-react-control:focus {
-  text-shadow: 0em 0em 1em white;
+  text-shadow: 0em 0em 1em #fff, 0em 0em 0.5em #fff;
 }
 
 .video-react .video-react-control-text {
