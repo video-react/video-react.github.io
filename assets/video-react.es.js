@@ -4273,8 +4273,10 @@ function (_Component) {
 
   _proto.handleResize = function handleResize() {};
 
-  _proto.handleFullScreenChange = function handleFullScreenChange() {
-    this.actions.handleFullscreenChange(fullscreen.isFullscreen);
+  _proto.handleFullScreenChange = function handleFullScreenChange(event) {
+    if (event.target === this.manager.rootElement) {
+      this.actions.handleFullscreenChange(fullscreen.isFullscreen);
+    }
   };
 
   _proto.handleMouseDown = function handleMouseDown() {
