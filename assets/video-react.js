@@ -671,7 +671,7 @@
       time: time
     };
   }
-  function activeTextTrack(textTrack) {
+  function activateTextTrack(textTrack) {
     return {
       type: ACTIVATE_TEXT_TRACK,
       textTrack: textTrack
@@ -730,7 +730,7 @@
     handleError: handleError,
     handleSeekingTime: handleSeekingTime,
     handleEndSeeking: handleEndSeeking,
-    activeTextTrack: activeTextTrack
+    activateTextTrack: activateTextTrack
   });
 
   var Fullscreen =
@@ -1629,7 +1629,7 @@
         });
 
         if (activeTextTrack !== player.activeTextTrack) {
-          actions.activeTextTrack(activeTextTrack);
+          actions.activateTextTrack(activeTextTrack);
         }
       }
     } // play the video
@@ -2638,8 +2638,8 @@
         return;
       }
 
-      if (document.activeElement && (hasClass(document.activeElement, 'video-react-control') || hasClass(document.activeElement, 'video-react-menu-button-active') || // || hasClass(document.activeElement, 'video-react-slider')
-      hasClass(document.activeElement, 'video-react-big-play-button'))) {
+      if (document.activeElement && (hasClass(document.activeElement, 'video-react-control') || hasClass(document.activeElement, 'video-react-menu-button-active') // || hasClass(document.activeElement, 'video-react-slider')
+      || hasClass(document.activeElement, 'video-react-big-play-button'))) {
         return;
       }
 
@@ -5018,13 +5018,17 @@
     };
 
     _proto.handleSelectItem = function handleSelectItem(index) {
-      var player = this.props.player;
-      var textTracks = player.textTracks; // For the 'subtitles-off' button, the first condition will never match so all will subtitles be turned off
+      var _this$props2 = this.props,
+          player = _this$props2.player,
+          actions = _this$props2.actions;
+      var textTracks = player.textTracks; // For the 'subtitles-off' button, the first condition will never match
+      // so all will subtitles be turned off
 
       Array.from(textTracks).forEach(function (textTrack, i) {
         if (index === i + 1) {
           // the 0 index is `Off`
           textTrack.mode = 'showing';
+          actions.activateTextTrack(textTrack);
         } else {
           textTrack.mode = 'hidden';
         }
