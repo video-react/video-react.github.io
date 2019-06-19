@@ -7042,7 +7042,7 @@ a.text-dark:hover, a.text-dark:focus {
   font-style: normal; }
 
 .video-react-icon, .video-react .video-react-big-play-button, .video-react .video-react-play-progress, .video-react .video-react-play-control, .video-react .video-react-mute-control,
-.video-react .video-react-volume-menu-button, .video-react .video-react-volume-level, .video-react .video-react-bezel .video-react-bezel-icon {
+.video-react .video-react-volume-menu-button, .video-react .video-react-volume-level, .video-react .video-react-bezel .video-react-bezel-icon, .video-react .video-react-closed-caption {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'video-react' !important;
   speak: none;
@@ -7129,7 +7129,7 @@ a.text-dark:hover, a.text-dark:focus {
 .video-react-icon-fullscreen-exit:before {
   content: ""; }
 
-.video-react-icon-closed-caption:before {
+.video-react-icon-closed-caption:before, .video-react .video-react-closed-caption:before {
   content: ""; }
 
 .video-react-icon-hd:before {
@@ -7379,8 +7379,7 @@ body.video-react-full-window {
   padding: 0.2em 0;
   line-height: 1.4em;
   font-size: 1.2em;
-  text-align: center;
-  text-transform: lowercase; }
+  text-align: center; }
   .video-react-menu li:focus, .video-react-menu li:hover {
     outline: 0;
     background-color: #73859f;
@@ -7912,6 +7911,14 @@ body.video-react-full-window {
   to {
     opacity: 0;
     transform: scale(2); } }
+
+.video-react .video-react-closed-caption {
+  cursor: pointer;
+  -webkit-box-flex: none;
+  -moz-box-flex: none;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none; }
 
 
 /*# sourceMappingURL=main.css.map*/

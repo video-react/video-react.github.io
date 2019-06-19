@@ -851,6 +851,7 @@
   var LOADED_DATA = 'video-react/LOADED_DATA';
   var RESIZE = 'video-react/RESIZE';
   var ERROR = 'video-react/ERROR';
+  var ACTIVATE_TEXT_TRACK = 'video-react/ACTIVATE_TEXT_TRACK';
   function handleLoadStart(videoProps) {
     return {
       type: LOAD_START,
@@ -1001,6 +1002,12 @@
       time: time
     };
   }
+  function activeTextTrack(textTrack) {
+    return {
+      type: ACTIVATE_TEXT_TRACK,
+      textTrack: textTrack
+    };
+  }
 
   var videoActions = /*#__PURE__*/Object.freeze({
     LOAD_START: LOAD_START,
@@ -1028,6 +1035,7 @@
     LOADED_DATA: LOADED_DATA,
     RESIZE: RESIZE,
     ERROR: ERROR,
+    ACTIVATE_TEXT_TRACK: ACTIVATE_TEXT_TRACK,
     handleLoadStart: handleLoadStart,
     handleCanPlay: handleCanPlay,
     handleWaiting: handleWaiting,
@@ -1052,7 +1060,8 @@
     handleResize: handleResize,
     handleError: handleError,
     handleSeekingTime: handleSeekingTime,
-    handleEndSeeking: handleEndSeeking
+    handleEndSeeking: handleEndSeeking,
+    activeTextTrack: activeTextTrack
   });
 
   var Fullscreen =
@@ -1342,7 +1351,8 @@
     hasStarted: false,
     userActivity: true,
     isActive: false,
-    isFullscreen: false
+    isFullscreen: false,
+    activeTextTrack: null
   };
   function player(state, action) {
     if (state === void 0) {
@@ -1445,6 +1455,11 @@
       case LOADED_DATA:
       case RESIZE:
         return _extends({}, state, action.videoProps);
+
+      case ACTIVATE_TEXT_TRACK:
+        return _extends({}, state, {
+          activeTextTrack: action.textTrack
+        });
 
       default:
         return state;
@@ -1904,6 +1919,7 @@
       _this.handleDurationChange = _this.handleDurationChange.bind(_assertThisInitialized(_this));
       _this.handleProgress = throttle(_this.handleProgress.bind(_assertThisInitialized(_this)), 250);
       _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_this));
+      _this.handleTextTrackChange = _this.handleTextTrackChange.bind(_assertThisInitialized(_this));
       return _this;
     }
 
@@ -1911,6 +1927,11 @@
 
     _proto.componentDidMount = function componentDidMount() {
       this.forceUpdate(); // make sure the children can get the video property
+
+      if (this.video && this.video.textTracks) {
+        this.video.textTracks.onaddtrack = this.handleTextTrackChange;
+        this.video.textTracks.onremovetrack = this.handleTextTrackChange;
+      }
     } // get all video properties
     ;
 
@@ -1928,7 +1949,23 @@
     } // get playback rate
     ;
 
-    // play the video
+    _proto.handleTextTrackChange = function handleTextTrackChange() {
+      var _this$props = this.props,
+          actions = _this$props.actions,
+          player = _this$props.player;
+
+      if (this.video && this.video.textTracks) {
+        var activeTextTrack = Array.from(this.video.textTracks).find(function (textTrack) {
+          return textTrack.mode === 'showing';
+        });
+
+        if (activeTextTrack !== player.activeTextTrack) {
+          actions.activeTextTrack(activeTextTrack);
+        }
+      }
+    } // play the video
+    ;
+
     _proto.play = function play() {
       var promise = this.video.play();
 
@@ -1994,18 +2031,18 @@
     ;
 
     _proto.toggleFullscreen = function toggleFullscreen() {
-      var _this$props = this.props,
-          player = _this$props.player,
-          actions = _this$props.actions;
+      var _this$props2 = this.props,
+          player = _this$props2.player,
+          actions = _this$props2.actions;
       actions.toggleFullscreen(player);
     } // Fired when the user agent
     // begins looking for media data
     ;
 
     _proto.handleLoadStart = function handleLoadStart() {
-      var _this$props2 = this.props,
-          actions = _this$props2.actions,
-          onLoadStart = _this$props2.onLoadStart;
+      var _this$props3 = this.props,
+          actions = _this$props3.actions,
+          onLoadStart = _this$props3.onLoadStart;
       actions.handleLoadStart(this.getProperties());
 
       if (onLoadStart) {
@@ -2016,9 +2053,9 @@
     ;
 
     _proto.handleCanPlay = function handleCanPlay() {
-      var _this$props3 = this.props,
-          actions = _this$props3.actions,
-          onCanPlay = _this$props3.onCanPlay;
+      var _this$props4 = this.props,
+          actions = _this$props4.actions,
+          onCanPlay = _this$props4.onCanPlay;
       actions.handleCanPlay(this.getProperties());
 
       if (onCanPlay) {
@@ -2029,9 +2066,9 @@
     ;
 
     _proto.handleCanPlayThrough = function handleCanPlayThrough() {
-      var _this$props4 = this.props,
-          actions = _this$props4.actions,
-          onCanPlayThrough = _this$props4.onCanPlayThrough;
+      var _this$props5 = this.props,
+          actions = _this$props5.actions,
+          onCanPlayThrough = _this$props5.onCanPlayThrough;
       actions.handleCanPlayThrough(this.getProperties());
 
       if (onCanPlayThrough) {
@@ -2042,9 +2079,9 @@
     ;
 
     _proto.handlePlaying = function handlePlaying() {
-      var _this$props5 = this.props,
-          actions = _this$props5.actions,
-          onPlaying = _this$props5.onPlaying;
+      var _this$props6 = this.props,
+          actions = _this$props6.actions,
+          onPlaying = _this$props6.onPlaying;
       actions.handlePlaying(this.getProperties());
 
       if (onPlaying) {
@@ -2054,9 +2091,9 @@
     ;
 
     _proto.handlePlay = function handlePlay() {
-      var _this$props6 = this.props,
-          actions = _this$props6.actions,
-          onPlay = _this$props6.onPlay;
+      var _this$props7 = this.props,
+          actions = _this$props7.actions,
+          onPlay = _this$props7.onPlay;
       actions.handlePlay(this.getProperties());
 
       if (onPlay) {
@@ -2066,9 +2103,9 @@
     ;
 
     _proto.handlePause = function handlePause() {
-      var _this$props7 = this.props,
-          actions = _this$props7.actions,
-          onPause = _this$props7.onPause;
+      var _this$props8 = this.props,
+          actions = _this$props8.actions,
+          onPause = _this$props8.onPause;
       actions.handlePause(this.getProperties());
 
       if (onPause) {
@@ -2079,9 +2116,9 @@
     ;
 
     _proto.handleDurationChange = function handleDurationChange() {
-      var _this$props8 = this.props,
-          actions = _this$props8.actions,
-          onDurationChange = _this$props8.onDurationChange;
+      var _this$props9 = this.props,
+          actions = _this$props9.actions,
+          onDurationChange = _this$props9.onDurationChange;
       actions.handleDurationChange(this.getProperties());
 
       if (onDurationChange) {
@@ -2092,9 +2129,9 @@
     ;
 
     _proto.handleProgress = function handleProgress() {
-      var _this$props9 = this.props,
-          actions = _this$props9.actions,
-          onProgress = _this$props9.onProgress;
+      var _this$props10 = this.props,
+          actions = _this$props10.actions,
+          onProgress = _this$props10.onProgress;
 
       if (this.video) {
         actions.handleProgressChange(this.getProperties());
@@ -2108,11 +2145,11 @@
     ;
 
     _proto.handleEnded = function handleEnded() {
-      var _this$props10 = this.props,
-          loop = _this$props10.loop,
-          player = _this$props10.player,
-          actions = _this$props10.actions,
-          onEnded = _this$props10.onEnded;
+      var _this$props11 = this.props,
+          loop = _this$props11.loop,
+          player = _this$props11.player,
+          actions = _this$props11.actions,
+          onEnded = _this$props11.onEnded;
 
       if (loop) {
         this.seek(0);
@@ -2130,9 +2167,9 @@
     ;
 
     _proto.handleWaiting = function handleWaiting() {
-      var _this$props11 = this.props,
-          actions = _this$props11.actions,
-          onWaiting = _this$props11.onWaiting;
+      var _this$props12 = this.props,
+          actions = _this$props12.actions,
+          onWaiting = _this$props12.onWaiting;
       actions.handleWaiting(this.getProperties());
 
       if (onWaiting) {
@@ -2143,9 +2180,9 @@
     ;
 
     _proto.handleSeeking = function handleSeeking() {
-      var _this$props12 = this.props,
-          actions = _this$props12.actions,
-          onSeeking = _this$props12.onSeeking;
+      var _this$props13 = this.props,
+          actions = _this$props13.actions,
+          onSeeking = _this$props13.onSeeking;
       actions.handleSeeking(this.getProperties());
 
       if (onSeeking) {
@@ -2156,9 +2193,9 @@
     ;
 
     _proto.handleSeeked = function handleSeeked() {
-      var _this$props13 = this.props,
-          actions = _this$props13.actions,
-          onSeeked = _this$props13.onSeeked;
+      var _this$props14 = this.props,
+          actions = _this$props14.actions,
+          onSeeked = _this$props14.onSeeked;
       actions.handleSeeked(this.getProperties());
 
       if (onSeeked) {
@@ -2172,9 +2209,9 @@
     ;
 
     _proto.handleSuspend = function handleSuspend() {
-      var _this$props14 = this.props,
-          actions = _this$props14.actions,
-          onSuspend = _this$props14.onSuspend;
+      var _this$props15 = this.props,
+          actions = _this$props15.actions,
+          onSuspend = _this$props15.onSuspend;
       actions.handleSuspend(this.getProperties());
 
       if (onSuspend) {
@@ -2184,9 +2221,9 @@
     ;
 
     _proto.handleAbort = function handleAbort() {
-      var _this$props15 = this.props,
-          actions = _this$props15.actions,
-          onAbort = _this$props15.onAbort;
+      var _this$props16 = this.props,
+          actions = _this$props16.actions,
+          onAbort = _this$props16.onAbort;
       actions.handleAbort(this.getProperties());
 
       if (onAbort) {
@@ -2196,9 +2233,9 @@
     ;
 
     _proto.handleEmptied = function handleEmptied() {
-      var _this$props16 = this.props,
-          actions = _this$props16.actions,
-          onEmptied = _this$props16.onEmptied;
+      var _this$props17 = this.props,
+          actions = _this$props17.actions,
+          onEmptied = _this$props17.onEmptied;
       actions.handleEmptied(this.getProperties());
 
       if (onEmptied) {
@@ -2209,9 +2246,9 @@
     ;
 
     _proto.handleStalled = function handleStalled() {
-      var _this$props17 = this.props,
-          actions = _this$props17.actions,
-          onStalled = _this$props17.onStalled;
+      var _this$props18 = this.props,
+          actions = _this$props18.actions,
+          onStalled = _this$props18.onStalled;
       actions.handleStalled(this.getProperties());
 
       if (onStalled) {
@@ -2222,10 +2259,10 @@
     ;
 
     _proto.handleLoadedMetaData = function handleLoadedMetaData() {
-      var _this$props18 = this.props,
-          actions = _this$props18.actions,
-          onLoadedMetadata = _this$props18.onLoadedMetadata,
-          startTime = _this$props18.startTime;
+      var _this$props19 = this.props,
+          actions = _this$props19.actions,
+          onLoadedMetadata = _this$props19.onLoadedMetadata,
+          startTime = _this$props19.startTime;
 
       if (startTime && startTime > 0) {
         this.video.currentTime = startTime;
@@ -2241,9 +2278,9 @@
     ;
 
     _proto.handleLoadedData = function handleLoadedData() {
-      var _this$props19 = this.props,
-          actions = _this$props19.actions,
-          onLoadedData = _this$props19.onLoadedData;
+      var _this$props20 = this.props,
+          actions = _this$props20.actions,
+          onLoadedData = _this$props20.onLoadedData;
       actions.handleLoadedData(this.getProperties());
 
       if (onLoadedData) {
@@ -2254,9 +2291,9 @@
     ;
 
     _proto.handleTimeUpdate = function handleTimeUpdate() {
-      var _this$props20 = this.props,
-          actions = _this$props20.actions,
-          onTimeUpdate = _this$props20.onTimeUpdate;
+      var _this$props21 = this.props,
+          actions = _this$props21.actions,
+          onTimeUpdate = _this$props21.onTimeUpdate;
       actions.handleTimeUpdate(this.getProperties());
 
       if (onTimeUpdate) {
@@ -2269,9 +2306,9 @@
     ;
 
     _proto.handleRateChange = function handleRateChange() {
-      var _this$props21 = this.props,
-          actions = _this$props21.actions,
-          onRateChange = _this$props21.onRateChange;
+      var _this$props22 = this.props,
+          actions = _this$props22.actions,
+          onRateChange = _this$props22.onRateChange;
       actions.handleRateChange(this.getProperties());
 
       if (onRateChange) {
@@ -2281,9 +2318,9 @@
     ;
 
     _proto.handleVolumeChange = function handleVolumeChange() {
-      var _this$props22 = this.props,
-          actions = _this$props22.actions,
-          onVolumeChange = _this$props22.onVolumeChange;
+      var _this$props23 = this.props,
+          actions = _this$props23.actions,
+          onVolumeChange = _this$props23.onVolumeChange;
       actions.handleVolumeChange(this.getProperties());
 
       if (onVolumeChange) {
@@ -2294,9 +2331,9 @@
     ;
 
     _proto.handleError = function handleError() {
-      var _this$props23 = this.props,
-          actions = _this$props23.actions,
-          onError = _this$props23.onError;
+      var _this$props24 = this.props,
+          actions = _this$props24.actions,
+          onError = _this$props24.onError;
       actions.handleError(this.getProperties());
 
       if (onError) {
@@ -2305,9 +2342,9 @@
     };
 
     _proto.handleResize = function handleResize() {
-      var _this$props24 = this.props,
-          actions = _this$props24.actions,
-          onResize = _this$props24.onResize;
+      var _this$props25 = this.props,
+          actions = _this$props25.actions,
+          onResize = _this$props25.onResize;
       actions.handleResize(this.getProperties());
 
       if (onResize) {
@@ -2358,16 +2395,16 @@
     _proto.render = function render() {
       var _this4 = this;
 
-      var _this$props25 = this.props,
-          loop = _this$props25.loop,
-          poster = _this$props25.poster,
-          preload = _this$props25.preload,
-          src = _this$props25.src,
-          autoPlay = _this$props25.autoPlay,
-          playsInline = _this$props25.playsInline,
-          muted = _this$props25.muted,
-          crossOrigin = _this$props25.crossOrigin,
-          videoId = _this$props25.videoId;
+      var _this$props26 = this.props,
+          loop = _this$props26.loop,
+          poster = _this$props26.poster,
+          preload = _this$props26.preload,
+          src = _this$props26.src,
+          autoPlay = _this$props26.autoPlay,
+          playsInline = _this$props26.playsInline,
+          muted = _this$props26.muted,
+          crossOrigin = _this$props26.crossOrigin,
+          videoId = _this$props26.videoId;
       return React__default.createElement("video", {
         className: classnames('video-react-video', this.props.className),
         id: videoId,
@@ -4380,8 +4417,7 @@
 
     _proto.commitSelection = function commitSelection(index) {
       this.setState({
-        activateIndex: index,
-        active: false
+        activateIndex: index
       });
       this.handleIndexChange(index);
     };
@@ -5215,8 +5251,141 @@
   }(React.Component);
   PlaybackRate.displayName = 'PlaybackRate';
 
+  var propTypes$v = {
+    player: propTypes.object,
+    actions: propTypes.object,
+    className: propTypes.string,
+    kinds: propTypes.array
+  };
+  var defaultProps$a = {
+    kinds: ['captions', 'subtitles'] // `kind`s of TextTrack to look for to associate it with this menu.
+
+  };
+
+  var ClosedCaptionButton =
+  /*#__PURE__*/
+  function (_Component) {
+    _inheritsLoose(ClosedCaptionButton, _Component);
+
+    function ClosedCaptionButton(props, context) {
+      var _this;
+
+      _this = _Component.call(this, props, context) || this;
+      _this.getTextTrackItems = _this.getTextTrackItems.bind(_assertThisInitialized(_this));
+      _this.updateState = _this.updateState.bind(_assertThisInitialized(_this));
+      _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_this));
+      _this.state = _this.getTextTrackItems();
+      return _this;
+    }
+
+    var _proto = ClosedCaptionButton.prototype;
+
+    _proto.componentDidUpdate = function componentDidUpdate() {
+      this.updateState();
+    };
+
+    _proto.getTextTrackItems = function getTextTrackItems() {
+      var _this$props = this.props,
+          kinds = _this$props.kinds,
+          player = _this$props.player;
+      var textTracks = player.textTracks,
+          activeTextTrack = player.activeTextTrack;
+      var textTrackItems = {
+        items: [],
+        selectedIndex: 0
+      };
+      var tracks = Array.from(textTracks || []);
+
+      if (tracks.length === 0) {
+        return textTrackItems;
+      }
+
+      textTrackItems.items.push({
+        label: 'Off',
+        value: null
+      });
+      tracks.forEach(function (textTrack) {
+        // ignore invalid text track kind
+        if (kinds.length && !kinds.includes(textTrack.kind)) {
+          return;
+        }
+
+        textTrackItems.items.push({
+          label: textTrack.label,
+          value: textTrack.language
+        });
+      });
+      textTrackItems.selectedIndex = textTrackItems.items.findIndex(function (item) {
+        return activeTextTrack && activeTextTrack.language === item.value;
+      });
+
+      if (textTrackItems.selectedIndex === -1) {
+        textTrackItems.selectedIndex = 0;
+      }
+
+      return textTrackItems;
+    };
+
+    _proto.updateState = function updateState() {
+      var textTrackItems = this.getTextTrackItems();
+
+      if (textTrackItems.selectedIndex !== this.state.selectedIndex || !this.textTrackItemsAreEqual(textTrackItems.items, this.state.items)) {
+        this.setState(textTrackItems);
+      }
+    };
+
+    _proto.textTrackItemsAreEqual = function textTrackItemsAreEqual(items1, items2) {
+      if (items1.length !== items2.length) {
+        return false;
+      }
+
+      for (var i = 0; i < items1.length; i++) {
+        if (!items2[i] || items1[i].label !== items2[i].label || items1[i].value !== items2[i].value) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    _proto.handleSelectItem = function handleSelectItem(index) {
+      var player = this.props.player;
+      var textTracks = player.textTracks; // For the 'subtitles-off' button, the first condition will never match so all will subtitles be turned off
+
+      Array.from(textTracks).forEach(function (textTrack, i) {
+        if (index === i + 1) {
+          // the 0 index is `Off`
+          textTrack.mode = 'showing';
+        } else {
+          textTrack.mode = 'hidden';
+        }
+      });
+    };
+
+    _proto.render = function render() {
+      var _this$state = this.state,
+          items = _this$state.items,
+          selectedIndex = _this$state.selectedIndex;
+      return React__default.createElement(MenuButton, {
+        className: classnames('video-react-closed-caption', this.props.className),
+        onSelectItem: this.handleSelectItem,
+        items: items,
+        selectedIndex: selectedIndex
+      }, React__default.createElement("span", {
+        className: "video-react-control-text"
+      }, "Closed Caption"));
+    };
+
+    return ClosedCaptionButton;
+  }(React.Component);
+
+  ClosedCaptionButton.propTypes = propTypes$v;
+  ClosedCaptionButton.defaultProps = defaultProps$a;
+  ClosedCaptionButton.displayName = 'ClosedCaptionButton';
+
   exports.Bezel = Bezel;
   exports.BigPlayButton = BigPlayButton;
+  exports.ClosedCaptionButton = ClosedCaptionButton;
   exports.ControlBar = ControlBar;
   exports.CurrentTimeDisplay = CurrentTimeDisplay;
   exports.DurationDisplay = DurationDisplay;
