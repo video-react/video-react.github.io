@@ -7921,8 +7921,8 @@ body.video-react-full-window {
   flex: none; }
 
 .video-react video::-webkit-media-text-track-container {
-  -webkit-transform: translateY(-30px) !important;
-  transform: translateY(-30px) !important; }
+  -webkit-transform: translateY(-30px);
+  transform: translateY(-30px); }
 
 
 /*# sourceMappingURL=main.css.map*/
