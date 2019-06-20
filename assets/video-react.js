@@ -4924,9 +4924,13 @@
     player: propTypes.object,
     actions: propTypes.object,
     className: propTypes.string,
+    offMenuText: propTypes.string,
+    showOffMenu: propTypes.bool,
     kinds: propTypes.array
   };
   var defaultProps$a = {
+    offMenuText: 'Off',
+    showOffMenu: true,
     kinds: ['captions', 'subtitles'] // `kind`s of TextTrack to look for to associate it with this menu.
 
   };
@@ -4956,7 +4960,9 @@
     _proto.getTextTrackItems = function getTextTrackItems() {
       var _this$props = this.props,
           kinds = _this$props.kinds,
-          player = _this$props.player;
+          player = _this$props.player,
+          offMenuText = _this$props.offMenuText,
+          showOffMenu = _this$props.showOffMenu;
       var textTracks = player.textTracks,
           activeTextTrack = player.activeTextTrack;
       var textTrackItems = {
@@ -4969,10 +4975,13 @@
         return textTrackItems;
       }
 
-      textTrackItems.items.push({
-        label: 'Off',
-        value: null
-      });
+      if (showOffMenu) {
+        textTrackItems.items.push({
+          label: offMenuText || 'Off',
+          value: null
+        });
+      }
+
       tracks.forEach(function (textTrack) {
         // ignore invalid text track kind
         if (kinds.length && !kinds.includes(textTrack.kind)) {
@@ -5020,13 +5029,14 @@
     _proto.handleSelectItem = function handleSelectItem(index) {
       var _this$props2 = this.props,
           player = _this$props2.player,
-          actions = _this$props2.actions;
+          actions = _this$props2.actions,
+          showOffMenu = _this$props2.showOffMenu;
       var textTracks = player.textTracks; // For the 'subtitles-off' button, the first condition will never match
-      // so all will subtitles be turned off
+      // so all subtitles will be turned off
 
       Array.from(textTracks).forEach(function (textTrack, i) {
-        if (index === i + 1) {
-          // the 0 index is `Off`
+        // if it shows the `Off` menu, the first item is `Off`
+        if (index === (showOffMenu ? i + 1 : i)) {
           textTrack.mode = 'showing';
           actions.activateTextTrack(textTrack);
         } else {
