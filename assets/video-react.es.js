@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { createStore } from 'redux';
-import { findDOMNode } from 'react-dom';
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -1827,10 +1826,9 @@ Bezel.displayName = 'Bezel';
  * John Resig http://ejohn.org/blog/getboundingclientrect-is-awesome/
  *
  * @function findElPosition
- * @param {Element} el Element from which to get offset
+ * @param {ReactNodeRef} el React Node ref from which to get offset
  * @return {Object}
  */
-
 function findElPosition(el) {
   var box;
 
@@ -1861,12 +1859,12 @@ function findElPosition(el) {
   };
 }
 /**
- * Get pointer position in element
+ * Get pointer position in a React Node ref
  * Returns an object with x and y coordinates.
  * The base on the coordinates are the bottom left of the element.
  *
  * @function getPointerPosition
- * @param {Element} el Element on which to get the pointer position on
+ * @param {ReactNodeRef} el React Node ref on which to get the pointer position on
  * @param {Event} event Event object
  * @return {Object} This object will have x and y coordinates corresponding to the mouse position
  */
@@ -1892,10 +1890,8 @@ function getPointerPosition(el, event) {
 } // blur an element
 
 function focusNode(reactNode) {
-  var domNode = findDOMNode(reactNode);
-
-  if (domNode && domNode.focus) {
-    domNode.focus();
+  if (reactNode && reactNode.focus) {
+    reactNode.focus();
   }
 } // check if an element has a class name
 
@@ -2458,7 +2454,7 @@ function (_Component) {
   };
 
   _proto.calculateDistance = function calculateDistance(event) {
-    var node = findDOMNode(this);
+    var node = this.slider;
     var position = getPointerPosition(node, event);
 
     if (this.props.vertical) {
@@ -2480,6 +2476,8 @@ function (_Component) {
   };
 
   _proto.render = function render() {
+    var _this2 = this;
+
     var _this$props = this.props,
         vertical = _this$props.vertical,
         label = _this$props.label,
@@ -2491,6 +2489,9 @@ function (_Component) {
         'video-react-slider-horizontal': !vertical,
         'video-react-sliding': this.state.active
       }, 'video-react-slider'),
+      ref: function ref(c) {
+        _this2.slider = c;
+      },
       tabIndex: "0",
       role: "slider",
       onMouseDown: this.handleMouseDown,
@@ -2782,7 +2783,7 @@ function (_Component) {
     }
 
     var duration = this.props.player.duration;
-    var node = findDOMNode(this.seekBar);
+    var node = this.seekBar;
     var newTime = getPointerPosition(node, event).x * duration;
     var position = event.pageX - findElPosition(node).left;
     this.setState({

@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('react-dom')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react', 'react-dom'], factory) :
-  (global = global || self, factory(global['video-react'] = {}, global.React, global.ReactDOM));
-}(this, function (exports, React, reactDom) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'react'], factory) :
+  (global = global || self, factory(global['video-react'] = {}, global.React));
+}(this, function (exports, React) { 'use strict';
 
   var React__default = 'default' in React ? React['default'] : React;
 
@@ -2586,10 +2586,9 @@
    * John Resig http://ejohn.org/blog/getboundingclientrect-is-awesome/
    *
    * @function findElPosition
-   * @param {Element} el Element from which to get offset
+   * @param {ReactNodeRef} el React Node ref from which to get offset
    * @return {Object}
    */
-
   function findElPosition(el) {
     var box;
 
@@ -2620,12 +2619,12 @@
     };
   }
   /**
-   * Get pointer position in element
+   * Get pointer position in a React Node ref
    * Returns an object with x and y coordinates.
    * The base on the coordinates are the bottom left of the element.
    *
    * @function getPointerPosition
-   * @param {Element} el Element on which to get the pointer position on
+   * @param {ReactNodeRef} el React Node ref on which to get the pointer position on
    * @param {Event} event Event object
    * @return {Object} This object will have x and y coordinates corresponding to the mouse position
    */
@@ -2651,10 +2650,8 @@
   } // blur an element
 
   function focusNode(reactNode) {
-    var domNode = reactDom.findDOMNode(reactNode);
-
-    if (domNode && domNode.focus) {
-      domNode.focus();
+    if (reactNode && reactNode.focus) {
+      reactNode.focus();
     }
   } // check if an element has a class name
 
@@ -3217,7 +3214,7 @@
     };
 
     _proto.calculateDistance = function calculateDistance(event) {
-      var node = reactDom.findDOMNode(this);
+      var node = this.slider;
       var position = getPointerPosition(node, event);
 
       if (this.props.vertical) {
@@ -3239,6 +3236,8 @@
     };
 
     _proto.render = function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           vertical = _this$props.vertical,
           label = _this$props.label,
@@ -3250,6 +3249,9 @@
           'video-react-slider-horizontal': !vertical,
           'video-react-sliding': this.state.active
         }, 'video-react-slider'),
+        ref: function ref(c) {
+          _this2.slider = c;
+        },
         tabIndex: "0",
         role: "slider",
         onMouseDown: this.handleMouseDown,
@@ -3541,7 +3543,7 @@
       }
 
       var duration = this.props.player.duration;
-      var node = reactDom.findDOMNode(this.seekBar);
+      var node = this.seekBar;
       var newTime = getPointerPosition(node, event).x * duration;
       var position = event.pageX - findElPosition(node).left;
       this.setState({
