@@ -4842,6 +4842,7 @@
         role: "region",
         onTouchStart: this.handleMouseDown,
         onMouseDown: this.handleMouseDown,
+        onTouchMove: this.handleMouseMove,
         onMouseMove: this.handleMouseMove,
         onKeyDown: this.handleKeyDown,
         onFocus: this.handleFocus,
