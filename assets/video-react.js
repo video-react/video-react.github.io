@@ -2814,6 +2814,10 @@
     };
 
     _proto.handleMouseUp = function handleMouseUp(event) {
+      // On iOS safari, a subsequent mouseup event will be fired after touchend.
+      // Its weird event positions make the player seek a wrong time.
+      // calling preventDefault (at touchend phase) will prevent the mouseup event
+      event.preventDefault();
       var onMouseUp = this.props.onMouseUp;
       document.removeEventListener('mousemove', this.handleMouseMove, true);
       document.removeEventListener('mouseup', this.handleMouseUp, true);
