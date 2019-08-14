@@ -1293,7 +1293,7 @@
           player = _this$props.player,
           position = _this$props.position;
       return React__default.createElement("button", {
-        className: classnames('video-react-big-play-button', "video-react-big-play-button-" + position, this.props.className, {
+        className: classnames('video-react-button', 'video-react-big-play-button', "video-react-big-play-button-" + position, this.props.className, {
           'big-play-button-hide': player.hasStarted || !player.currentSrc
         }),
         type: "button",

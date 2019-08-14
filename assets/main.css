@@ -7229,7 +7229,7 @@ body.video-react-full-window {
     bottom: 0;
     right: 0; }
 
-.video-react button {
+.video-react .video-react-button {
   background: none;
   border: none;
   color: inherit;
