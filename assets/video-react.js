@@ -3557,6 +3557,10 @@
 
     var _proto = ClickableComponent.prototype;
 
+    _proto.componentWillUnmount = function componentWillUnmount(e) {
+      this.handleBlur(e);
+    };
+
     _proto.handleKeypress = function handleKeypress(event) {
       // Support Space (32) or Enter (13) key operation to fire a click event
       if (event.which === 32 || event.which === 13) {
