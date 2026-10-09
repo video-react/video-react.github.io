@@ -392,8 +392,8 @@ body.video-react-full-window .video-react-fullscreen {
 .video-react .video-react-big-play-button.video-react-big-play-button-center {
   top: 50%;
   left: 50%;
-  margin-top: -0.75em;
-  margin-left: -1.5em;
+  margin-top: -calc(0.75em);
+  margin-left: -calc(1.5em);
 }
 .video-react .video-react-big-play-button.big-play-button-hide {
   display: none;

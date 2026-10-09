@@ -4513,6 +4513,19 @@
     preload: 'auto',
     aspectRatio: 'auto'
   };
+  var hasLoggedDeprecationNotice = false; // Logged once per page so developers and coding agents reading the console see it.
+
+  function logDeprecationNotice() {
+    if (hasLoggedDeprecationNotice) return;
+    hasLoggedDeprecationNotice = true; // eslint-disable-next-line no-console
+
+    console.info('[video-react] Video-React is deprecated in favour of Video.js 10, from Mux and the teams behind Video.js, Vidstack, Plyr, and Media Chrome. Security fixes only until January 2028. Get started: https://videojs.org/docs/guides/installation/react');
+  }
+  /**
+   * @deprecated Video-React is deprecated in favour of Video.js 10 (https://videojs.org) and receives
+   * security fixes only until January 2028. Get started: https://videojs.org/docs/guides/installation/react
+   */
+
 
   var Player =
   /*#__PURE__*/
@@ -4547,6 +4560,7 @@
     var _proto = Player.prototype;
 
     _proto.componentDidMount = function componentDidMount() {
+      logDeprecationNotice();
       this.handleResize();
       window.addEventListener('resize', this.handleResize);
       fullscreen.addEventListener(this.handleFullScreenChange);
