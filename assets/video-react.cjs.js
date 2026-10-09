@@ -1,76 +1,60 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var PropTypes = _interopDefault(require('prop-types'));
+var PropTypes = require('prop-types');
 var React = require('react');
-var React__default = _interopDefault(React);
-var classNames = _interopDefault(require('classnames'));
+var classNames = require('classnames');
 var redux = require('redux');
 
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t];
+    o.enumerable = o.enumerable || false, o.configurable = true, "value" in o && (o.writable = true), Object.defineProperty(e, _toPropertyKey(o.key), o);
   }
 }
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
+function _createClass(e, r, t) {
+  return r && _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
+    writable: false
+  }), e;
 }
-
 function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
+    return n;
+  }, _extends.apply(null, arguments);
 }
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
+function _inheritsLoose(t, o) {
+  t.prototype = Object.create(o.prototype), t.prototype.constructor = t, _setPrototypeOf(t, o);
 }
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
+function _objectWithoutPropertiesLoose(r, e) {
+  if (null == r) return {};
+  var t = {};
+  for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
+    if (-1 !== e.indexOf(n)) continue;
+    t[n] = r[n];
   }
-
-  return target;
+  return t;
 }
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+function _toPrimitive(t, e) {
+  if ("object" != typeof t || !t) return t;
+  var r;
+  if ("undefined" != typeof Symbol && void 0 !== (r = t[Symbol.toPrimitive])) {
+    var i = r.call(t, e);
+    if ("object" != typeof i) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
   }
-
-  return self;
+  return (String )(t);
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
+  return "symbol" == typeof i ? i : i + "";
 }
 
 var LOAD_START = 'video-react/LOAD_START';
@@ -257,67 +241,64 @@ function activateTextTrack(textTrack) {
 }
 
 var videoActions = /*#__PURE__*/Object.freeze({
-  LOAD_START: LOAD_START,
+  __proto__: null,
+  ABORT: ABORT,
+  ACTIVATE_TEXT_TRACK: ACTIVATE_TEXT_TRACK,
   CAN_PLAY: CAN_PLAY,
-  WAITING: WAITING,
   CAN_PLAY_THROUGH: CAN_PLAY_THROUGH,
-  PLAYING: PLAYING,
-  PLAY: PLAY,
-  PAUSE: PAUSE,
-  END: END,
-  SEEKING: SEEKING,
-  SEEKED: SEEKED,
-  SEEKING_TIME: SEEKING_TIME,
-  END_SEEKING: END_SEEKING,
   DURATION_CHANGE: DURATION_CHANGE,
-  TIME_UPDATE: TIME_UPDATE,
-  VOLUME_CHANGE: VOLUME_CHANGE,
+  EMPTIED: EMPTIED,
+  END: END,
+  END_SEEKING: END_SEEKING,
+  ERROR: ERROR,
+  LOADED_DATA: LOADED_DATA,
+  LOADED_META_DATA: LOADED_META_DATA,
+  LOAD_START: LOAD_START,
+  PAUSE: PAUSE,
+  PLAY: PLAY,
+  PLAYING: PLAYING,
   PROGRESS_CHANGE: PROGRESS_CHANGE,
   RATE_CHANGE: RATE_CHANGE,
-  SUSPEND: SUSPEND,
-  ABORT: ABORT,
-  EMPTIED: EMPTIED,
-  STALLED: STALLED,
-  LOADED_META_DATA: LOADED_META_DATA,
-  LOADED_DATA: LOADED_DATA,
   RESIZE: RESIZE,
-  ERROR: ERROR,
-  ACTIVATE_TEXT_TRACK: ACTIVATE_TEXT_TRACK,
-  handleLoadStart: handleLoadStart,
+  SEEKED: SEEKED,
+  SEEKING: SEEKING,
+  SEEKING_TIME: SEEKING_TIME,
+  STALLED: STALLED,
+  SUSPEND: SUSPEND,
+  TIME_UPDATE: TIME_UPDATE,
+  VOLUME_CHANGE: VOLUME_CHANGE,
+  WAITING: WAITING,
+  activateTextTrack: activateTextTrack,
+  handleAbort: handleAbort,
   handleCanPlay: handleCanPlay,
-  handleWaiting: handleWaiting,
   handleCanPlayThrough: handleCanPlayThrough,
-  handlePlaying: handlePlaying,
-  handlePlay: handlePlay,
-  handlePause: handlePause,
-  handleEnd: handleEnd,
-  handleSeeking: handleSeeking,
-  handleSeeked: handleSeeked,
   handleDurationChange: handleDurationChange,
-  handleTimeUpdate: handleTimeUpdate,
-  handleVolumeChange: handleVolumeChange,
+  handleEmptied: handleEmptied,
+  handleEnd: handleEnd,
+  handleEndSeeking: handleEndSeeking,
+  handleError: handleError,
+  handleLoadStart: handleLoadStart,
+  handleLoadedData: handleLoadedData,
+  handleLoadedMetaData: handleLoadedMetaData,
+  handlePause: handlePause,
+  handlePlay: handlePlay,
+  handlePlaying: handlePlaying,
   handleProgressChange: handleProgressChange,
   handleRateChange: handleRateChange,
-  handleSuspend: handleSuspend,
-  handleAbort: handleAbort,
-  handleEmptied: handleEmptied,
-  handleStalled: handleStalled,
-  handleLoadedMetaData: handleLoadedMetaData,
-  handleLoadedData: handleLoadedData,
   handleResize: handleResize,
-  handleError: handleError,
+  handleSeeked: handleSeeked,
+  handleSeeking: handleSeeking,
   handleSeekingTime: handleSeekingTime,
-  handleEndSeeking: handleEndSeeking,
-  activateTextTrack: activateTextTrack
+  handleStalled: handleStalled,
+  handleSuspend: handleSuspend,
+  handleTimeUpdate: handleTimeUpdate,
+  handleVolumeChange: handleVolumeChange,
+  handleWaiting: handleWaiting
 });
 
-var Fullscreen =
-/*#__PURE__*/
-function () {
+var Fullscreen = /*#__PURE__*/function () {
   function Fullscreen() {}
-
   var _proto = Fullscreen.prototype;
-
   _proto.request = function request(elm) {
     if (elm.requestFullscreen) {
       elm.requestFullscreen();
@@ -329,7 +310,6 @@ function () {
       elm.msRequestFullscreen();
     }
   };
-
   _proto.exit = function exit() {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -341,22 +321,19 @@ function () {
       document.msExitFullscreen();
     }
   };
-
   _proto.addEventListener = function addEventListener(handler) {
     document.addEventListener('fullscreenchange', handler);
     document.addEventListener('webkitfullscreenchange', handler);
     document.addEventListener('mozfullscreenchange', handler);
     document.addEventListener('MSFullscreenChange', handler);
   };
-
   _proto.removeEventListener = function removeEventListener(handler) {
     document.removeEventListener('fullscreenchange', handler);
     document.removeEventListener('webkitfullscreenchange', handler);
     document.removeEventListener('mozfullscreenchange', handler);
     document.removeEventListener('MSFullscreenChange', handler);
   };
-
-  _createClass(Fullscreen, [{
+  return _createClass(Fullscreen, [{
     key: "isFullscreen",
     get: function get() {
       return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
@@ -367,10 +344,7 @@ function () {
       return document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled;
     }
   }]);
-
-  return Fullscreen;
 }();
-
 var fullscreen = new Fullscreen();
 
 var OPERATE = 'video-react/OPERATE';
@@ -402,7 +376,6 @@ function play(operation) {
       source: ''
     };
   }
-
   this.video.play();
   return {
     type: OPERATE,
@@ -416,7 +389,6 @@ function pause(operation) {
       source: ''
     };
   }
-
   this.video.pause();
   return {
     type: OPERATE,
@@ -430,14 +402,14 @@ function togglePlay(operation) {
       source: ''
     };
   }
-
   this.video.togglePlay();
   return {
     type: OPERATE,
     operation: operation
   };
-} // seek video by time
+}
 
+// seek video by time
 function seek(time, operation) {
   if (operation === void 0) {
     operation = {
@@ -445,14 +417,14 @@ function seek(time, operation) {
       source: ''
     };
   }
-
   this.video.seek(time);
   return {
     type: OPERATE,
     operation: operation
   };
-} // jump forward x seconds
+}
 
+// jump forward x seconds
 function forward(seconds, operation) {
   if (operation === void 0) {
     operation = {
@@ -460,14 +432,14 @@ function forward(seconds, operation) {
       source: ''
     };
   }
-
   this.video.forward(seconds);
   return {
     type: OPERATE,
     operation: operation
   };
-} // jump back x seconds
+}
 
+// jump back x seconds
 function replay(seconds, operation) {
   if (operation === void 0) {
     operation = {
@@ -475,7 +447,6 @@ function replay(seconds, operation) {
       source: ''
     };
   }
-
   this.video.replay(seconds);
   return {
     type: OPERATE,
@@ -489,7 +460,6 @@ function changeRate(rate, operation) {
       source: ''
     };
   }
-
   this.video.playbackRate = rate;
   return {
     type: OPERATE,
@@ -503,17 +473,13 @@ function changeVolume(volume, operation) {
       source: ''
     };
   }
-
   var v = volume;
-
   if (volume < 0) {
     v = 0;
   }
-
   if (volume > 1) {
     v = 1;
   }
-
   this.video.volume = v;
   return {
     type: OPERATE,
@@ -527,7 +493,6 @@ function mute(muted, operation) {
       source: ''
     };
   }
-
   this.video.muted = muted;
   return {
     type: OPERATE,
@@ -541,7 +506,6 @@ function toggleFullscreen(player) {
     } else {
       fullscreen.request(this.rootElement);
     }
-
     return {
       type: OPERATE,
       operation: {
@@ -550,7 +514,6 @@ function toggleFullscreen(player) {
       }
     };
   }
-
   return {
     type: FULLSCREEN_CHANGE,
     isFullscreen: !player.isFullscreen
@@ -558,26 +521,27 @@ function toggleFullscreen(player) {
 }
 
 var playerActions = /*#__PURE__*/Object.freeze({
-  OPERATE: OPERATE,
+  __proto__: null,
   FULLSCREEN_CHANGE: FULLSCREEN_CHANGE,
+  OPERATE: OPERATE,
   PLAYER_ACTIVATE: PLAYER_ACTIVATE,
   USER_ACTIVATE: USER_ACTIVATE,
-  handleFullscreenChange: handleFullscreenChange,
   activate: activate,
-  userActivate: userActivate,
-  play: play,
-  pause: pause,
-  togglePlay: togglePlay,
-  seek: seek,
-  forward: forward,
-  replay: replay,
   changeRate: changeRate,
   changeVolume: changeVolume,
+  forward: forward,
+  handleFullscreenChange: handleFullscreenChange,
   mute: mute,
-  toggleFullscreen: toggleFullscreen
+  pause: pause,
+  play: play,
+  replay: replay,
+  seek: seek,
+  toggleFullscreen: toggleFullscreen,
+  togglePlay: togglePlay,
+  userActivate: userActivate
 });
 
-var initialState = {
+var initialState$1 = {
   currentSrc: null,
   duration: 0,
   currentTime: 0,
@@ -603,57 +567,47 @@ var initialState = {
 };
 function player(state, action) {
   if (state === void 0) {
-    state = initialState;
+    state = initialState$1;
   }
-
   switch (action.type) {
     case USER_ACTIVATE:
       return _extends({}, state, {
         userActivity: action.activity
       });
-
     case PLAYER_ACTIVATE:
       return _extends({}, state, {
         isActive: action.activity
       });
-
     case FULLSCREEN_CHANGE:
       return _extends({}, state, {
         isFullscreen: !!action.isFullscreen
       });
-
     case SEEKING_TIME:
       return _extends({}, state, {
         seekingTime: action.time
       });
-
     case END_SEEKING:
       return _extends({}, state, {
         seekingTime: 0
       });
-
     case LOAD_START:
       return _extends({}, state, action.videoProps, {
         hasStarted: false,
         ended: false
       });
-
     case CAN_PLAY:
       return _extends({}, state, action.videoProps, {
         waiting: false
       });
-
     case WAITING:
       return _extends({}, state, action.videoProps, {
         waiting: true
       });
-
     case CAN_PLAY_THROUGH:
     case PLAYING:
       return _extends({}, state, action.videoProps, {
         waiting: false
       });
-
     case PLAY:
       return _extends({}, state, action.videoProps, {
         ended: false,
@@ -662,33 +616,27 @@ function player(state, action) {
         waiting: false,
         hasStarted: true
       });
-
     case PAUSE:
       return _extends({}, state, action.videoProps, {
         paused: true
       });
-
     case END:
       return _extends({}, state, action.videoProps, {
         ended: true
       });
-
     case SEEKING:
       return _extends({}, state, action.videoProps, {
         seeking: true
       });
-
     case SEEKED:
       return _extends({}, state, action.videoProps, {
         seeking: false
       });
-
     case ERROR:
       return _extends({}, state, action.videoProps, {
         error: 'UNKNOWN ERROR',
         ended: true
       });
-
     case DURATION_CHANGE:
     case TIME_UPDATE:
     case VOLUME_CHANGE:
@@ -702,18 +650,16 @@ function player(state, action) {
     case LOADED_DATA:
     case RESIZE:
       return _extends({}, state, action.videoProps);
-
     case ACTIVATE_TEXT_TRACK:
       return _extends({}, state, {
         activeTextTrack: action.textTrack
       });
-
     default:
       return state;
   }
 }
 
-var initialState$1 = {
+var initialState = {
   count: 0,
   operation: {
     action: '',
@@ -722,16 +668,14 @@ var initialState$1 = {
 };
 function operation(state, action) {
   if (state === void 0) {
-    state = initialState$1;
+    state = initialState;
   }
-
   switch (action.type) {
     case OPERATE:
       return _extends({}, state, {
         count: state.count + 1,
         operation: _extends({}, state.operation, action.operation)
       });
-
     default:
       return state;
   }
@@ -741,7 +685,6 @@ function reducer (state, action) {
   if (state === void 0) {
     state = {};
   }
-
   return {
     player: player(state.player, action),
     operation: operation(state.operation, action)
@@ -750,34 +693,26 @@ function reducer (state, action) {
 var playerReducer = player;
 var operationReducer = operation;
 
-var Manager =
-/*#__PURE__*/
-function () {
+var Manager = /*#__PURE__*/function () {
   function Manager(store) {
     this.store = store || redux.createStore(reducer);
     this.video = null;
     this.rootElement = null;
   }
-
   var _proto = Manager.prototype;
-
   _proto.getActions = function getActions() {
     var manager = this;
     var dispatch = this.store.dispatch;
-
     var actions = _extends({}, playerActions, videoActions);
-
     function bindActionCreator(actionCreator) {
       return function bindAction() {
         // eslint-disable-next-line prefer-rest-params
         var action = actionCreator.apply(manager, arguments);
-
         if (typeof action !== 'undefined') {
           dispatch(action);
         }
       };
     }
-
     return Object.keys(actions).filter(function (key) {
       return typeof actions[key] === 'function';
     }).reduce(function (boundActions, key) {
@@ -785,92 +720,77 @@ function () {
       return boundActions;
     }, {});
   };
-
   _proto.getState = function getState() {
     return this.store.getState();
-  } // subscribe state change
-  ;
+  }
 
+  // subscribe state change
+;
   _proto.subscribeToStateChange = function subscribeToStateChange(listener, getState) {
     if (!getState) {
       getState = this.getState.bind(this);
     }
-
     var prevState = getState();
-
     var handleChange = function handleChange() {
       var state = getState();
-
       if (state === prevState) {
         return;
       }
-
       var prevStateCopy = prevState;
       prevState = state;
       listener(state, prevStateCopy);
     };
-
     return this.store.subscribe(handleChange);
-  } // subscribe to operation state change
-  ;
+  }
 
+  // subscribe to operation state change
+;
   _proto.subscribeToOperationStateChange = function subscribeToOperationStateChange(listener) {
     var _this = this;
-
     return this.subscribeToStateChange(listener, function () {
       return _this.getState().operation;
     });
-  } // subscribe to player state change
-  ;
+  }
 
+  // subscribe to player state change
+;
   _proto.subscribeToPlayerStateChange = function subscribeToPlayerStateChange(listener) {
     var _this2 = this;
-
     return this.subscribeToStateChange(listener, function () {
       return _this2.getState().player;
     });
   };
-
   return Manager;
 }();
 
-var propTypes = {
+var propTypes$u = {
   actions: PropTypes.object,
   player: PropTypes.object,
   position: PropTypes.string,
   className: PropTypes.string
 };
-var defaultProps = {
+var defaultProps$a = {
   position: 'left'
 };
-
-var BigPlayButton =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(BigPlayButton, _Component);
-
+var BigPlayButton = /*#__PURE__*/function (_Component) {
   function BigPlayButton(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(BigPlayButton, _Component);
   var _proto = BigPlayButton.prototype;
-
   _proto.componentDidMount = function componentDidMount() {};
-
   _proto.handleClick = function handleClick() {
     var actions = this.props.actions;
     actions.play();
   };
-
   _proto.render = function render() {
     var _this$props = this.props,
-        player = _this$props.player,
-        position = _this$props.position;
-    return React__default.createElement("button", {
+      player = _this$props.player,
+      position = _this$props.position;
+    return /*#__PURE__*/React.createElement("button", {
       className: classNames('video-react-button', 'video-react-big-play-button', "video-react-big-play-button-" + position, this.props.className, {
         'big-play-button-hide': player.hasStarted || !player.currentSrc
       }),
@@ -878,54 +798,48 @@ function (_Component) {
       "aria-live": "polite",
       tabIndex: "0",
       onClick: this.handleClick
-    }, React__default.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "video-react-control-text"
     }, "Play Video"));
   };
-
   return BigPlayButton;
 }(React.Component);
-BigPlayButton.propTypes = propTypes;
-BigPlayButton.defaultProps = defaultProps;
+BigPlayButton.propTypes = propTypes$u;
+BigPlayButton.defaultProps = defaultProps$a;
 BigPlayButton.displayName = 'BigPlayButton';
 
-var propTypes$1 = {
+var propTypes$t = {
   player: PropTypes.object,
   className: PropTypes.string
 };
 function LoadingSpinner(_ref) {
   var player = _ref.player,
-      className = _ref.className;
-
+    className = _ref.className;
   if (player.error) {
     return null;
   }
-
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames('video-react-loading-spinner', className)
   });
 }
-LoadingSpinner.propTypes = propTypes$1;
+LoadingSpinner.propTypes = propTypes$t;
 LoadingSpinner.displayName = 'LoadingSpinner';
 
-var propTypes$2 = {
+var propTypes$s = {
   poster: PropTypes.string,
   player: PropTypes.object,
   actions: PropTypes.object,
   className: PropTypes.string
 };
-
 function PosterImage(_ref) {
   var poster = _ref.poster,
-      player = _ref.player,
-      actions = _ref.actions,
-      className = _ref.className;
-
+    player = _ref.player,
+    actions = _ref.actions,
+    className = _ref.className;
   if (!poster || player.hasStarted) {
     return null;
   }
-
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames('video-react-poster', className),
     style: {
       backgroundImage: "url(\"" + poster + "\")"
@@ -937,15 +851,17 @@ function PosterImage(_ref) {
     }
   });
 }
-
-PosterImage.propTypes = propTypes$2;
+PosterImage.propTypes = propTypes$s;
 PosterImage.displayName = 'PosterImage';
 
-// eslint-disable-next-line no-self-compare
+var _excluded$2 = ["order"];
 
+// NaN is the only value in javascript which is not equal to itself.
+// eslint-disable-next-line no-self-compare
 var isNaN = Number.isNaN || function (value) {
   return value !== value;
 };
+
 /**
  * @file format-time.js
  *
@@ -959,86 +875,77 @@ var isNaN = Number.isNaN || function (value) {
  * @private
  * @function formatTime
  */
-
-
 function formatTime(seconds, guide) {
   if (seconds === void 0) {
     seconds = 0;
   }
-
   if (guide === void 0) {
     guide = seconds;
   }
-
   var s = Math.floor(seconds % 60);
   var m = Math.floor(seconds / 60 % 60);
   var h = Math.floor(seconds / 3600);
   var gm = Math.floor(guide / 60 % 60);
-  var gh = Math.floor(guide / 3600); // handle invalid times
+  var gh = Math.floor(guide / 3600);
 
+  // handle invalid times
   if (isNaN(seconds) || seconds === Infinity) {
     // '-' is false for all relational operators (e.g. <, >=) so this setting
     // will add the minimum number of fields specified by the guide
     h = '-';
     m = '-';
     s = '-';
-  } // Check if we need to show hours
+  }
 
+  // Check if we need to show hours
+  h = h > 0 || gh > 0 ? h + ":" : '';
 
-  h = h > 0 || gh > 0 ? h + ":" : ''; // If hours are showing, we may need to add a leading zero.
+  // If hours are showing, we may need to add a leading zero.
   // Always show at least one digit of minutes.
+  m = ((h || gm >= 10) && m < 10 ? "0" + m : m) + ":";
 
-  m = ((h || gm >= 10) && m < 10 ? "0" + m : m) + ":"; // Check if leading zero is need for seconds
-
+  // Check if leading zero is need for seconds
   s = s < 10 ? "0" + s : s;
   return h + m + s;
-} // Check if the element belongs to a video element
+}
+
+// Check if the element belongs to a video element
 // only accept <source />, <track />,
 // <MyComponent isVideoChild />
 // elements
-
 function isVideoChild(c) {
   if (c.props && c.props.isVideoChild) {
     return true;
   }
-
   return c.type === 'source' || c.type === 'track';
 }
-
 var find = function find(elements, func) {
   return elements.filter(func)[0];
-}; // check if two components are the same type
+};
 
-
+// check if two components are the same type
 var isTypeEqual = function isTypeEqual(component1, component2) {
   var type1 = component1.type;
   var type2 = component2.type;
-
   if (typeof type1 === 'string' || typeof type2 === 'string') {
     return type1 === type2;
   }
-
   if (typeof type1 === 'function' && typeof type2 === 'function') {
     return type1.displayName === type2.displayName;
   }
-
   return false;
-}; // merge default children
+};
+
+// merge default children
 // sort them by `order` property
 // filter them by `disabled` property
-
-
 function mergeAndSortChildren(defaultChildren, _children, _parentProps, defaultOrder) {
   if (defaultOrder === void 0) {
     defaultOrder = 1;
   }
-
-  var children = React__default.Children.toArray(_children);
-
-  var order = _parentProps.order,
-      parentProps = _objectWithoutPropertiesLoose(_parentProps, ["order"]); // ignore order from parent
-
-
+  var children = React.Children.toArray(_children);
+  _parentProps.order;
+    var parentProps = _objectWithoutPropertiesLoose(_parentProps, _excluded$2); // ignore order from parent
   return children.filter(function (e) {
     return !e.props.disabled;
   }) // filter the disabled components
@@ -1051,19 +958,17 @@ function mergeAndSortChildren(defaultChildren, _children, _parentProps, defaultO
       return isTypeEqual(c, element);
     });
     var defaultProps = defaultComponent ? defaultComponent.props : {};
-
     var props = _extends({}, parentProps, defaultProps, element.props);
-
-    var e = React__default.cloneElement(element, props, element.props.children);
+    var e = /*#__PURE__*/React.cloneElement(element, props, element.props.children);
     return e;
   }).sort(function (a, b) {
     return (a.props.order || defaultOrder) - (b.props.order || defaultOrder);
   });
 }
+
 /**
  * Temporary utility for generating the warnings
  */
-
 function deprecatedWarning(oldMethodCall, newMethodCall) {
   // eslint-disable-next-line no-console
   console.warn("WARNING: " + oldMethodCall + " will be deprecated soon! Please use " + newMethodCall + " instead.");
@@ -1084,7 +989,7 @@ function throttle(callback, limit) {
 }
 var mediaProperties = ['error', 'src', 'srcObject', 'currentSrc', 'crossOrigin', 'networkState', 'preload', 'buffered', 'readyState', 'seeking', 'currentTime', 'duration', 'paused', 'defaultPlaybackRate', 'playbackRate', 'played', 'seekable', 'ended', 'autoplay', 'loop', 'mediaGroup', 'controller', 'controls', 'volume', 'muted', 'defaultMuted', 'audioTracks', 'videoTracks', 'textTracks', 'width', 'height', 'videoWidth', 'videoHeight', 'poster'];
 
-var propTypes$3 = {
+var propTypes$r = {
   actions: PropTypes.object,
   player: PropTypes.object,
   children: PropTypes.any,
@@ -1122,537 +1027,516 @@ var propTypes$3 = {
   onVolumeChange: PropTypes.func,
   onResize: PropTypes.func
 };
-
-var Video =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Video, _Component);
-
+var Video = /*#__PURE__*/function (_Component) {
   function Video(props) {
     var _this;
-
     _this = _Component.call(this, props) || this;
     _this.video = null; // the html5 video
-
-    _this.play = _this.play.bind(_assertThisInitialized(_this));
-    _this.pause = _this.pause.bind(_assertThisInitialized(_this));
-    _this.seek = _this.seek.bind(_assertThisInitialized(_this));
-    _this.forward = _this.forward.bind(_assertThisInitialized(_this));
-    _this.replay = _this.replay.bind(_assertThisInitialized(_this));
-    _this.toggleFullscreen = _this.toggleFullscreen.bind(_assertThisInitialized(_this));
-    _this.getProperties = _this.getProperties.bind(_assertThisInitialized(_this));
-    _this.renderChildren = _this.renderChildren.bind(_assertThisInitialized(_this));
-    _this.handleLoadStart = _this.handleLoadStart.bind(_assertThisInitialized(_this));
-    _this.handleCanPlay = _this.handleCanPlay.bind(_assertThisInitialized(_this));
-    _this.handleCanPlayThrough = _this.handleCanPlayThrough.bind(_assertThisInitialized(_this));
-    _this.handlePlay = _this.handlePlay.bind(_assertThisInitialized(_this));
-    _this.handlePlaying = _this.handlePlaying.bind(_assertThisInitialized(_this));
-    _this.handlePause = _this.handlePause.bind(_assertThisInitialized(_this));
-    _this.handleEnded = _this.handleEnded.bind(_assertThisInitialized(_this));
-    _this.handleWaiting = _this.handleWaiting.bind(_assertThisInitialized(_this));
-    _this.handleSeeking = _this.handleSeeking.bind(_assertThisInitialized(_this));
-    _this.handleSeeked = _this.handleSeeked.bind(_assertThisInitialized(_this));
-    _this.handleFullscreenChange = _this.handleFullscreenChange.bind(_assertThisInitialized(_this));
-    _this.handleError = _this.handleError.bind(_assertThisInitialized(_this));
-    _this.handleSuspend = _this.handleSuspend.bind(_assertThisInitialized(_this));
-    _this.handleAbort = _this.handleAbort.bind(_assertThisInitialized(_this));
-    _this.handleEmptied = _this.handleEmptied.bind(_assertThisInitialized(_this));
-    _this.handleStalled = _this.handleStalled.bind(_assertThisInitialized(_this));
-    _this.handleLoadedMetaData = _this.handleLoadedMetaData.bind(_assertThisInitialized(_this));
-    _this.handleLoadedData = _this.handleLoadedData.bind(_assertThisInitialized(_this));
-    _this.handleTimeUpdate = _this.handleTimeUpdate.bind(_assertThisInitialized(_this));
-    _this.handleRateChange = _this.handleRateChange.bind(_assertThisInitialized(_this));
-    _this.handleVolumeChange = _this.handleVolumeChange.bind(_assertThisInitialized(_this));
-    _this.handleDurationChange = _this.handleDurationChange.bind(_assertThisInitialized(_this));
-    _this.handleProgress = throttle(_this.handleProgress.bind(_assertThisInitialized(_this)), 250);
-    _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_this));
-    _this.handleTextTrackChange = _this.handleTextTrackChange.bind(_assertThisInitialized(_this));
+    _this.play = _this.play.bind(_this);
+    _this.pause = _this.pause.bind(_this);
+    _this.seek = _this.seek.bind(_this);
+    _this.forward = _this.forward.bind(_this);
+    _this.replay = _this.replay.bind(_this);
+    _this.toggleFullscreen = _this.toggleFullscreen.bind(_this);
+    _this.getProperties = _this.getProperties.bind(_this);
+    _this.renderChildren = _this.renderChildren.bind(_this);
+    _this.handleLoadStart = _this.handleLoadStart.bind(_this);
+    _this.handleCanPlay = _this.handleCanPlay.bind(_this);
+    _this.handleCanPlayThrough = _this.handleCanPlayThrough.bind(_this);
+    _this.handlePlay = _this.handlePlay.bind(_this);
+    _this.handlePlaying = _this.handlePlaying.bind(_this);
+    _this.handlePause = _this.handlePause.bind(_this);
+    _this.handleEnded = _this.handleEnded.bind(_this);
+    _this.handleWaiting = _this.handleWaiting.bind(_this);
+    _this.handleSeeking = _this.handleSeeking.bind(_this);
+    _this.handleSeeked = _this.handleSeeked.bind(_this);
+    _this.handleFullscreenChange = _this.handleFullscreenChange.bind(_this);
+    _this.handleError = _this.handleError.bind(_this);
+    _this.handleSuspend = _this.handleSuspend.bind(_this);
+    _this.handleAbort = _this.handleAbort.bind(_this);
+    _this.handleEmptied = _this.handleEmptied.bind(_this);
+    _this.handleStalled = _this.handleStalled.bind(_this);
+    _this.handleLoadedMetaData = _this.handleLoadedMetaData.bind(_this);
+    _this.handleLoadedData = _this.handleLoadedData.bind(_this);
+    _this.handleTimeUpdate = _this.handleTimeUpdate.bind(_this);
+    _this.handleRateChange = _this.handleRateChange.bind(_this);
+    _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
+    _this.handleDurationChange = _this.handleDurationChange.bind(_this);
+    _this.handleProgress = throttle(_this.handleProgress.bind(_this), 250);
+    _this.handleKeypress = _this.handleKeypress.bind(_this);
+    _this.handleTextTrackChange = _this.handleTextTrackChange.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(Video, _Component);
   var _proto = Video.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     this.forceUpdate(); // make sure the children can get the video property
-
     if (this.video && this.video.textTracks) {
       this.video.textTracks.onaddtrack = this.handleTextTrackChange;
       this.video.textTracks.onremovetrack = this.handleTextTrackChange;
     }
-  } // get all video properties
-  ;
+  }
 
+  // get all video properties
+;
   _proto.getProperties = function getProperties() {
     var _this2 = this;
-
     if (!this.video) {
       return null;
     }
-
     return mediaProperties.reduce(function (properties, key) {
       properties[key] = _this2.video[key];
       return properties;
     }, {});
-  } // get playback rate
-  ;
+  }
 
+  // get playback rate
+;
   _proto.handleTextTrackChange = function handleTextTrackChange() {
     var _this$props = this.props,
-        actions = _this$props.actions,
-        player = _this$props.player;
-
+      actions = _this$props.actions,
+      player = _this$props.player;
     if (this.video && this.video.textTracks) {
       var activeTextTrack = Array.from(this.video.textTracks).find(function (textTrack) {
         return textTrack.mode === 'showing';
       });
-
       if (activeTextTrack !== player.activeTextTrack) {
         actions.activateTextTrack(activeTextTrack);
       }
     }
-  } // play the video
-  ;
+  }
 
+  // play the video
+;
   _proto.play = function play() {
     var promise = this.video.play();
-
     if (promise !== undefined) {
       promise.catch(function () {}).then(function () {});
     }
-  } // pause the video
-  ;
+  }
 
+  // pause the video
+;
   _proto.pause = function pause() {
     var promise = this.video.pause();
-
     if (promise !== undefined) {
       promise.catch(function () {}).then(function () {});
     }
-  } // Change the video source and re-load the video:
-  ;
+  }
 
+  // Change the video source and re-load the video:
+;
   _proto.load = function load() {
     this.video.load();
-  } // Add a new text track to the video
-  ;
+  }
 
+  // Add a new text track to the video
+;
   _proto.addTextTrack = function addTextTrack() {
     var _this$video;
-
     (_this$video = this.video).addTextTrack.apply(_this$video, arguments);
-  } // Check if your browser can play different types of video:
-  ;
+  }
 
+  // Check if your browser can play different types of video:
+;
   _proto.canPlayType = function canPlayType() {
     var _this$video2;
-
     (_this$video2 = this.video).canPlayType.apply(_this$video2, arguments);
-  } // toggle play
-  ;
+  }
 
+  // toggle play
+;
   _proto.togglePlay = function togglePlay() {
     if (this.video.paused) {
       this.play();
     } else {
       this.pause();
     }
-  } // seek video by time
-  ;
+  }
 
+  // seek video by time
+;
   _proto.seek = function seek(time) {
     try {
       this.video.currentTime = time;
-    } catch (e) {// console.log(e, 'Video is not ready.')
+    } catch (e) {
+      // console.log(e, 'Video is not ready.')
     }
-  } // jump forward x seconds
-  ;
+  }
 
+  // jump forward x seconds
+;
   _proto.forward = function forward(seconds) {
     this.seek(this.video.currentTime + seconds);
-  } // jump back x seconds
-  ;
+  }
 
+  // jump back x seconds
+;
   _proto.replay = function replay(seconds) {
     this.forward(-seconds);
-  } // enter or exist full screen
-  ;
+  }
 
+  // enter or exist full screen
+;
   _proto.toggleFullscreen = function toggleFullscreen() {
     var _this$props2 = this.props,
-        player = _this$props2.player,
-        actions = _this$props2.actions;
+      player = _this$props2.player,
+      actions = _this$props2.actions;
     actions.toggleFullscreen(player);
-  } // Fired when the user agent
-  // begins looking for media data
-  ;
+  }
 
+  // Fired when the user agent
+  // begins looking for media data
+;
   _proto.handleLoadStart = function handleLoadStart() {
     var _this$props3 = this.props,
-        actions = _this$props3.actions,
-        onLoadStart = _this$props3.onLoadStart;
+      actions = _this$props3.actions,
+      onLoadStart = _this$props3.onLoadStart;
     actions.handleLoadStart(this.getProperties());
-
     if (onLoadStart) {
       onLoadStart.apply(void 0, arguments);
     }
-  } // A handler for events that
-  // signal that waiting has ended
-  ;
+  }
 
+  // A handler for events that
+  // signal that waiting has ended
+;
   _proto.handleCanPlay = function handleCanPlay() {
     var _this$props4 = this.props,
-        actions = _this$props4.actions,
-        onCanPlay = _this$props4.onCanPlay;
+      actions = _this$props4.actions,
+      onCanPlay = _this$props4.onCanPlay;
     actions.handleCanPlay(this.getProperties());
-
     if (onCanPlay) {
       onCanPlay.apply(void 0, arguments);
     }
-  } // A handler for events that
-  // signal that waiting has ended
-  ;
+  }
 
+  // A handler for events that
+  // signal that waiting has ended
+;
   _proto.handleCanPlayThrough = function handleCanPlayThrough() {
     var _this$props5 = this.props,
-        actions = _this$props5.actions,
-        onCanPlayThrough = _this$props5.onCanPlayThrough;
+      actions = _this$props5.actions,
+      onCanPlayThrough = _this$props5.onCanPlayThrough;
     actions.handleCanPlayThrough(this.getProperties());
-
     if (onCanPlayThrough) {
       onCanPlayThrough.apply(void 0, arguments);
     }
-  } // A handler for events that
-  // signal that waiting has ended
-  ;
+  }
 
+  // A handler for events that
+  // signal that waiting has ended
+;
   _proto.handlePlaying = function handlePlaying() {
     var _this$props6 = this.props,
-        actions = _this$props6.actions,
-        onPlaying = _this$props6.onPlaying;
+      actions = _this$props6.actions,
+      onPlaying = _this$props6.onPlaying;
     actions.handlePlaying(this.getProperties());
-
     if (onPlaying) {
       onPlaying.apply(void 0, arguments);
     }
-  } // Fired whenever the media has been started
-  ;
+  }
 
+  // Fired whenever the media has been started
+;
   _proto.handlePlay = function handlePlay() {
     var _this$props7 = this.props,
-        actions = _this$props7.actions,
-        onPlay = _this$props7.onPlay;
+      actions = _this$props7.actions,
+      onPlay = _this$props7.onPlay;
     actions.handlePlay(this.getProperties());
-
     if (onPlay) {
       onPlay.apply(void 0, arguments);
     }
-  } // Fired whenever the media has been paused
-  ;
+  }
 
+  // Fired whenever the media has been paused
+;
   _proto.handlePause = function handlePause() {
     var _this$props8 = this.props,
-        actions = _this$props8.actions,
-        onPause = _this$props8.onPause;
+      actions = _this$props8.actions,
+      onPause = _this$props8.onPause;
     actions.handlePause(this.getProperties());
-
     if (onPause) {
       onPause.apply(void 0, arguments);
     }
-  } // Fired when the duration of
-  // the media resource is first known or changed
-  ;
+  }
 
+  // Fired when the duration of
+  // the media resource is first known or changed
+;
   _proto.handleDurationChange = function handleDurationChange() {
     var _this$props9 = this.props,
-        actions = _this$props9.actions,
-        onDurationChange = _this$props9.onDurationChange;
+      actions = _this$props9.actions,
+      onDurationChange = _this$props9.onDurationChange;
     actions.handleDurationChange(this.getProperties());
-
     if (onDurationChange) {
       onDurationChange.apply(void 0, arguments);
     }
-  } // Fired while the user agent
+  }
+
+  // Fired while the user agent
   // is downloading media data
-  ;
-
+;
   _proto.handleProgress = function handleProgress() {
-    var _this$props10 = this.props,
-        actions = _this$props10.actions,
-        onProgress = _this$props10.onProgress;
-
+    var _this$props0 = this.props,
+      actions = _this$props0.actions,
+      onProgress = _this$props0.onProgress;
     if (this.video) {
       actions.handleProgressChange(this.getProperties());
     }
-
     if (onProgress) {
       onProgress.apply(void 0, arguments);
     }
-  } // Fired when the end of the media resource
+  }
+
+  // Fired when the end of the media resource
   // is reached (currentTime == duration)
-  ;
-
+;
   _proto.handleEnded = function handleEnded() {
-    var _this$props11 = this.props,
-        loop = _this$props11.loop,
-        player = _this$props11.player,
-        actions = _this$props11.actions,
-        onEnded = _this$props11.onEnded;
-
+    var _this$props1 = this.props,
+      loop = _this$props1.loop,
+      player = _this$props1.player,
+      actions = _this$props1.actions,
+      onEnded = _this$props1.onEnded;
     if (loop) {
       this.seek(0);
       this.play();
     } else if (!player.paused) {
       this.pause();
     }
-
     actions.handleEnd(this.getProperties());
-
     if (onEnded) {
       onEnded.apply(void 0, arguments);
     }
-  } // Fired whenever the media begins waiting
-  ;
+  }
 
+  // Fired whenever the media begins waiting
+;
   _proto.handleWaiting = function handleWaiting() {
-    var _this$props12 = this.props,
-        actions = _this$props12.actions,
-        onWaiting = _this$props12.onWaiting;
+    var _this$props10 = this.props,
+      actions = _this$props10.actions,
+      onWaiting = _this$props10.onWaiting;
     actions.handleWaiting(this.getProperties());
-
     if (onWaiting) {
       onWaiting.apply(void 0, arguments);
     }
-  } // Fired whenever the player
+  }
+
+  // Fired whenever the player
   // is jumping to a new time
-  ;
-
+;
   _proto.handleSeeking = function handleSeeking() {
-    var _this$props13 = this.props,
-        actions = _this$props13.actions,
-        onSeeking = _this$props13.onSeeking;
+    var _this$props11 = this.props,
+      actions = _this$props11.actions,
+      onSeeking = _this$props11.onSeeking;
     actions.handleSeeking(this.getProperties());
-
     if (onSeeking) {
       onSeeking.apply(void 0, arguments);
     }
-  } // Fired when the player has
+  }
+
+  // Fired when the player has
   // finished jumping to a new time
-  ;
-
+;
   _proto.handleSeeked = function handleSeeked() {
-    var _this$props14 = this.props,
-        actions = _this$props14.actions,
-        onSeeked = _this$props14.onSeeked;
+    var _this$props12 = this.props,
+      actions = _this$props12.actions,
+      onSeeked = _this$props12.onSeeked;
     actions.handleSeeked(this.getProperties());
-
     if (onSeeked) {
       onSeeked.apply(void 0, arguments);
     }
-  } // Handle Fullscreen Change
-  ;
+  }
 
-  _proto.handleFullscreenChange = function handleFullscreenChange() {} // Fires when the browser is
+  // Handle Fullscreen Change
+;
+  _proto.handleFullscreenChange = function handleFullscreenChange() {}
+
+  // Fires when the browser is
   // intentionally not getting media data
-  ;
-
+;
   _proto.handleSuspend = function handleSuspend() {
-    var _this$props15 = this.props,
-        actions = _this$props15.actions,
-        onSuspend = _this$props15.onSuspend;
+    var _this$props13 = this.props,
+      actions = _this$props13.actions,
+      onSuspend = _this$props13.onSuspend;
     actions.handleSuspend(this.getProperties());
-
     if (onSuspend) {
       onSuspend.apply(void 0, arguments);
     }
-  } // Fires when the loading of an audio/video is aborted
-  ;
+  }
 
+  // Fires when the loading of an audio/video is aborted
+;
   _proto.handleAbort = function handleAbort() {
-    var _this$props16 = this.props,
-        actions = _this$props16.actions,
-        onAbort = _this$props16.onAbort;
+    var _this$props14 = this.props,
+      actions = _this$props14.actions,
+      onAbort = _this$props14.onAbort;
     actions.handleAbort(this.getProperties());
-
     if (onAbort) {
       onAbort.apply(void 0, arguments);
     }
-  } // Fires when the current playlist is empty
-  ;
+  }
 
+  // Fires when the current playlist is empty
+;
   _proto.handleEmptied = function handleEmptied() {
-    var _this$props17 = this.props,
-        actions = _this$props17.actions,
-        onEmptied = _this$props17.onEmptied;
+    var _this$props15 = this.props,
+      actions = _this$props15.actions,
+      onEmptied = _this$props15.onEmptied;
     actions.handleEmptied(this.getProperties());
-
     if (onEmptied) {
       onEmptied.apply(void 0, arguments);
     }
-  } // Fires when the browser is trying to
+  }
+
+  // Fires when the browser is trying to
   // get media data, but data is not available
-  ;
-
+;
   _proto.handleStalled = function handleStalled() {
-    var _this$props18 = this.props,
-        actions = _this$props18.actions,
-        onStalled = _this$props18.onStalled;
+    var _this$props16 = this.props,
+      actions = _this$props16.actions,
+      onStalled = _this$props16.onStalled;
     actions.handleStalled(this.getProperties());
-
     if (onStalled) {
       onStalled.apply(void 0, arguments);
     }
-  } // Fires when the browser has loaded
+  }
+
+  // Fires when the browser has loaded
   // meta data for the audio/video
-  ;
-
+;
   _proto.handleLoadedMetaData = function handleLoadedMetaData() {
-    var _this$props19 = this.props,
-        actions = _this$props19.actions,
-        onLoadedMetadata = _this$props19.onLoadedMetadata,
-        startTime = _this$props19.startTime;
-
+    var _this$props17 = this.props,
+      actions = _this$props17.actions,
+      onLoadedMetadata = _this$props17.onLoadedMetadata,
+      startTime = _this$props17.startTime;
     if (startTime && startTime > 0) {
       this.video.currentTime = startTime;
     }
-
     actions.handleLoadedMetaData(this.getProperties());
-
     if (onLoadedMetadata) {
       onLoadedMetadata.apply(void 0, arguments);
     }
-  } // Fires when the browser has loaded
+  }
+
+  // Fires when the browser has loaded
   // the current frame of the audio/video
-  ;
-
+;
   _proto.handleLoadedData = function handleLoadedData() {
-    var _this$props20 = this.props,
-        actions = _this$props20.actions,
-        onLoadedData = _this$props20.onLoadedData;
+    var _this$props18 = this.props,
+      actions = _this$props18.actions,
+      onLoadedData = _this$props18.onLoadedData;
     actions.handleLoadedData(this.getProperties());
-
     if (onLoadedData) {
       onLoadedData.apply(void 0, arguments);
     }
-  } // Fires when the current
+  }
+
+  // Fires when the current
   // playback position has changed
-  ;
-
+;
   _proto.handleTimeUpdate = function handleTimeUpdate() {
-    var _this$props21 = this.props,
-        actions = _this$props21.actions,
-        onTimeUpdate = _this$props21.onTimeUpdate;
+    var _this$props19 = this.props,
+      actions = _this$props19.actions,
+      onTimeUpdate = _this$props19.onTimeUpdate;
     actions.handleTimeUpdate(this.getProperties());
-
     if (onTimeUpdate) {
       onTimeUpdate.apply(void 0, arguments);
     }
   }
+
   /**
    * Fires when the playing speed of the audio/video is changed
-   */
-  ;
-
+   */;
   _proto.handleRateChange = function handleRateChange() {
-    var _this$props22 = this.props,
-        actions = _this$props22.actions,
-        onRateChange = _this$props22.onRateChange;
+    var _this$props20 = this.props,
+      actions = _this$props20.actions,
+      onRateChange = _this$props20.onRateChange;
     actions.handleRateChange(this.getProperties());
-
     if (onRateChange) {
       onRateChange.apply(void 0, arguments);
     }
-  } // Fires when the volume has been changed
-  ;
+  }
 
+  // Fires when the volume has been changed
+;
   _proto.handleVolumeChange = function handleVolumeChange() {
-    var _this$props23 = this.props,
-        actions = _this$props23.actions,
-        onVolumeChange = _this$props23.onVolumeChange;
+    var _this$props21 = this.props,
+      actions = _this$props21.actions,
+      onVolumeChange = _this$props21.onVolumeChange;
     actions.handleVolumeChange(this.getProperties());
-
     if (onVolumeChange) {
       onVolumeChange.apply(void 0, arguments);
     }
-  } // Fires when an error occurred
+  }
+
+  // Fires when an error occurred
   // during the loading of an audio/video
-  ;
-
+;
   _proto.handleError = function handleError() {
-    var _this$props24 = this.props,
-        actions = _this$props24.actions,
-        onError = _this$props24.onError;
+    var _this$props22 = this.props,
+      actions = _this$props22.actions,
+      onError = _this$props22.onError;
     actions.handleError(this.getProperties());
-
     if (onError) {
       onError.apply(void 0, arguments);
     }
   };
-
   _proto.handleResize = function handleResize() {
-    var _this$props25 = this.props,
-        actions = _this$props25.actions,
-        onResize = _this$props25.onResize;
+    var _this$props23 = this.props,
+      actions = _this$props23.actions,
+      onResize = _this$props23.onResize;
     actions.handleResize(this.getProperties());
-
     if (onResize) {
       onResize.apply(void 0, arguments);
     }
   };
-
   _proto.handleKeypress = function handleKeypress() {};
-
   _proto.renderChildren = function renderChildren() {
     var _this3 = this;
-
     var props = _extends({}, this.props, {
       video: this.video
-    }); // to make sure the children can get video property
+    });
 
-
+    // to make sure the children can get video property
     if (!this.video) {
       return null;
-    } // only keep <source />, <track />, <MyComponent isVideoChild /> elements
+    }
 
-
-    return React__default.Children.toArray(this.props.children).filter(isVideoChild).map(function (c) {
+    // only keep <source />, <track />, <MyComponent isVideoChild /> elements
+    return React.Children.toArray(this.props.children).filter(isVideoChild).map(function (c) {
       var cprops;
-
       if (typeof c.type === 'string') {
         // add onError to <source />
         if (c.type === 'source') {
           cprops = _extends({}, c.props);
           var preOnError = cprops.onError;
-
           cprops.onError = function () {
             if (preOnError) {
               preOnError.apply(void 0, arguments);
             }
-
             _this3.handleError.apply(_this3, arguments);
           };
         }
       } else {
         cprops = props;
       }
-
-      return React__default.cloneElement(c, cprops);
+      return /*#__PURE__*/React.cloneElement(c, cprops);
     });
   };
-
   _proto.render = function render() {
     var _this4 = this;
-
-    var _this$props26 = this.props,
-        loop = _this$props26.loop,
-        poster = _this$props26.poster,
-        preload = _this$props26.preload,
-        src = _this$props26.src,
-        autoPlay = _this$props26.autoPlay,
-        playsInline = _this$props26.playsInline,
-        muted = _this$props26.muted,
-        crossOrigin = _this$props26.crossOrigin,
-        videoId = _this$props26.videoId;
-    return React__default.createElement("video", {
+    var _this$props24 = this.props,
+      loop = _this$props24.loop,
+      poster = _this$props24.poster,
+      preload = _this$props24.preload,
+      src = _this$props24.src,
+      autoPlay = _this$props24.autoPlay,
+      playsInline = _this$props24.playsInline,
+      muted = _this$props24.muted,
+      crossOrigin = _this$props24.crossOrigin,
+      videoId = _this$props24.videoId;
+    return /*#__PURE__*/React.createElement("video", {
       className: classNames('video-react-video', this.props.className),
       id: videoId,
       crossOrigin: crossOrigin,
@@ -1691,12 +1575,13 @@ function (_Component) {
       tabIndex: "-1"
     }, this.renderChildren());
   };
-
-  _createClass(Video, [{
+  return _createClass(Video, [{
     key: "playbackRate",
     get: function get() {
       return this.video.playbackRate;
-    } // set playback rate
+    }
+
+    // set playback rate
     // speed of video
     ,
     set: function set(rate) {
@@ -1719,96 +1604,83 @@ function (_Component) {
       if (val > 1) {
         val = 1;
       }
-
       if (val < 0) {
         val = 0;
       }
-
       this.video.volume = val;
-    } // video width
+    }
 
+    // video width
   }, {
     key: "videoWidth",
     get: function get() {
       return this.video.videoWidth;
-    } // video height
+    }
 
+    // video height
   }, {
     key: "videoHeight",
     get: function get() {
       return this.video.videoHeight;
     }
   }]);
-
-  return Video;
 }(React.Component);
-Video.propTypes = propTypes$3;
+Video.propTypes = propTypes$r;
 Video.displayName = 'Video';
 
-var propTypes$4 = {
+var propTypes$q = {
   manager: PropTypes.object,
   className: PropTypes.string
 };
-
-var Bezel =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Bezel, _Component);
-
+var Bezel = /*#__PURE__*/function (_Component) {
   function Bezel(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     _this.timer = null;
-    props.manager.subscribeToOperationStateChange(_this.handleStateChange.bind(_assertThisInitialized(_this)));
+    props.manager.subscribeToOperationStateChange(_this.handleStateChange.bind(_this));
     _this.state = {
       hidden: true,
       operation: {}
     };
     return _this;
   }
-
+  _inheritsLoose(Bezel, _Component);
   var _proto = Bezel.prototype;
-
   _proto.handleStateChange = function handleStateChange(state, prevState) {
     var _this2 = this;
-
     if (state.count !== prevState.count && state.operation.source === 'shortcut') {
       if (this.timer) {
         // previous animation is not finished
         clearTimeout(this.timer); // cancel it
-
         this.timer = null;
-      } // show it
+      }
+
+      // show it
       // update operation
-
-
       this.setState({
         hidden: false,
         count: state.count,
         operation: state.operation
-      }); // hide it after 0.5s
+      });
 
+      // hide it after 0.5s
       this.timer = setTimeout(function () {
         _this2.setState({
           hidden: true
         });
-
         _this2.timer = null;
       }, 500);
     }
   };
-
   _proto.render = function render() {
     // only displays for shortcut so far
     if (this.state.operation.source !== 'shortcut') {
       return null;
     }
-
     var style = this.state.hidden ? {
       display: 'none'
     } : null;
-    return React__default.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: classNames({
         'video-react-bezel': true,
         'video-react-bezel-animation': this.state.count % 2 === 0,
@@ -1817,14 +1689,13 @@ function (_Component) {
       style: style,
       role: "status",
       "aria-label": this.state.operation.action
-    }, React__default.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: classNames('video-react-bezel-icon', "video-react-bezel-icon-" + this.state.operation.action)
     }));
   };
-
   return Bezel;
 }(React.Component);
-Bezel.propTypes = propTypes$4;
+Bezel.propTypes = propTypes$q;
 Bezel.displayName = 'Bezel';
 
 /**
@@ -1838,33 +1709,32 @@ Bezel.displayName = 'Bezel';
  */
 function findElPosition(el) {
   var box;
-
   if (el.getBoundingClientRect && el.parentNode) {
     box = el.getBoundingClientRect();
   }
-
   if (!box) {
     return {
       left: 0,
       top: 0
     };
   }
-
   var _document = document,
-      body = _document.body,
-      docEl = _document.documentElement;
+    body = _document.body,
+    docEl = _document.documentElement;
   var clientLeft = docEl.clientLeft || body.clientLeft || 0;
   var scrollLeft = window.pageXOffset || body.scrollLeft;
   var left = box.left + scrollLeft - clientLeft;
   var clientTop = docEl.clientTop || body.clientTop || 0;
   var scrollTop = window.pageYOffset || body.scrollTop;
-  var top = box.top + scrollTop - clientTop; // Android sometimes returns slightly off decimal values, so need to round
+  var top = box.top + scrollTop - clientTop;
 
+  // Android sometimes returns slightly off decimal values, so need to round
   return {
     left: Math.round(left),
     top: Math.round(top)
   };
 }
+
 /**
  * Get pointer position in a React Node ref
  * Returns an object with x and y coordinates.
@@ -1875,7 +1745,6 @@ function findElPosition(el) {
  * @param {Event} event Event object
  * @return {Object} This object will have x and y coordinates corresponding to the mouse position
  */
-
 function getPointerPosition(el, event) {
   var position = {};
   var box = findElPosition(el);
@@ -1885,36 +1754,34 @@ function getPointerPosition(el, event) {
   var boxX = box.left;
   var evtPageY = event.pageY;
   var evtPageX = event.pageX;
-
   if (event.changedTouches) {
     evtPageX = event.changedTouches[0].pageX;
     evtPageY = event.changedTouches[0].pageY;
   }
-
   position.y = Math.max(0, Math.min(1, (boxY - evtPageY + boxH) / boxH));
   position.x = Math.max(0, Math.min(1, (evtPageX - boxX) / boxW));
   return position;
-} // blur an element
+}
 
+// focus an element
 function focusNode(reactNode) {
   if (reactNode && reactNode.focus) {
     reactNode.focus();
   }
-} // check if an element has a class name
+}
 
+// check if an element has a class name
 function hasClass(elm, cls) {
   var classes = elm.className.split(' ');
-
   for (var i = 0; i < classes.length; i++) {
     if (classes[i].toLowerCase() === cls.toLowerCase()) {
       return true;
     }
   }
-
   return false;
 }
 
-var propTypes$5 = {
+var propTypes$p = {
   clickable: PropTypes.bool,
   dblclickable: PropTypes.bool,
   manager: PropTypes.object,
@@ -1922,19 +1789,13 @@ var propTypes$5 = {
   player: PropTypes.object,
   shortcuts: PropTypes.array
 };
-var defaultProps$1 = {
+var defaultProps$9 = {
   clickable: true,
   dblclickable: true
 };
-
-var Shortcut =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Shortcut, _Component);
-
+var Shortcut = /*#__PURE__*/function (_Component) {
   function Shortcut(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     _this.defaultShortcuts = [{
       keyCode: 32,
@@ -1955,7 +1816,6 @@ function (_Component) {
         if (!player.hasStarted) {
           return;
         }
-
         actions.replay(5, {
           action: 'replay-5',
           source: 'shortcut'
@@ -1968,7 +1828,6 @@ function (_Component) {
         if (!player.hasStarted) {
           return;
         }
-
         actions.replay(10, {
           action: 'replay-10',
           source: 'shortcut'
@@ -1981,7 +1840,6 @@ function (_Component) {
         if (!player.hasStarted) {
           return;
         }
-
         actions.forward(5, {
           action: 'forward-5',
           source: 'shortcut'
@@ -1994,7 +1852,6 @@ function (_Component) {
         if (!player.hasStarted) {
           return;
         }
-
         actions.forward(10, {
           action: 'forward-10',
           source: 'shortcut'
@@ -2007,7 +1864,6 @@ function (_Component) {
         if (!player.hasStarted) {
           return;
         }
-
         actions.seek(0); // Go to beginning of video
       }
     }, {
@@ -2016,9 +1872,8 @@ function (_Component) {
       handle: function handle(player, actions) {
         if (!player.hasStarted) {
           return;
-        } // Go to end of video
-
-
+        }
+        // Go to end of video
         actions.seek(player.duration);
       }
     }, {
@@ -2027,11 +1882,9 @@ function (_Component) {
       handle: function handle(player, actions) {
         // Increase volume 5%
         var v = player.volume + 0.05;
-
         if (v > 1) {
           v = 1;
         }
-
         actions.changeVolume(v, {
           action: 'volume-up',
           source: 'shortcut'
@@ -2043,11 +1896,9 @@ function (_Component) {
       handle: function handle(player, actions) {
         // Decrease volume 5%
         var v = player.volume - 0.05;
-
         if (v < 0) {
           v = 0;
         }
-
         var action = v > 0 ? 'volume-down' : 'volume-off';
         actions.changeVolume(v, {
           action: action,
@@ -2061,7 +1912,6 @@ function (_Component) {
       handle: function handle(player, actions) {
         // Increase speed
         var playbackRate = player.playbackRate;
-
         if (playbackRate >= 1.5) {
           playbackRate = 2;
         } else if (playbackRate >= 1.25) {
@@ -2075,7 +1925,6 @@ function (_Component) {
         } else if (playbackRate >= 0) {
           playbackRate = 0.25;
         }
-
         actions.changeRate(playbackRate, {
           action: 'fast-forward',
           source: 'shortcut'
@@ -2088,7 +1937,6 @@ function (_Component) {
       handle: function handle(player, actions) {
         // Decrease speed
         var playbackRate = player.playbackRate;
-
         if (playbackRate <= 0.5) {
           playbackRate = 0.25;
         } else if (playbackRate <= 1.0) {
@@ -2100,7 +1948,6 @@ function (_Component) {
         } else if (playbackRate <= 2) {
           playbackRate = 1.5;
         }
-
         actions.changeRate(playbackRate, {
           action: 'fast-rewind',
           source: 'shortcut'
@@ -2108,66 +1955,58 @@ function (_Component) {
       }
     }];
     _this.shortcuts = [].concat(_this.defaultShortcuts);
-    _this.mergeShortcuts = _this.mergeShortcuts.bind(_assertThisInitialized(_this));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.handleDoubleClick = _this.handleDoubleClick.bind(_assertThisInitialized(_this));
+    _this.mergeShortcuts = _this.mergeShortcuts.bind(_this);
+    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleDoubleClick = _this.handleDoubleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(Shortcut, _Component);
   var _proto = Shortcut.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     this.mergeShortcuts();
     document.addEventListener('keydown', this.handleKeyPress);
     document.addEventListener('click', this.handleClick);
     document.addEventListener('dblclick', this.handleDoubleClick);
   };
-
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
     if (prevProps.shortcuts !== this.props.shortcuts) {
       this.mergeShortcuts();
     }
   };
-
   _proto.componentWillUnmount = function componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyPress);
     document.removeEventListener('click', this.handleClick);
     document.removeEventListener('dblclick', this.handleDoubleClick);
-  } // merge the shortcuts from props
-  ;
+  }
 
+  // merge the shortcuts from props
+;
   _proto.mergeShortcuts = function mergeShortcuts() {
     var getShortcutKey = function getShortcutKey(_ref) {
       var _ref$keyCode = _ref.keyCode,
-          keyCode = _ref$keyCode === void 0 ? 0 : _ref$keyCode,
-          _ref$ctrl = _ref.ctrl,
-          ctrl = _ref$ctrl === void 0 ? false : _ref$ctrl,
-          _ref$shift = _ref.shift,
-          shift = _ref$shift === void 0 ? false : _ref$shift,
-          _ref$alt = _ref.alt,
-          alt = _ref$alt === void 0 ? false : _ref$alt;
+        keyCode = _ref$keyCode === void 0 ? 0 : _ref$keyCode,
+        _ref$ctrl = _ref.ctrl,
+        ctrl = _ref$ctrl === void 0 ? false : _ref$ctrl,
+        _ref$shift = _ref.shift,
+        shift = _ref$shift === void 0 ? false : _ref$shift,
+        _ref$alt = _ref.alt,
+        alt = _ref$alt === void 0 ? false : _ref$alt;
       return keyCode + ":" + ctrl + ":" + shift + ":" + alt;
     };
-
     var defaultShortcuts = this.defaultShortcuts.reduce(function (shortcuts, shortcut) {
       var _Object$assign;
-
       return Object.assign(shortcuts, (_Object$assign = {}, _Object$assign[getShortcutKey(shortcut)] = shortcut, _Object$assign));
     }, {});
     var mergedShortcuts = (this.props.shortcuts || []).reduce(function (shortcuts, shortcut) {
       var keyCode = shortcut.keyCode,
-          handle = shortcut.handle;
-
+        handle = shortcut.handle;
       if (keyCode && typeof handle === 'function') {
         var _Object$assign2;
-
         return Object.assign(shortcuts, (_Object$assign2 = {}, _Object$assign2[getShortcutKey(shortcut)] = shortcut, _Object$assign2));
       }
-
       return shortcuts;
     }, defaultShortcuts);
-
     var gradeShortcut = function gradeShortcut(s) {
       var score = 0;
       var ps = ['ctrl', 'shift', 'alt'];
@@ -2178,14 +2017,12 @@ function (_Component) {
       });
       return score;
     };
-
     this.shortcuts = Object.keys(mergedShortcuts).map(function (key) {
       return mergedShortcuts[key];
     }).sort(function (a, b) {
       return gradeShortcut(b) - gradeShortcut(a);
     });
   };
-
   _proto.togglePlay = function togglePlay(player, actions) {
     if (player.paused) {
       actions.play({
@@ -2199,25 +2036,21 @@ function (_Component) {
       });
     }
   };
-
   _proto.toggleFullscreen = function toggleFullscreen(player, actions) {
     actions.toggleFullscreen(player);
   };
-
   _proto.handleKeyPress = function handleKeyPress(e) {
     var _this$props = this.props,
-        player = _this$props.player,
-        actions = _this$props.actions;
-
+      player = _this$props.player,
+      actions = _this$props.actions;
     if (!player.isActive) {
       return;
     }
-
-    if (document.activeElement && (hasClass(document.activeElement, 'video-react-control') || hasClass(document.activeElement, 'video-react-menu-button-active') // || hasClass(document.activeElement, 'video-react-slider')
+    if (document.activeElement && (hasClass(document.activeElement, 'video-react-control') || hasClass(document.activeElement, 'video-react-menu-button-active')
+    // || hasClass(document.activeElement, 'video-react-slider')
     || hasClass(document.activeElement, 'video-react-big-play-button'))) {
       return;
     }
-
     var keyCode = e.keyCode || e.which;
     var ctrl = e.ctrlKey || e.metaKey;
     var shift = e.shiftKey;
@@ -2226,68 +2059,61 @@ function (_Component) {
       if (!s.keyCode || s.keyCode - keyCode !== 0) {
         return false;
       }
-
       if (s.ctrl !== undefined && s.ctrl !== ctrl || s.shift !== undefined && s.shift !== shift || s.alt !== undefined && s.alt !== alt) {
         return false;
       }
-
       return true;
     })[0];
-
     if (shortcut) {
       shortcut.handle(player, actions);
       e.preventDefault();
     }
-  } // only if player is active and player is ready
-  ;
+  }
 
+  // only if player is active and player is ready
+;
   _proto.canBeClicked = function canBeClicked(player, e) {
     if (!player.isActive || e.target.nodeName !== 'VIDEO' || player.readyState !== 4) {
       return false;
     }
-
     return true;
   };
-
   _proto.handleClick = function handleClick(e) {
     var _this$props2 = this.props,
-        player = _this$props2.player,
-        actions = _this$props2.actions,
-        clickable = _this$props2.clickable;
-
+      player = _this$props2.player,
+      actions = _this$props2.actions,
+      clickable = _this$props2.clickable;
     if (!this.canBeClicked(player, e) || !clickable) {
       return;
     }
-
-    this.togglePlay(player, actions); // e.preventDefault();
+    this.togglePlay(player, actions);
+    // e.preventDefault();
   };
-
   _proto.handleDoubleClick = function handleDoubleClick(e) {
     var _this$props3 = this.props,
-        player = _this$props3.player,
-        actions = _this$props3.actions,
-        dblclickable = _this$props3.dblclickable;
-
+      player = _this$props3.player,
+      actions = _this$props3.actions,
+      dblclickable = _this$props3.dblclickable;
     if (!this.canBeClicked(player, e) || !dblclickable) {
       return;
     }
+    this.toggleFullscreen(player, actions);
+    // e.preventDefault();
+  }
 
-    this.toggleFullscreen(player, actions); // e.preventDefault();
-  } // this component dose not render anything
+  // this component dose not render anything
   // it's just for the key down event
-  ;
-
+;
   _proto.render = function render() {
     return null;
   };
-
   return Shortcut;
 }(React.Component);
-Shortcut.propTypes = propTypes$5;
-Shortcut.defaultProps = defaultProps$1;
+Shortcut.propTypes = propTypes$p;
+Shortcut.defaultProps = defaultProps$9;
 Shortcut.displayName = 'Shortcut';
 
-var propTypes$6 = {
+var propTypes$o = {
   className: PropTypes.string,
   onMouseDown: PropTypes.func,
   onMouseMove: PropTypes.func,
@@ -2306,36 +2132,29 @@ var propTypes$6 = {
   valuenow: PropTypes.string,
   valuetext: PropTypes.string
 };
-
-var Slider =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Slider, _Component);
-
+var Slider = /*#__PURE__*/function (_Component) {
   function Slider(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
-    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_this));
-    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
-    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_this));
-    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_this));
-    _this.calculateDistance = _this.calculateDistance.bind(_assertThisInitialized(_this));
-    _this.getProgress = _this.getProgress.bind(_assertThisInitialized(_this));
-    _this.renderChildren = _this.renderChildren.bind(_assertThisInitialized(_this));
+    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
+    _this.handleMouseMove = _this.handleMouseMove.bind(_this);
+    _this.handleMouseUp = _this.handleMouseUp.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+    _this.stepForward = _this.stepForward.bind(_this);
+    _this.stepBack = _this.stepBack.bind(_this);
+    _this.calculateDistance = _this.calculateDistance.bind(_this);
+    _this.getProgress = _this.getProgress.bind(_this);
+    _this.renderChildren = _this.renderChildren.bind(_this);
     _this.state = {
       active: false
     };
     return _this;
   }
-
+  _inheritsLoose(Slider, _Component);
   var _proto = Slider.prototype;
-
   _proto.componentWillUnmount = function componentWillUnmount() {
     document.removeEventListener('mousemove', this.handleMouseMove, true);
     document.removeEventListener('mouseup', this.handleMouseUp, true);
@@ -2343,25 +2162,22 @@ function (_Component) {
     document.removeEventListener('touchend', this.handleMouseUp, true);
     document.removeEventListener('keydown', this.handleKeyPress, true);
   };
-
   _proto.getProgress = function getProgress() {
     var getPercent = this.props.getPercent;
-
     if (!getPercent) {
       return 0;
     }
+    var progress = getPercent();
 
-    var progress = getPercent(); // Protect against no duration and other division issues
-
+    // Protect against no duration and other division issues
     if (typeof progress !== 'number' || progress < 0 || progress === Infinity) {
       progress = 0;
     }
-
     return progress;
   };
-
   _proto.handleMouseDown = function handleMouseDown(event) {
-    var onMouseDown = this.props.onMouseDown; // event.preventDefault();
+    var onMouseDown = this.props.onMouseDown;
+    // event.preventDefault();
     // event.stopPropagation();
 
     document.addEventListener('mousemove', this.handleMouseMove, true);
@@ -2371,26 +2187,20 @@ function (_Component) {
     this.setState({
       active: true
     });
-
     if (this.props.sliderActive) {
       this.props.sliderActive(event);
     }
-
     this.handleMouseMove(event);
-
     if (onMouseDown) {
       onMouseDown(event);
     }
   };
-
   _proto.handleMouseMove = function handleMouseMove(event) {
     var onMouseMove = this.props.onMouseMove;
-
     if (onMouseMove) {
       onMouseMove(event);
     }
   };
-
   _proto.handleMouseUp = function handleMouseUp(event) {
     // On iOS safari, a subsequent mouseup event will be fired after touchend.
     // Its weird event positions make the player seek a wrong time.
@@ -2404,40 +2214,32 @@ function (_Component) {
     this.setState({
       active: false
     });
-
     if (this.props.sliderInactive) {
       this.props.sliderInactive(event);
     }
-
     if (onMouseUp) {
       onMouseUp(event);
     }
   };
-
   _proto.handleFocus = function handleFocus(e) {
     document.addEventListener('keydown', this.handleKeyPress, true);
-
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
   };
-
   _proto.handleBlur = function handleBlur(e) {
     document.removeEventListener('keydown', this.handleKeyPress, true);
-
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
   };
-
   _proto.handleClick = function handleClick(event) {
-    event.preventDefault(); // event.stopPropagation();
-
+    event.preventDefault();
+    // event.stopPropagation();
     if (this.props.onClick) {
       this.props.onClick(event);
     }
   };
-
   _proto.handleKeyPress = function handleKeyPress(event) {
     if (event.which === 37 || event.which === 40) {
       // Left and Down Arrows
@@ -2451,50 +2253,42 @@ function (_Component) {
       this.stepForward();
     }
   };
-
   _proto.stepForward = function stepForward() {
     if (this.props.stepForward) {
       this.props.stepForward();
     }
   };
-
   _proto.stepBack = function stepBack() {
     if (this.props.stepBack) {
       this.props.stepBack();
     }
   };
-
   _proto.calculateDistance = function calculateDistance(event) {
     var node = this.slider;
     var position = getPointerPosition(node, event);
-
     if (this.props.vertical) {
       return position.y;
     }
-
     return position.x;
   };
-
   _proto.renderChildren = function renderChildren() {
     var progress = this.getProgress();
     var percentage = (progress * 100).toFixed(2) + "%";
-    return React__default.Children.map(this.props.children, function (child) {
-      return React__default.cloneElement(child, {
+    return React.Children.map(this.props.children, function (child) {
+      return /*#__PURE__*/React.cloneElement(child, {
         progress: progress,
         percentage: percentage
       });
     });
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var _this$props = this.props,
-        vertical = _this$props.vertical,
-        label = _this$props.label,
-        valuenow = _this$props.valuenow,
-        valuetext = _this$props.valuetext;
-    return React__default.createElement("div", {
+      vertical = _this$props.vertical,
+      label = _this$props.label,
+      valuenow = _this$props.valuenow,
+      valuetext = _this$props.valuetext;
+    return /*#__PURE__*/React.createElement("div", {
       className: classNames(this.props.className, {
         'video-react-slider-vertical': vertical,
         'video-react-slider-horizontal': !vertical,
@@ -2517,75 +2311,73 @@ function (_Component) {
       "aria-valuemax": 100
     }, this.renderChildren());
   };
-
   return Slider;
 }(React.Component);
-Slider.propTypes = propTypes$6;
+Slider.propTypes = propTypes$o;
 Slider.displayName = 'Slider';
 
-var propTypes$7 = {
+var propTypes$n = {
   currentTime: PropTypes.number,
   duration: PropTypes.number,
   percentage: PropTypes.string,
   className: PropTypes.string
-}; // Shows play progress
+};
 
+// Shows play progress
 function PlayProgressBar(_ref) {
   var currentTime = _ref.currentTime,
-      duration = _ref.duration,
-      percentage = _ref.percentage,
-      className = _ref.className;
-  return React__default.createElement("div", {
+    duration = _ref.duration,
+    percentage = _ref.percentage,
+    className = _ref.className;
+  return /*#__PURE__*/React.createElement("div", {
     "data-current-time": formatTime(currentTime, duration),
     className: classNames('video-react-play-progress video-react-slider-bar', className),
     style: {
       width: percentage
     }
-  }, React__default.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "video-react-control-text"
   }, "Progress: " + percentage));
 }
-PlayProgressBar.propTypes = propTypes$7;
+PlayProgressBar.propTypes = propTypes$n;
 PlayProgressBar.displayName = 'PlayProgressBar';
 
-var propTypes$8 = {
+var propTypes$m = {
   duration: PropTypes.number,
   buffered: PropTypes.object,
   className: PropTypes.string
-}; // Shows load progress
+};
 
+// Shows load progress
 function LoadProgressBar(_ref) {
   var buffered = _ref.buffered,
-      duration = _ref.duration,
-      className = _ref.className;
-
+    duration = _ref.duration,
+    className = _ref.className;
   if (!buffered || !buffered.length) {
     return null;
   }
-
   var bufferedEnd = buffered.end(buffered.length - 1);
   var style = {};
-
   if (bufferedEnd > duration) {
     bufferedEnd = duration;
-  } // get the percent width of a time compared to the total end
+  }
 
-
+  // get the percent width of a time compared to the total end
   function percentify(time, end) {
     var percent = time / end || 0; // no NaN
-
     return (percent >= 1 ? 1 : percent) * 100 + "%";
-  } // the width of the progress bar
+  }
 
-
+  // the width of the progress bar
   style.width = percentify(bufferedEnd, duration);
-  var parts = []; // add child elements to represent the individual buffered time ranges
+  var parts = [];
 
+  // add child elements to represent the individual buffered time ranges
   for (var i = 0; i < buffered.length; i++) {
     var start = buffered.start(i);
-    var end = buffered.end(i); // set the percent based on the width of the progress bar (bufferedEnd)
-
-    var part = React__default.createElement("div", {
+    var end = buffered.end(i);
+    // set the percent based on the width of the progress bar (bufferedEnd)
+    var part = /*#__PURE__*/React.createElement("div", {
       style: {
         left: percentify(start, bufferedEnd),
         width: percentify(end - start, bufferedEnd)
@@ -2594,33 +2386,29 @@ function LoadProgressBar(_ref) {
     });
     parts.push(part);
   }
-
   if (parts.length === 0) {
     parts = null;
   }
-
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     style: style,
     className: classNames('video-react-load-progress', className)
-  }, React__default.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "video-react-control-text"
   }, "Loaded: 0%"), parts);
 }
-LoadProgressBar.propTypes = propTypes$8;
+LoadProgressBar.propTypes = propTypes$m;
 LoadProgressBar.displayName = 'LoadProgressBar';
 
 function MouseTimeDisplay(_ref) {
   var duration = _ref.duration,
-      mouseTime = _ref.mouseTime,
-      className = _ref.className,
-      text = _ref.text;
-
+    mouseTime = _ref.mouseTime,
+    className = _ref.className,
+    text = _ref.text;
   if (!mouseTime.time) {
     return null;
   }
-
   var time = text || formatTime(mouseTime.time, duration);
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames('video-react-mouse-display', className),
     style: {
       left: mouseTime.position + "px"
@@ -2628,7 +2416,6 @@ function MouseTimeDisplay(_ref) {
     "data-current-time": time
   });
 }
-
 MouseTimeDisplay.propTypes = {
   duration: PropTypes.number,
   mouseTime: PropTypes.object,
@@ -2636,101 +2423,85 @@ MouseTimeDisplay.propTypes = {
 };
 MouseTimeDisplay.displayName = 'MouseTimeDisplay';
 
-var propTypes$9 = {
+var propTypes$l = {
   player: PropTypes.object,
   mouseTime: PropTypes.object,
   actions: PropTypes.object,
   className: PropTypes.string
 };
-
-var SeekBar =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(SeekBar, _Component);
-
+var SeekBar = /*#__PURE__*/function (_Component) {
   function SeekBar(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.getPercent = _this.getPercent.bind(_assertThisInitialized(_this));
-    _this.getNewTime = _this.getNewTime.bind(_assertThisInitialized(_this));
-    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_this));
-    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_this));
-    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
-    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_this));
-    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
+    _this.getPercent = _this.getPercent.bind(_this);
+    _this.getNewTime = _this.getNewTime.bind(_this);
+    _this.stepForward = _this.stepForward.bind(_this);
+    _this.stepBack = _this.stepBack.bind(_this);
+    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
+    _this.handleMouseMove = _this.handleMouseMove.bind(_this);
+    _this.handleMouseUp = _this.handleMouseUp.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(SeekBar, _Component);
   var _proto = SeekBar.prototype;
-
   _proto.componentDidMount = function componentDidMount() {};
-
   _proto.componentDidUpdate = function componentDidUpdate() {}
+
   /**
    * Get percentage of video played
    *
    * @return {Number} Percentage played
    * @method getPercent
-   */
-  ;
-
+   */;
   _proto.getPercent = function getPercent() {
     var _this$props$player = this.props.player,
-        currentTime = _this$props$player.currentTime,
-        seekingTime = _this$props$player.seekingTime,
-        duration = _this$props$player.duration;
+      currentTime = _this$props$player.currentTime,
+      seekingTime = _this$props$player.seekingTime,
+      duration = _this$props$player.duration;
     var time = seekingTime || currentTime;
     var percent = time / duration;
     return percent >= 1 ? 1 : percent;
   };
-
   _proto.getNewTime = function getNewTime(event) {
     var duration = this.props.player.duration;
     var distance = this.slider.calculateDistance(event);
-    var newTime = distance * duration; // Don't let video end while scrubbing.
+    var newTime = distance * duration;
 
+    // Don't let video end while scrubbing.
     return newTime === duration ? newTime - 0.1 : newTime;
   };
-
   _proto.handleMouseDown = function handleMouseDown() {};
-
   _proto.handleMouseUp = function handleMouseUp(event) {
     var actions = this.props.actions;
-    var newTime = this.getNewTime(event); // Set new time (tell video to seek to new time)
-
+    var newTime = this.getNewTime(event);
+    // Set new time (tell video to seek to new time)
     actions.seek(newTime);
     actions.handleEndSeeking(newTime);
   };
-
   _proto.handleMouseMove = function handleMouseMove(event) {
     var actions = this.props.actions;
     var newTime = this.getNewTime(event);
     actions.handleSeekingTime(newTime);
   };
-
   _proto.stepForward = function stepForward() {
     var actions = this.props.actions;
     actions.forward(5);
   };
-
   _proto.stepBack = function stepBack() {
     var actions = this.props.actions;
     actions.replay(5);
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var _this$props = this.props,
-        _this$props$player2 = _this$props.player,
-        currentTime = _this$props$player2.currentTime,
-        seekingTime = _this$props$player2.seekingTime,
-        duration = _this$props$player2.duration,
-        buffered = _this$props$player2.buffered,
-        mouseTime = _this$props.mouseTime;
+      _this$props$player2 = _this$props.player,
+      currentTime = _this$props$player2.currentTime,
+      seekingTime = _this$props$player2.seekingTime,
+      duration = _this$props$player2.duration,
+      buffered = _this$props$player2.buffered,
+      mouseTime = _this$props.mouseTime;
     var time = seekingTime || currentTime;
-    return React__default.createElement(Slider, {
+    return /*#__PURE__*/React.createElement(Slider, {
       ref: function ref(input) {
         _this2.slider = input;
       },
@@ -2744,37 +2515,30 @@ function (_Component) {
       getPercent: this.getPercent,
       stepForward: this.stepForward,
       stepBack: this.stepBack
-    }, React__default.createElement(LoadProgressBar, {
+    }, /*#__PURE__*/React.createElement(LoadProgressBar, {
       buffered: buffered,
       currentTime: time,
       duration: duration
-    }), React__default.createElement(MouseTimeDisplay, {
+    }), /*#__PURE__*/React.createElement(MouseTimeDisplay, {
       duration: duration,
       mouseTime: mouseTime
-    }), React__default.createElement(PlayProgressBar, {
+    }), /*#__PURE__*/React.createElement(PlayProgressBar, {
       currentTime: time,
       duration: duration
     }));
   };
-
   return SeekBar;
 }(React.Component);
-SeekBar.propTypes = propTypes$9;
+SeekBar.propTypes = propTypes$l;
 SeekBar.displayName = 'SeekBar';
 
-var propTypes$a = {
+var propTypes$k = {
   player: PropTypes.object,
   className: PropTypes.string
 };
-
-var ProgressControl =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(ProgressControl, _Component);
-
+var ProgressControl = /*#__PURE__*/function (_Component) {
   function ProgressControl(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     _this.state = {
       mouseTime: {
@@ -2782,17 +2546,15 @@ function (_Component) {
         position: 0
       }
     };
-    _this.handleMouseMoveThrottle = _this.handleMouseMove.bind(_assertThisInitialized(_this));
+    _this.handleMouseMoveThrottle = _this.handleMouseMove.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(ProgressControl, _Component);
   var _proto = ProgressControl.prototype;
-
   _proto.handleMouseMove = function handleMouseMove(event) {
     if (!event.pageX) {
       return;
     }
-
     var duration = this.props.player.duration;
     var node = this.seekBar;
     var newTime = getPointerPosition(node, event).x * duration;
@@ -2804,68 +2566,55 @@ function (_Component) {
       }
     });
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var className = this.props.className;
-    return React__default.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       onMouseMove: this.handleMouseMoveThrottle,
       className: classNames('video-react-progress-control video-react-control', className)
-    }, React__default.createElement(SeekBar, _extends({
+    }, /*#__PURE__*/React.createElement(SeekBar, _extends({
       mouseTime: this.state.mouseTime,
       ref: function ref(c) {
         _this2.seekBar = c;
       }
     }, this.props)));
   };
-
   return ProgressControl;
 }(React.Component);
-ProgressControl.propTypes = propTypes$a;
+ProgressControl.propTypes = propTypes$k;
 ProgressControl.displayName = 'ProgressControl';
 
-var propTypes$b = {
+var propTypes$j = {
   actions: PropTypes.object,
   player: PropTypes.object,
   className: PropTypes.string
 };
-
-var PlayToggle =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(PlayToggle, _Component);
-
+var PlayToggle = /*#__PURE__*/function (_Component) {
   function PlayToggle(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(PlayToggle, _Component);
   var _proto = PlayToggle.prototype;
-
   _proto.handleClick = function handleClick() {
     var _this$props = this.props,
-        actions = _this$props.actions,
-        player = _this$props.player;
-
+      actions = _this$props.actions,
+      player = _this$props.player;
     if (player.paused) {
       actions.play();
     } else {
       actions.pause();
     }
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var _this$props2 = this.props,
-        player = _this$props2.player,
-        className = _this$props2.className;
+      player = _this$props2.player,
+      className = _this$props2.className;
     var controlText = player.paused ? 'Play' : 'Pause';
-    return React__default.createElement("button", {
+    return /*#__PURE__*/React.createElement("button", {
       ref: function ref(c) {
         _this2.button = c;
       },
@@ -2879,126 +2628,106 @@ function (_Component) {
       type: "button",
       tabIndex: "0",
       onClick: this.handleClick
-    }, React__default.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "video-react-control-text"
     }, controlText));
   };
-
   return PlayToggle;
 }(React.Component);
-PlayToggle.propTypes = propTypes$b;
+PlayToggle.propTypes = propTypes$j;
 PlayToggle.displayName = 'PlayToggle';
 
-var propTypes$c = {
+var propTypes$i = {
   actions: PropTypes.object,
   className: PropTypes.string,
   seconds: PropTypes.oneOf([5, 10, 30])
 };
-var defaultProps$2 = {
+var defaultProps$8 = {
   seconds: 10
 };
 var ForwardReplayControl = (function (mode) {
-  var ForwardReplayControl =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ForwardReplayControl, _Component);
-
+  var ForwardReplayControl = /*#__PURE__*/function (_Component) {
     function ForwardReplayControl(props, context) {
       var _this;
-
       _this = _Component.call(this, props, context) || this;
-      _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+      _this.handleClick = _this.handleClick.bind(_this);
       return _this;
     }
-
+    _inheritsLoose(ForwardReplayControl, _Component);
     var _proto = ForwardReplayControl.prototype;
-
     _proto.handleClick = function handleClick() {
       var _this$props = this.props,
-          actions = _this$props.actions,
-          seconds = _this$props.seconds; // Depends mode to implement different actions
-
+        actions = _this$props.actions,
+        seconds = _this$props.seconds;
+      // Depends mode to implement different actions
       if (mode === 'forward') {
         actions.forward(seconds);
       } else {
         actions.replay(seconds);
       }
     };
-
     _proto.render = function render() {
       var _this2 = this;
-
       var _this$props2 = this.props,
-          seconds = _this$props2.seconds,
-          className = _this$props2.className;
+        seconds = _this$props2.seconds,
+        className = _this$props2.className;
       var classNames = ['video-react-control', 'video-react-button', 'video-react-icon'];
       classNames.push("video-react-icon-" + mode + "-" + seconds, "video-react-" + mode + "-control");
-
       if (className) {
         classNames.push(className);
       }
-
-      return React__default.createElement("button", {
+      return /*#__PURE__*/React.createElement("button", {
         ref: function ref(c) {
           _this2.button = c;
         },
         className: classNames.join(' '),
         type: "button",
         onClick: this.handleClick
-      }, React__default.createElement("span", {
+      }, /*#__PURE__*/React.createElement("span", {
         className: "video-react-control-text"
       }, mode + " " + seconds + " seconds"));
     };
-
     return ForwardReplayControl;
   }(React.Component);
-
-  ForwardReplayControl.propTypes = propTypes$c;
-  ForwardReplayControl.defaultProps = defaultProps$2;
+  ForwardReplayControl.propTypes = propTypes$i;
+  ForwardReplayControl.defaultProps = defaultProps$8;
   return ForwardReplayControl;
 });
 
+// Pass mode into parent function
 var ForwardControl = ForwardReplayControl('forward');
 ForwardControl.displayName = 'ForwardControl';
 
+// Pass mode into parent function
 var ReplayControl = ForwardReplayControl('replay');
 ReplayControl.displayName = 'ReplayControl';
 
-var propTypes$d = {
+var propTypes$h = {
   actions: PropTypes.object,
   player: PropTypes.object,
   className: PropTypes.string
 };
-
-var FullscreenToggle =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(FullscreenToggle, _Component);
-
+var FullscreenToggle = /*#__PURE__*/function (_Component) {
   function FullscreenToggle(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(FullscreenToggle, _Component);
   var _proto = FullscreenToggle.prototype;
-
   _proto.handleClick = function handleClick() {
     var _this$props = this.props,
-        player = _this$props.player,
-        actions = _this$props.actions;
+      player = _this$props.player,
+      actions = _this$props.actions;
     actions.toggleFullscreen(player);
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var _this$props2 = this.props,
-        player = _this$props2.player,
-        className = _this$props2.className;
-    return React__default.createElement("button", {
+      player = _this$props2.player,
+      className = _this$props2.className;
+    return /*#__PURE__*/React.createElement("button", {
       className: classNames(className, {
         'video-react-icon-fullscreen-exit': player.isFullscreen,
         'video-react-icon-fullscreen': !player.isFullscreen
@@ -3009,136 +2738,121 @@ function (_Component) {
       type: "button",
       tabIndex: "0",
       onClick: this.handleClick
-    }, React__default.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "video-react-control-text"
     }, "Non-Fullscreen"));
   };
-
   return FullscreenToggle;
 }(React.Component);
-FullscreenToggle.propTypes = propTypes$d;
+FullscreenToggle.propTypes = propTypes$h;
 FullscreenToggle.displayName = 'FullscreenToggle';
 
-var propTypes$e = {
+var propTypes$g = {
   player: PropTypes.object,
   className: PropTypes.string
 };
-
 function RemainingTimeDisplay(_ref) {
   var _ref$player = _ref.player,
-      currentTime = _ref$player.currentTime,
-      duration = _ref$player.duration,
-      className = _ref.className;
+    currentTime = _ref$player.currentTime,
+    duration = _ref$player.duration,
+    className = _ref.className;
   var remainingTime = duration - currentTime;
   var formattedTime = formatTime(remainingTime);
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames('video-react-remaining-time video-react-time-control video-react-control', className)
-  }, React__default.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "video-react-remaining-time-display",
     "aria-live": "off"
-  }, React__default.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "video-react-control-text"
   }, "Remaining Time "), "-" + formattedTime));
 }
-
-RemainingTimeDisplay.propTypes = propTypes$e;
+RemainingTimeDisplay.propTypes = propTypes$g;
 RemainingTimeDisplay.displayName = 'RemainingTimeDisplay';
 
 var propTypes$f = {
   player: PropTypes.object,
   className: PropTypes.string
 };
-
 function CurrentTimeDisplay(_ref) {
   var _ref$player = _ref.player,
-      currentTime = _ref$player.currentTime,
-      duration = _ref$player.duration,
-      className = _ref.className;
+    currentTime = _ref$player.currentTime,
+    duration = _ref$player.duration,
+    className = _ref.className;
   var formattedTime = formatTime(currentTime, duration);
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames('video-react-current-time video-react-time-control video-react-control', className)
-  }, React__default.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "video-react-current-time-display",
     "aria-live": "off"
-  }, React__default.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "video-react-control-text"
   }, "Current Time "), formattedTime));
 }
-
 CurrentTimeDisplay.propTypes = propTypes$f;
 CurrentTimeDisplay.displayName = 'CurrentTimeDisplay';
 
-var propTypes$g = {
+var propTypes$e = {
   player: PropTypes.object,
   className: PropTypes.string
 };
-
 function DurationDisplay(_ref) {
   var duration = _ref.player.duration,
-      className = _ref.className;
+    className = _ref.className;
   var formattedTime = formatTime(duration);
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames(className, 'video-react-duration video-react-time-control video-react-control')
-  }, React__default.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "video-react-duration-display",
     "aria-live": "off"
-  }, React__default.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "video-react-control-text"
   }, "Duration Time "), formattedTime));
 }
-
-DurationDisplay.propTypes = propTypes$g;
+DurationDisplay.propTypes = propTypes$e;
 DurationDisplay.displayName = 'DurationDisplay';
 
-var propTypes$h = {
+var propTypes$d = {
   separator: PropTypes.string,
   className: PropTypes.string
 };
 function TimeDivider(_ref) {
   var separator = _ref.separator,
-      className = _ref.className;
+    className = _ref.className;
   var separatorText = separator || '/';
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames('video-react-time-control video-react-time-divider', className),
     dir: "ltr"
-  }, React__default.createElement("div", null, React__default.createElement("span", null, separatorText)));
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, separatorText)));
 }
-TimeDivider.propTypes = propTypes$h;
+TimeDivider.propTypes = propTypes$d;
 TimeDivider.displayName = 'TimeDivider';
 
-var propTypes$i = {
+var propTypes$c = {
   tagName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   className: PropTypes.string
 };
-var defaultProps$3 = {
+var defaultProps$7 = {
   tagName: 'div'
 };
-
-var ClickableComponent =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(ClickableComponent, _Component);
-
+var ClickableComponent = /*#__PURE__*/function (_Component) {
   function ClickableComponent(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
-    _this.handleKeypress = _this.handleKeypress.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
+    _this.handleKeypress = _this.handleKeypress.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(ClickableComponent, _Component);
   var _proto = ClickableComponent.prototype;
-
   _proto.componentWillUnmount = function componentWillUnmount(e) {
     this.handleBlur(e);
   };
-
   _proto.handleKeypress = function handleKeypress(event) {
     // Support Space (32) or Enter (13) key operation to fire a click event
     if (event.which === 32 || event.which === 13) {
@@ -3146,36 +2860,28 @@ function (_Component) {
       this.handleClick(event);
     }
   };
-
   _proto.handleClick = function handleClick(event) {
     var onClick = this.props.onClick;
     onClick(event);
   };
-
   _proto.handleFocus = function handleFocus(e) {
     document.addEventListener('keydown', this.handleKeypress);
-
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
   };
-
   _proto.handleBlur = function handleBlur(e) {
     document.removeEventListener('keydown', this.handleKeypress);
-
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
   };
-
   _proto.render = function render() {
     var Tag = this.props.tagName;
-
     var props = _extends({}, this.props);
-
     delete props.tagName;
     delete props.className;
-    return React__default.createElement(Tag, _extends({
+    return /*#__PURE__*/React.createElement(Tag, _extends({
       className: classNames(this.props.className),
       role: "button",
       tabIndex: "0",
@@ -3184,83 +2890,72 @@ function (_Component) {
       onBlur: this.handleBlur
     }, props));
   };
-
   return ClickableComponent;
 }(React.Component);
-ClickableComponent.propTypes = propTypes$i;
-ClickableComponent.defaultProps = defaultProps$3;
+ClickableComponent.propTypes = propTypes$c;
+ClickableComponent.defaultProps = defaultProps$7;
 ClickableComponent.displayName = 'ClickableComponent';
 
-var propTypes$j = {
+var propTypes$b = {
   player: PropTypes.object,
   children: PropTypes.any
 };
-
-var Popup =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Popup, _Component);
-
+var Popup = /*#__PURE__*/function (_Component) {
   function Popup(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(Popup, _Component);
   var _proto = Popup.prototype;
-
   _proto.handleClick = function handleClick(event) {
-    event.preventDefault(); // event.stopPropagation();
+    event.preventDefault();
+    // event.stopPropagation();
   };
-
   _proto.render = function render() {
     var children = this.props.children;
-    return React__default.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "video-react-menu",
       onClick: this.handleClick
-    }, React__default.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: "video-react-menu-content"
     }, children));
   };
-
   return Popup;
 }(React.Component);
-Popup.propTypes = propTypes$j;
+Popup.propTypes = propTypes$b;
 Popup.displayName = 'Popup';
 
-var propTypes$k = {
+var propTypes$a = {
   inline: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   className: PropTypes.string
 };
-var defaultProps$4 = {
+var defaultProps$6 = {
   inline: true
 };
 function PopupButton(props) {
   var inline = props.inline,
-      className = props.className;
-
+    className = props.className;
   var ps = _extends({}, props);
-
   delete ps.children;
   delete ps.inline;
   delete ps.className;
-  return React__default.createElement(ClickableComponent, _extends({
+  return /*#__PURE__*/React.createElement(ClickableComponent, _extends({
     className: classNames(className, {
       'video-react-menu-button-inline': !!inline,
       'video-react-menu-button-popup': !inline
     }, 'video-react-control video-react-button video-react-menu-button')
-  }, ps), React__default.createElement(Popup, props));
+  }, ps), /*#__PURE__*/React.createElement(Popup, props));
 }
-PopupButton.propTypes = propTypes$k;
-PopupButton.defaultProps = defaultProps$4;
+PopupButton.propTypes = propTypes$a;
+PopupButton.defaultProps = defaultProps$6;
 PopupButton.displayName = 'PopupButton';
 
-var propTypes$l = {
+var propTypes$9 = {
   percentage: PropTypes.string,
   vertical: PropTypes.bool,
   className: PropTypes.string
@@ -3269,122 +2964,100 @@ var defaultProps$5 = {
   percentage: '100%',
   vertical: false
 };
-
 function VolumeLevel(_ref) {
   var percentage = _ref.percentage,
-      vertical = _ref.vertical,
-      className = _ref.className;
+    vertical = _ref.vertical,
+    className = _ref.className;
   var style = {};
-
   if (vertical) {
     style.height = percentage;
   } else {
     style.width = percentage;
   }
-
-  return React__default.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: classNames(className, 'video-react-volume-level'),
     style: style
-  }, React__default.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "video-react-control-text"
   }));
 }
-
-VolumeLevel.propTypes = propTypes$l;
+VolumeLevel.propTypes = propTypes$9;
 VolumeLevel.defaultProps = defaultProps$5;
 VolumeLevel.displayName = 'VolumeLevel';
 
-var propTypes$m = {
+var propTypes$8 = {
   actions: PropTypes.object,
   player: PropTypes.object,
   className: PropTypes.string,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func
 };
-
-var VolumeBar =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(VolumeBar, _Component);
-
+var VolumeBar = /*#__PURE__*/function (_Component) {
   function VolumeBar(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     _this.state = {
       percentage: '0%'
     };
-    _this.handleMouseMove = _this.handleMouseMove.bind(_assertThisInitialized(_this));
-    _this.handlePercentageChange = _this.handlePercentageChange.bind(_assertThisInitialized(_this));
-    _this.checkMuted = _this.checkMuted.bind(_assertThisInitialized(_this));
-    _this.getPercent = _this.getPercent.bind(_assertThisInitialized(_this));
-    _this.stepForward = _this.stepForward.bind(_assertThisInitialized(_this));
-    _this.stepBack = _this.stepBack.bind(_assertThisInitialized(_this));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleMouseMove = _this.handleMouseMove.bind(_this);
+    _this.handlePercentageChange = _this.handlePercentageChange.bind(_this);
+    _this.checkMuted = _this.checkMuted.bind(_this);
+    _this.getPercent = _this.getPercent.bind(_this);
+    _this.stepForward = _this.stepForward.bind(_this);
+    _this.stepBack = _this.stepBack.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(VolumeBar, _Component);
   var _proto = VolumeBar.prototype;
-
   _proto.componentDidMount = function componentDidMount() {};
-
   _proto.getPercent = function getPercent() {
     var player = this.props.player;
-
     if (player.muted) {
       return 0;
     }
-
     return player.volume;
   };
-
   _proto.checkMuted = function checkMuted() {
     var _this$props = this.props,
-        player = _this$props.player,
-        actions = _this$props.actions;
-
+      player = _this$props.player,
+      actions = _this$props.actions;
     if (player.muted) {
       actions.mute(false);
     }
   };
-
   _proto.handleMouseMove = function handleMouseMove(event) {
     var actions = this.props.actions;
     this.checkMuted();
     var distance = this.slider.calculateDistance(event);
     actions.changeVolume(distance);
   };
-
   _proto.stepForward = function stepForward() {
     var _this$props2 = this.props,
-        player = _this$props2.player,
-        actions = _this$props2.actions;
+      player = _this$props2.player,
+      actions = _this$props2.actions;
     this.checkMuted();
     actions.changeVolume(player.volume + 0.1);
   };
-
   _proto.stepBack = function stepBack() {
     var _this$props3 = this.props,
-        player = _this$props3.player,
-        actions = _this$props3.actions;
+      player = _this$props3.player,
+      actions = _this$props3.actions;
     this.checkMuted();
     actions.changeVolume(player.volume - 0.1);
   };
-
   _proto.handleFocus = function handleFocus(e) {
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
   };
-
   _proto.handleBlur = function handleBlur(e) {
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
   };
-
   _proto.handlePercentageChange = function handlePercentageChange(percentage) {
     if (percentage !== this.state.percentage) {
       this.setState({
@@ -3392,19 +3065,16 @@ function (_Component) {
       });
     }
   };
-
   _proto.handleClick = function handleClick(event) {
     event.stopPropagation();
   };
-
   _proto.render = function render() {
     var _this2 = this;
-
     var _this$props4 = this.props,
-        player = _this$props4.player,
-        className = _this$props4.className;
+      player = _this$props4.player,
+      className = _this$props4.className;
     var volume = (player.volume * 100).toFixed(2);
-    return React__default.createElement(Slider, _extends({
+    return /*#__PURE__*/React.createElement(Slider, _extends({
       ref: function ref(c) {
         _this2.slider = c;
       },
@@ -3423,73 +3093,61 @@ function (_Component) {
       stepBack: this.stepBack
     }, this.props, {
       className: classNames(className, 'video-react-volume-bar video-react-slider-bar')
-    }), React__default.createElement(VolumeLevel, this.props));
+    }), /*#__PURE__*/React.createElement(VolumeLevel, this.props));
   };
-
   return VolumeBar;
 }(React.Component);
-
-VolumeBar.propTypes = propTypes$m;
+VolumeBar.propTypes = propTypes$8;
 VolumeBar.displayName = 'VolumeBar';
 
-var propTypes$n = {
+var propTypes$7 = {
   player: PropTypes.object,
   actions: PropTypes.object,
   vertical: PropTypes.bool,
   className: PropTypes.string,
   alwaysShowVolume: PropTypes.bool
 };
-var defaultProps$6 = {
+var defaultProps$4 = {
   vertical: false
 };
-
-var VolumeMenuButton =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(VolumeMenuButton, _Component);
-
+var VolumeMenuButton = /*#__PURE__*/function (_Component) {
   function VolumeMenuButton(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     _this.state = {
       active: false
     };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(VolumeMenuButton, _Component);
   var _proto = VolumeMenuButton.prototype;
-
   _proto.handleClick = function handleClick() {
     var _this$props = this.props,
-        player = _this$props.player,
-        actions = _this$props.actions;
+      player = _this$props.player,
+      actions = _this$props.actions;
     actions.mute(!player.muted);
   };
-
   _proto.handleFocus = function handleFocus() {
     this.setState({
       active: true
     });
   };
-
   _proto.handleBlur = function handleBlur() {
     this.setState({
       active: false
     });
   };
-
   _proto.render = function render() {
     var _this$props2 = this.props,
-        vertical = _this$props2.vertical,
-        player = _this$props2.player,
-        className = _this$props2.className;
+      vertical = _this$props2.vertical,
+      player = _this$props2.player,
+      className = _this$props2.className;
     var inline = !vertical;
     var level = this.volumeLevel;
-    return React__default.createElement(PopupButton, {
+    return /*#__PURE__*/React.createElement(PopupButton, {
       className: classNames(className, {
         'video-react-volume-menu-button-vertical': vertical,
         'video-react-volume-menu-button-horizontal': !vertical,
@@ -3503,20 +3161,18 @@ function (_Component) {
       }, 'video-react-volume-menu-button'),
       onClick: this.handleClick,
       inline: inline
-    }, React__default.createElement(VolumeBar, _extends({
+    }, /*#__PURE__*/React.createElement(VolumeBar, _extends({
       onFocus: this.handleFocus,
       onBlur: this.handleBlur
     }, this.props)));
   };
-
-  _createClass(VolumeMenuButton, [{
+  return _createClass(VolumeMenuButton, [{
     key: "volumeLevel",
     get: function get() {
       var _this$props$player = this.props.player,
-          volume = _this$props$player.volume,
-          muted = _this$props$player.muted;
+        volume = _this$props$player.volume,
+        muted = _this$props$player.muted;
       var level = 3;
-
       if (volume === 0 || muted) {
         level = 0;
       } else if (volume < 0.33) {
@@ -3524,108 +3180,87 @@ function (_Component) {
       } else if (volume < 0.67) {
         level = 2;
       }
-
       return level;
     }
   }]);
-
-  return VolumeMenuButton;
 }(React.Component);
-
-VolumeMenuButton.propTypes = propTypes$n;
-VolumeMenuButton.defaultProps = defaultProps$6;
+VolumeMenuButton.propTypes = propTypes$7;
+VolumeMenuButton.defaultProps = defaultProps$4;
 VolumeMenuButton.displayName = 'VolumeMenuButton';
 
-var propTypes$o = {
+var propTypes$6 = {
   children: PropTypes.any
 };
-
-var Menu =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Menu, _Component);
-
+var Menu = /*#__PURE__*/function (_Component) {
   function Menu(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(Menu, _Component);
   var _proto = Menu.prototype;
-
   _proto.handleClick = function handleClick(event) {
-    event.preventDefault(); // event.stopPropagation();
+    event.preventDefault();
+    // event.stopPropagation();
   };
-
   _proto.render = function render() {
-    return React__default.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "video-react-menu video-react-lock-showing",
       role: "presentation",
       onClick: this.handleClick
-    }, React__default.createElement("ul", {
+    }, /*#__PURE__*/React.createElement("ul", {
       className: "video-react-menu-content"
     }, this.props.children));
   };
-
   return Menu;
 }(React.Component);
-Menu.propTypes = propTypes$o;
+Menu.propTypes = propTypes$6;
 Menu.displayName = 'Menu';
 
-var propTypes$p = {
+var propTypes$5 = {
   item: PropTypes.object,
   index: PropTypes.number,
   activateIndex: PropTypes.number,
   onSelectItem: PropTypes.func
 };
-
-var MenuItem =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(MenuItem, _Component);
-
+var MenuItem = /*#__PURE__*/function (_Component) {
   function MenuItem(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(MenuItem, _Component);
   var _proto = MenuItem.prototype;
-
   _proto.handleClick = function handleClick() {
     var _this$props = this.props,
-        index = _this$props.index,
-        onSelectItem = _this$props.onSelectItem;
+      index = _this$props.index,
+      onSelectItem = _this$props.onSelectItem;
     onSelectItem(index);
   };
-
   _proto.render = function render() {
     var _this$props2 = this.props,
-        item = _this$props2.item,
-        index = _this$props2.index,
-        activateIndex = _this$props2.activateIndex;
-    return React__default.createElement("li", {
+      item = _this$props2.item,
+      index = _this$props2.index,
+      activateIndex = _this$props2.activateIndex;
+    return /*#__PURE__*/React.createElement("li", {
       className: classNames({
         'video-react-menu-item': true,
         'video-react-selected': index === activateIndex
       }),
       role: "menuitem",
       onClick: this.handleClick
-    }, item.label, React__default.createElement("span", {
+    }, item.label, /*#__PURE__*/React.createElement("span", {
       className: "video-react-control-text"
     }));
   };
-
   return MenuItem;
 }(React.Component);
-MenuItem.propTypes = propTypes$p;
+MenuItem.propTypes = propTypes$5;
 MenuItem.displayName = 'MenuItem';
 
-var propTypes$q = {
+var propTypes$4 = {
   inline: PropTypes.bool,
   items: PropTypes.array,
   className: PropTypes.string,
@@ -3633,64 +3268,53 @@ var propTypes$q = {
   children: PropTypes.any,
   selectedIndex: PropTypes.number
 };
-
-var MenuButton =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(MenuButton, _Component);
-
+var MenuButton = /*#__PURE__*/function (_Component) {
   function MenuButton(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     _this.state = {
       active: false,
       activateIndex: props.selectedIndex || 0
     };
-    _this.commitSelection = _this.commitSelection.bind(_assertThisInitialized(_this));
-    _this.activateMenuItem = _this.activateMenuItem.bind(_assertThisInitialized(_this));
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.renderMenu = _this.renderMenu.bind(_assertThisInitialized(_this));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
-    _this.handleUpArrow = _this.handleUpArrow.bind(_assertThisInitialized(_this));
-    _this.handleDownArrow = _this.handleDownArrow.bind(_assertThisInitialized(_this));
-    _this.handleEscape = _this.handleEscape.bind(_assertThisInitialized(_this));
-    _this.handleReturn = _this.handleReturn.bind(_assertThisInitialized(_this));
-    _this.handleTab = _this.handleTab.bind(_assertThisInitialized(_this));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
-    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_this));
-    _this.handleIndexChange = _this.handleIndexChange.bind(_assertThisInitialized(_this));
+    _this.commitSelection = _this.commitSelection.bind(_this);
+    _this.activateMenuItem = _this.activateMenuItem.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.renderMenu = _this.renderMenu.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
+    _this.handleUpArrow = _this.handleUpArrow.bind(_this);
+    _this.handleDownArrow = _this.handleDownArrow.bind(_this);
+    _this.handleEscape = _this.handleEscape.bind(_this);
+    _this.handleReturn = _this.handleReturn.bind(_this);
+    _this.handleTab = _this.handleTab.bind(_this);
+    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+    _this.handleSelectItem = _this.handleSelectItem.bind(_this);
+    _this.handleIndexChange = _this.handleIndexChange.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(MenuButton, _Component);
   var _proto = MenuButton.prototype;
-
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
     if (prevProps.selectedIndex !== this.props.selectedIndex) {
       this.activateMenuItem(this.props.selectedIndex);
     }
   };
-
   _proto.commitSelection = function commitSelection(index) {
     this.setState({
       activateIndex: index
     });
     this.handleIndexChange(index);
   };
-
   _proto.activateMenuItem = function activateMenuItem(index) {
     this.setState({
       activateIndex: index
     });
     this.handleIndexChange(index);
   };
-
   _proto.handleIndexChange = function handleIndexChange(index) {
     var onSelectItem = this.props.onSelectItem;
     onSelectItem(index);
   };
-
   _proto.handleClick = function handleClick() {
     this.setState(function (prevState) {
       return {
@@ -3698,58 +3322,45 @@ function (_Component) {
       };
     });
   };
-
   _proto.handleFocus = function handleFocus() {
     document.addEventListener('keydown', this.handleKeyPress);
   };
-
   _proto.handleBlur = function handleBlur() {
     this.setState({
       active: false
     });
     document.removeEventListener('keydown', this.handleKeyPress);
   };
-
   _proto.handleUpArrow = function handleUpArrow(e) {
     var items = this.props.items;
-
     if (this.state.active) {
       e.preventDefault();
       var newIndex = this.state.activateIndex - 1;
-
       if (newIndex < 0) {
         newIndex = items.length ? items.length - 1 : 0;
       }
-
       this.activateMenuItem(newIndex);
     }
   };
-
   _proto.handleDownArrow = function handleDownArrow(e) {
     var items = this.props.items;
-
     if (this.state.active) {
       e.preventDefault();
       var newIndex = this.state.activateIndex + 1;
-
       if (newIndex >= items.length) {
         newIndex = 0;
       }
-
       this.activateMenuItem(newIndex);
     }
   };
-
   _proto.handleTab = function handleTab(e) {
     if (this.state.active) {
       e.preventDefault();
       this.commitSelection(this.state.activateIndex);
     }
   };
-
   _proto.handleReturn = function handleReturn(e) {
     e.preventDefault();
-
     if (this.state.active) {
       this.commitSelection(this.state.activateIndex);
     } else {
@@ -3758,14 +3369,12 @@ function (_Component) {
       });
     }
   };
-
   _proto.handleEscape = function handleEscape() {
     this.setState({
       active: false,
       activateIndex: 0
     });
   };
-
   _proto.handleKeyPress = function handleKeyPress(event) {
     // Escape (27) key
     if (event.which === 27) {
@@ -3784,21 +3393,17 @@ function (_Component) {
       this.handleDownArrow(event);
     }
   };
-
   _proto.handleSelectItem = function handleSelectItem(i) {
     this.commitSelection(i);
   };
-
   _proto.renderMenu = function renderMenu() {
     var _this2 = this;
-
     if (!this.state.active) {
       return null;
     }
-
     var items = this.props.items;
-    return React__default.createElement(Menu, null, items.map(function (item, i) {
-      return React__default.createElement(MenuItem, {
+    return /*#__PURE__*/React.createElement(Menu, null, items.map(function (item, i) {
+      return /*#__PURE__*/React.createElement(MenuItem, {
         item: item,
         index: i,
         onSelectItem: _this2.handleSelectItem,
@@ -3807,14 +3412,12 @@ function (_Component) {
       });
     }));
   };
-
   _proto.render = function render() {
     var _this3 = this;
-
     var _this$props = this.props,
-        inline = _this$props.inline,
-        className = _this$props.className;
-    return React__default.createElement(ClickableComponent, {
+      inline = _this$props.inline,
+      className = _this$props.className;
+    return /*#__PURE__*/React.createElement(ClickableComponent, {
       className: classNames(className, {
         'video-react-menu-button-inline': !!inline,
         'video-react-menu-button-popup': !inline,
@@ -3830,51 +3433,41 @@ function (_Component) {
       onBlur: this.handleBlur
     }, this.props.children, this.renderMenu());
   };
-
   return MenuButton;
 }(React.Component);
-MenuButton.propTypes = propTypes$q;
+MenuButton.propTypes = propTypes$4;
 MenuButton.displayName = 'MenuButton';
 
-var propTypes$r = {
+var propTypes$3 = {
   player: PropTypes.object,
   actions: PropTypes.object,
   rates: PropTypes.array,
   className: PropTypes.string
 };
-var defaultProps$7 = {
+var defaultProps$3 = {
   rates: [2, 1.5, 1.25, 1, 0.5, 0.25]
 };
-
-var PlaybackRateMenuButton =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(PlaybackRateMenuButton, _Component);
-
+var PlaybackRateMenuButton = /*#__PURE__*/function (_Component) {
   function PlaybackRateMenuButton(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_this));
+    _this.handleSelectItem = _this.handleSelectItem.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(PlaybackRateMenuButton, _Component);
   var _proto = PlaybackRateMenuButton.prototype;
-
   _proto.handleSelectItem = function handleSelectItem(index) {
     var _this$props = this.props,
-        rates = _this$props.rates,
-        actions = _this$props.actions;
-
+      rates = _this$props.rates,
+      actions = _this$props.actions;
     if (index >= 0 && index < rates.length) {
       actions.changeRate(rates[index]);
     }
   };
-
   _proto.render = function render() {
     var _this$props2 = this.props,
-        rates = _this$props2.rates,
-        player = _this$props2.player;
+      rates = _this$props2.rates,
+      player = _this$props2.player;
     var items = rates.map(function (rate) {
       return {
         label: rate + "x",
@@ -3882,26 +3475,25 @@ function (_Component) {
       };
     });
     var selectedIndex = rates.indexOf(player.playbackRate) || 0;
-    return React__default.createElement(MenuButton, {
+    return /*#__PURE__*/React.createElement(MenuButton, {
       className: classNames('video-react-playback-rate', this.props.className),
       onSelectItem: this.handleSelectItem,
       items: items,
       selectedIndex: selectedIndex
-    }, React__default.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "video-react-control-text"
-    }, "Playback Rate"), React__default.createElement("div", {
+    }, "Playback Rate"), /*#__PURE__*/React.createElement("div", {
       className: "video-react-playback-rate-value"
     }, player.playbackRate.toFixed(2) + "x"));
   };
-
   return PlaybackRateMenuButton;
 }(React.Component);
-
-PlaybackRateMenuButton.propTypes = propTypes$r;
-PlaybackRateMenuButton.defaultProps = defaultProps$7;
+PlaybackRateMenuButton.propTypes = propTypes$3;
+PlaybackRateMenuButton.defaultProps = defaultProps$3;
 PlaybackRateMenuButton.displayName = 'PlaybackRateMenuButton';
 
-var propTypes$s = {
+var _excluded$1 = ["className"];
+var propTypes$2 = {
   children: PropTypes.any,
   autoHide: PropTypes.bool,
   autoHideTime: PropTypes.number,
@@ -3910,122 +3502,109 @@ var propTypes$s = {
   disableCompletely: PropTypes.bool,
   className: PropTypes.string
 };
-var defaultProps$8 = {
+var defaultProps$2 = {
   autoHide: true,
   disableCompletely: false
 };
-
-var ControlBar =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(ControlBar, _Component);
-
+var ControlBar = /*#__PURE__*/function (_Component) {
   function ControlBar(props) {
     var _this;
-
     _this = _Component.call(this, props) || this;
-    _this.getDefaultChildren = _this.getDefaultChildren.bind(_assertThisInitialized(_this));
-    _this.getFullChildren = _this.getFullChildren.bind(_assertThisInitialized(_this));
+    _this.getDefaultChildren = _this.getDefaultChildren.bind(_this);
+    _this.getFullChildren = _this.getFullChildren.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(ControlBar, _Component);
   var _proto = ControlBar.prototype;
-
   _proto.getDefaultChildren = function getDefaultChildren() {
-    return [React__default.createElement(PlayToggle, {
+    return [/*#__PURE__*/React.createElement(PlayToggle, {
       key: "play-toggle",
       order: 1
-    }), React__default.createElement(VolumeMenuButton, {
+    }), /*#__PURE__*/React.createElement(VolumeMenuButton, {
       key: "volume-menu-button",
       order: 4
-    }), React__default.createElement(CurrentTimeDisplay, {
+    }), /*#__PURE__*/React.createElement(CurrentTimeDisplay, {
       key: "current-time-display",
       order: 5.1
-    }), React__default.createElement(TimeDivider, {
+    }), /*#__PURE__*/React.createElement(TimeDivider, {
       key: "time-divider",
       order: 5.2
-    }), React__default.createElement(DurationDisplay, {
+    }), /*#__PURE__*/React.createElement(DurationDisplay, {
       key: "duration-display",
       order: 5.3
-    }), React__default.createElement(ProgressControl, {
+    }), /*#__PURE__*/React.createElement(ProgressControl, {
       key: "progress-control",
       order: 6
-    }), React__default.createElement(FullscreenToggle, {
+    }), /*#__PURE__*/React.createElement(FullscreenToggle, {
       key: "fullscreen-toggle",
       order: 8
     })];
   };
-
   _proto.getFullChildren = function getFullChildren() {
-    return [React__default.createElement(PlayToggle, {
+    return [/*#__PURE__*/React.createElement(PlayToggle, {
       key: "play-toggle",
       order: 1
-    }), React__default.createElement(ReplayControl, {
+    }), /*#__PURE__*/React.createElement(ReplayControl, {
       key: "replay-control",
       order: 2
-    }), React__default.createElement(ForwardControl, {
+    }), /*#__PURE__*/React.createElement(ForwardControl, {
       key: "forward-control",
       order: 3
-    }), React__default.createElement(VolumeMenuButton, {
+    }), /*#__PURE__*/React.createElement(VolumeMenuButton, {
       key: "volume-menu-button",
       order: 4
-    }), React__default.createElement(CurrentTimeDisplay, {
+    }), /*#__PURE__*/React.createElement(CurrentTimeDisplay, {
       key: "current-time-display",
       order: 5
-    }), React__default.createElement(TimeDivider, {
+    }), /*#__PURE__*/React.createElement(TimeDivider, {
       key: "time-divider",
       order: 6
-    }), React__default.createElement(DurationDisplay, {
+    }), /*#__PURE__*/React.createElement(DurationDisplay, {
       key: "duration-display",
       order: 7
-    }), React__default.createElement(ProgressControl, {
+    }), /*#__PURE__*/React.createElement(ProgressControl, {
       key: "progress-control",
       order: 8
-    }), React__default.createElement(RemainingTimeDisplay, {
+    }), /*#__PURE__*/React.createElement(RemainingTimeDisplay, {
       key: "remaining-time-display",
       order: 9
-    }), React__default.createElement(PlaybackRateMenuButton, {
+    }), /*#__PURE__*/React.createElement(PlaybackRateMenuButton, {
       rates: [1, 1.25, 1.5, 2],
       key: "playback-rate",
       order: 10
-    }), React__default.createElement(FullscreenToggle, {
+    }), /*#__PURE__*/React.createElement(FullscreenToggle, {
       key: "fullscreen-toggle",
       order: 11
     })];
   };
-
   _proto.getChildren = function getChildren() {
-    var children = React__default.Children.toArray(this.props.children);
+    var children = React.Children.toArray(this.props.children);
     var defaultChildren = this.props.disableDefaultControls ? [] : this.getDefaultChildren();
-
-    var _this$props = this.props,
-        className = _this$props.className,
-        parentProps = _objectWithoutPropertiesLoose(_this$props, ["className"]); // remove className
-
-
+    var _this$props = this.props;
+      _this$props.className;
+      var parentProps = _objectWithoutPropertiesLoose(_this$props, _excluded$1); // remove className
     return mergeAndSortChildren(defaultChildren, children, parentProps);
   };
-
   _proto.render = function render() {
     var _this$props2 = this.props,
-        autoHide = _this$props2.autoHide,
-        className = _this$props2.className,
-        disableCompletely = _this$props2.disableCompletely;
+      autoHide = _this$props2.autoHide,
+      className = _this$props2.className,
+      disableCompletely = _this$props2.disableCompletely;
     var children = this.getChildren();
-    return disableCompletely ? null : React__default.createElement("div", {
+    return disableCompletely ? null : /*#__PURE__*/React.createElement("div", {
       className: classNames('video-react-control-bar', {
         'video-react-control-bar-auto-hide': autoHide
       }, className)
     }, children);
   };
-
   return ControlBar;
 }(React.Component);
-ControlBar.propTypes = propTypes$s;
-ControlBar.defaultProps = defaultProps$8;
+ControlBar.propTypes = propTypes$2;
+ControlBar.defaultProps = defaultProps$2;
 ControlBar.displayName = 'ControlBar';
 
-var USER_AGENT = typeof window !== 'undefined' && window.navigator ? window.navigator.userAgent : ''; // const webkitVersionMap = (/AppleWebKit\/([\d.]+)/i).exec(USER_AGENT);
+var USER_AGENT = typeof window !== 'undefined' && window.navigator ? window.navigator.userAgent : '';
+// const webkitVersionMap = (/AppleWebKit\/([\d.]+)/i).exec(USER_AGENT);
 // const appleWebkitVersion = webkitVersionMap ? parseFloat(webkitVersionMap.pop()) : null;
 
 /*
@@ -4035,16 +3614,17 @@ var USER_AGENT = typeof window !== 'undefined' && window.navigator ? window.navi
  * @constant
  * @private
  */
+var IS_IPAD = /iPad/i.test(USER_AGENT);
 
-var IS_IPAD = /iPad/i.test(USER_AGENT); // The Facebook app's UIWebView identifies as both an iPhone and iPad, so
+// The Facebook app's UIWebView identifies as both an iPhone and iPad, so
 // to identify iPhones, we need to exclude iPads.
 // http://artsy.github.io/blog/2012/10/18/the-perils-of-ios-user-agent-sniffing/
-
 var IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD;
 var IS_IPOD = /iPod/i.test(USER_AGENT);
 var IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD;
 
-var propTypes$t = {
+var _excluded = ["className", "children"];
+var propTypes$1 = {
   children: PropTypes.any,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -4084,124 +3664,106 @@ var propTypes$t = {
   onVolumeChange: PropTypes.func,
   store: PropTypes.object
 };
-var defaultProps$9 = {
+var defaultProps$1 = {
   fluid: true,
   muted: false,
   playsInline: false,
   preload: 'auto',
   aspectRatio: 'auto'
 };
-var hasLoggedDeprecationNotice = false; // Logged once per page so developers and coding agents reading the console see it.
+var hasLoggedDeprecationNotice = false;
 
+// Logged once per page so developers and coding agents reading the console see it.
 function logDeprecationNotice() {
   if (hasLoggedDeprecationNotice) return;
-  hasLoggedDeprecationNotice = true; // eslint-disable-next-line no-console
-
+  hasLoggedDeprecationNotice = true;
+  // eslint-disable-next-line no-console
   console.info('[video-react] Video-React is deprecated in favour of Video.js 10, from Mux and the teams behind Video.js, Vidstack, Plyr, and Media Chrome. Security fixes only until January 2028. Get started: https://videojs.org/docs/guides/installation/react');
 }
+
 /**
  * @deprecated Video-React is deprecated in favour of Video.js 10 (https://videojs.org) and receives
  * security fixes only until January 2028. Get started: https://videojs.org/docs/guides/installation/react
  */
-
-
-var Player =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(Player, _Component);
-
+var Player = /*#__PURE__*/function (_Component) {
   function Player(props) {
     var _this;
-
     _this = _Component.call(this, props) || this;
     _this.controlsHideTimer = null;
     _this.video = null; // the Video component
-
     _this.manager = new Manager(props.store);
     _this.actions = _this.manager.getActions();
-
-    _this.manager.subscribeToPlayerStateChange(_this.handleStateChange.bind(_assertThisInitialized(_this)));
-
-    _this.getStyle = _this.getStyle.bind(_assertThisInitialized(_this));
-    _this.handleResize = _this.handleResize.bind(_assertThisInitialized(_this));
-    _this.getChildren = _this.getChildren.bind(_assertThisInitialized(_this));
-    _this.handleMouseMove = throttle(_this.handleMouseMove.bind(_assertThisInitialized(_this)), 250);
-    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
-    _this.startControlsTimer = _this.startControlsTimer.bind(_assertThisInitialized(_this));
-    _this.handleFullScreenChange = _this.handleFullScreenChange.bind(_assertThisInitialized(_this));
-    _this.handleKeyDown = _this.handleKeyDown.bind(_assertThisInitialized(_this));
-    _this.handleFocus = _this.handleFocus.bind(_assertThisInitialized(_this));
-    _this.handleBlur = _this.handleBlur.bind(_assertThisInitialized(_this));
+    _this.manager.subscribeToPlayerStateChange(_this.handleStateChange.bind(_this));
+    _this.getStyle = _this.getStyle.bind(_this);
+    _this.handleResize = _this.handleResize.bind(_this);
+    _this.getChildren = _this.getChildren.bind(_this);
+    _this.handleMouseMove = throttle(_this.handleMouseMove.bind(_this), 250);
+    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
+    _this.startControlsTimer = _this.startControlsTimer.bind(_this);
+    _this.handleFullScreenChange = _this.handleFullScreenChange.bind(_this);
+    _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
     return _this;
   }
-
+  _inheritsLoose(Player, _Component);
   var _proto = Player.prototype;
-
   _proto.componentDidMount = function componentDidMount() {
     logDeprecationNotice();
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
     fullscreen.addEventListener(this.handleFullScreenChange);
   };
-
   _proto.componentWillUnmount = function componentWillUnmount() {
     // Remove event listener
     window.removeEventListener('resize', this.handleResize);
     fullscreen.removeEventListener(this.handleFullScreenChange);
-
     if (this.controlsHideTimer) {
       window.clearTimeout(this.controlsHideTimer);
     }
   };
-
   _proto.getDefaultChildren = function getDefaultChildren(originalChildren) {
     var _this2 = this;
-
-    return [React__default.createElement(Video, {
+    return [/*#__PURE__*/React.createElement(Video, {
       ref: function ref(c) {
         _this2.video = c;
         _this2.manager.video = _this2.video;
       },
       key: "video",
       order: 0.0
-    }, originalChildren), React__default.createElement(PosterImage, {
+    }, originalChildren), /*#__PURE__*/React.createElement(PosterImage, {
       key: "poster-image",
       order: 1.0
-    }), React__default.createElement(LoadingSpinner, {
+    }), /*#__PURE__*/React.createElement(LoadingSpinner, {
       key: "loading-spinner",
       order: 2.0
-    }), React__default.createElement(Bezel, {
+    }), /*#__PURE__*/React.createElement(Bezel, {
       key: "bezel",
       order: 3.0
-    }), React__default.createElement(BigPlayButton, {
+    }), /*#__PURE__*/React.createElement(BigPlayButton, {
       key: "big-play-button",
       order: 4.0
-    }), React__default.createElement(ControlBar, {
+    }), /*#__PURE__*/React.createElement(ControlBar, {
       key: "control-bar",
       order: 5.0
-    }), React__default.createElement(Shortcut, {
+    }), /*#__PURE__*/React.createElement(Shortcut, {
       key: "shortcut",
       order: 99.0
     })];
   };
-
   _proto.getChildren = function getChildren(props) {
-    var _ = props.className,
-        originalChildren = props.children,
-        propsWithoutChildren = _objectWithoutPropertiesLoose(props, ["className", "children"]);
-
-    var children = React__default.Children.toArray(this.props.children).filter(function (e) {
+    props.className;
+      var originalChildren = props.children,
+      propsWithoutChildren = _objectWithoutPropertiesLoose(props, _excluded);
+    var children = React.Children.toArray(this.props.children).filter(function (e) {
       return !isVideoChild(e);
     });
     var defaultChildren = this.getDefaultChildren(originalChildren);
     return mergeAndSortChildren(defaultChildren, children, propsWithoutChildren);
   };
-
   _proto.setWidthOrHeight = function setWidthOrHeight(style, name, value) {
     var _Object$assign;
-
     var styleVal;
-
     if (typeof value === 'string') {
       if (value === 'auto') {
         styleVal = 'auto';
@@ -4211,25 +3773,22 @@ function (_Component) {
     } else if (typeof value === 'number') {
       styleVal = value + "px";
     }
-
     Object.assign(style, (_Object$assign = {}, _Object$assign[name] = styleVal, _Object$assign));
   };
-
   _proto.getStyle = function getStyle() {
     var _this$props = this.props,
-        fluid = _this$props.fluid,
-        propsAspectRatio = _this$props.aspectRatio,
-        propsHeight = _this$props.height,
-        propsWidth = _this$props.width;
-
+      fluid = _this$props.fluid,
+      propsAspectRatio = _this$props.aspectRatio,
+      propsHeight = _this$props.height,
+      propsWidth = _this$props.width;
     var _this$manager$getStat = this.manager.getState(),
-        player = _this$manager$getStat.player;
-
+      player = _this$manager$getStat.player;
     var style = {};
     var width;
     var height;
-    var aspectRatio; // The aspect ratio is either used directly or to calculate width and height.
+    var aspectRatio;
 
+    // The aspect ratio is either used directly or to calculate width and height.
     if (propsAspectRatio !== undefined && propsAspectRatio !== 'auto') {
       // Use any aspectRatio that's been specifically set
       aspectRatio = propsAspectRatio;
@@ -4239,12 +3798,11 @@ function (_Component) {
     } else {
       // Or use a default. The video element's is 2:1, but 16:9 is more common.
       aspectRatio = '16:9';
-    } // Get the ratio as a decimal we can use to calculate dimensions
+    }
 
-
+    // Get the ratio as a decimal we can use to calculate dimensions
     var ratioParts = aspectRatio.split(':');
     var ratioMultiplier = ratioParts[1] / ratioParts[0];
-
     if (propsWidth !== undefined) {
       // Use any width that's been specifically set
       width = propsWidth;
@@ -4255,7 +3813,6 @@ function (_Component) {
       // Or use the video's metadata, or use the video el's default of 300
       width = player.videoWidth || 400;
     }
-
     if (propsHeight !== undefined) {
       // Use any height that's been specifically set
       height = propsHeight;
@@ -4263,7 +3820,6 @@ function (_Component) {
       // Otherwise calculate the height from the ratio and the width
       height = width * ratioMultiplier;
     }
-
     if (fluid) {
       style.paddingTop = ratioMultiplier * 100 + "%";
     } else {
@@ -4271,103 +3827,104 @@ function (_Component) {
       this.setWidthOrHeight(style, 'width', width);
       this.setWidthOrHeight(style, 'height', height);
     }
-
     return style;
-  } // get redux state
-  // { player, operation }
-  ;
+  }
 
+  // get redux state
+  // { player, operation }
+;
   _proto.getState = function getState() {
     return this.manager.getState();
-  } // get playback rate
-  ;
+  }
 
+  // get playback rate
+;
   // play the video
   _proto.play = function play() {
     this.video.play();
-  } // pause the video
-  ;
+  }
 
+  // pause the video
+;
   _proto.pause = function pause() {
     this.video.pause();
-  } // Change the video source and re-load the video:
-  ;
+  }
 
+  // Change the video source and re-load the video:
+;
   _proto.load = function load() {
     this.video.load();
-  } // Add a new text track to the video
-  ;
+  }
 
+  // Add a new text track to the video
+;
   _proto.addTextTrack = function addTextTrack() {
     var _this$video;
-
     (_this$video = this.video).addTextTrack.apply(_this$video, arguments);
-  } // Check if your browser can play different types of video:
-  ;
+  }
 
+  // Check if your browser can play different types of video:
+;
   _proto.canPlayType = function canPlayType() {
     var _this$video2;
-
     (_this$video2 = this.video).canPlayType.apply(_this$video2, arguments);
-  } // seek video by time
-  ;
+  }
 
+  // seek video by time
+;
   _proto.seek = function seek(time) {
     this.video.seek(time);
-  } // jump forward x seconds
-  ;
+  }
 
+  // jump forward x seconds
+;
   _proto.forward = function forward(seconds) {
     this.video.forward(seconds);
-  } // jump back x seconds
-  ;
+  }
 
+  // jump back x seconds
+;
   _proto.replay = function replay(seconds) {
     this.video.replay(seconds);
-  } // enter or exist full screen
-  ;
+  }
 
+  // enter or exist full screen
+;
   _proto.toggleFullscreen = function toggleFullscreen() {
     this.video.toggleFullscreen();
-  } // subscribe to player state change
-  ;
+  }
 
+  // subscribe to player state change
+;
   _proto.subscribeToStateChange = function subscribeToStateChange(listener) {
     return this.manager.subscribeToPlayerStateChange(listener);
-  } // player resize
-  ;
+  }
 
+  // player resize
+;
   _proto.handleResize = function handleResize() {};
-
   _proto.handleFullScreenChange = function handleFullScreenChange(event) {
     if (event.target === this.manager.rootElement) {
       this.actions.handleFullscreenChange(fullscreen.isFullscreen);
     }
   };
-
   _proto.handleMouseDown = function handleMouseDown() {
     this.startControlsTimer();
   };
-
   _proto.handleMouseMove = function handleMouseMove() {
     this.startControlsTimer();
   };
-
   _proto.handleKeyDown = function handleKeyDown() {
     this.startControlsTimer();
   };
-
   _proto.startControlsTimer = function startControlsTimer() {
     var _this3 = this;
-
     var controlBarActiveTime = 3000;
-    React__default.Children.forEach(this.props.children, function (element) {
-      if (!React__default.isValidElement(element) || element.type !== ControlBar) {
+    React.Children.forEach(this.props.children, function (element) {
+      if (! /*#__PURE__*/React.isValidElement(element) || element.type !== ControlBar) {
         return;
       }
-
       var autoHideTime = element.props.autoHideTime;
-
       if (typeof autoHideTime === 'number') {
         controlBarActiveTime = autoHideTime;
       }
@@ -4378,40 +3935,31 @@ function (_Component) {
       _this3.actions.userActivate(false);
     }, controlBarActiveTime);
   };
-
   _proto.handleStateChange = function handleStateChange(state, prevState) {
     if (state.isFullscreen !== prevState.isFullscreen) {
-      this.handleResize(); // focus root when switching fullscreen mode to avoid confusion #276
-
+      this.handleResize();
+      // focus root when switching fullscreen mode to avoid confusion #276
       focusNode(this.manager.rootElement);
     }
-
     this.forceUpdate(); // re-render
   };
-
   _proto.handleFocus = function handleFocus() {
     this.actions.activate(true);
   };
-
   _proto.handleBlur = function handleBlur() {
     this.actions.activate(false);
   };
-
   _proto.render = function render() {
     var _this4 = this;
-
     var fluid = this.props.fluid;
-
     var _this$manager$getStat2 = this.manager.getState(),
-        player = _this$manager$getStat2.player;
-
+      player = _this$manager$getStat2.player;
     var paused = player.paused,
-        hasStarted = player.hasStarted,
-        waiting = player.waiting,
-        seeking = player.seeking,
-        isFullscreen = player.isFullscreen,
-        userActivity = player.userActivity;
-
+      hasStarted = player.hasStarted,
+      waiting = player.waiting,
+      seeking = player.seeking,
+      isFullscreen = player.isFullscreen,
+      userActivity = player.userActivity;
     var props = _extends({}, this.props, {
       player: player,
       actions: this.actions,
@@ -4419,9 +3967,8 @@ function (_Component) {
       store: this.manager.store,
       video: this.video ? this.video.video : null
     });
-
     var children = this.getChildren(props);
-    return React__default.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: classNames({
         'video-react-controls-enabled': true,
         'video-react-has-started': hasStarted,
@@ -4450,12 +3997,13 @@ function (_Component) {
       tabIndex: "-1"
     }, children);
   };
-
-  _createClass(Player, [{
+  return _createClass(Player, [{
     key: "playbackRate",
     get: function get() {
       return this.video.playbackRate;
-    } // set playback rate
+    }
+
+    // set playback rate
     // speed of video
     ,
     set: function set(rate) {
@@ -4476,54 +4024,47 @@ function (_Component) {
     },
     set: function set(val) {
       this.video.volume = val;
-    } // video width
+    }
 
+    // video width
   }, {
     key: "videoWidth",
     get: function get() {
       return this.video.videoWidth;
-    } // video height
+    }
 
+    // video height
   }, {
     key: "videoHeight",
     get: function get() {
       return this.video.videoHeight;
     }
   }]);
-
-  return Player;
 }(React.Component);
 Player.contextTypes = {
   store: PropTypes.object
 };
-Player.propTypes = propTypes$t;
-Player.defaultProps = defaultProps$9;
+Player.propTypes = propTypes$1;
+Player.defaultProps = defaultProps$1;
 Player.displayName = 'Player';
 
-var PlaybackRate =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(PlaybackRate, _Component);
-
+var PlaybackRate = /*#__PURE__*/function (_Component) {
   function PlaybackRate(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
     deprecatedWarning('PlaybackRate', 'PlaybackRateMenuButton');
     return _this;
   }
-
+  _inheritsLoose(PlaybackRate, _Component);
   var _proto = PlaybackRate.prototype;
-
   _proto.render = function render() {
-    return React__default.createElement(PlaybackRateMenuButton, this.props);
+    return /*#__PURE__*/React.createElement(PlaybackRateMenuButton, this.props);
   };
-
   return PlaybackRate;
 }(React.Component);
 PlaybackRate.displayName = 'PlaybackRate';
 
-var propTypes$u = {
+var propTypes = {
   player: PropTypes.object,
   actions: PropTypes.object,
   className: PropTypes.string,
@@ -4531,66 +4072,53 @@ var propTypes$u = {
   showOffMenu: PropTypes.bool,
   kinds: PropTypes.array
 };
-var defaultProps$a = {
+var defaultProps = {
   offMenuText: 'Off',
   showOffMenu: true,
   kinds: ['captions', 'subtitles'] // `kind`s of TextTrack to look for to associate it with this menu.
-
 };
-
-var ClosedCaptionButton =
-/*#__PURE__*/
-function (_Component) {
-  _inheritsLoose(ClosedCaptionButton, _Component);
-
+var ClosedCaptionButton = /*#__PURE__*/function (_Component) {
   function ClosedCaptionButton(props, context) {
     var _this;
-
     _this = _Component.call(this, props, context) || this;
-    _this.getTextTrackItems = _this.getTextTrackItems.bind(_assertThisInitialized(_this));
-    _this.updateState = _this.updateState.bind(_assertThisInitialized(_this));
-    _this.handleSelectItem = _this.handleSelectItem.bind(_assertThisInitialized(_this));
+    _this.getTextTrackItems = _this.getTextTrackItems.bind(_this);
+    _this.updateState = _this.updateState.bind(_this);
+    _this.handleSelectItem = _this.handleSelectItem.bind(_this);
     _this.state = _this.getTextTrackItems();
     return _this;
   }
-
+  _inheritsLoose(ClosedCaptionButton, _Component);
   var _proto = ClosedCaptionButton.prototype;
-
   _proto.componentDidUpdate = function componentDidUpdate() {
     this.updateState();
   };
-
   _proto.getTextTrackItems = function getTextTrackItems() {
     var _this$props = this.props,
-        kinds = _this$props.kinds,
-        player = _this$props.player,
-        offMenuText = _this$props.offMenuText,
-        showOffMenu = _this$props.showOffMenu;
+      kinds = _this$props.kinds,
+      player = _this$props.player,
+      offMenuText = _this$props.offMenuText,
+      showOffMenu = _this$props.showOffMenu;
     var textTracks = player.textTracks,
-        activeTextTrack = player.activeTextTrack;
+      activeTextTrack = player.activeTextTrack;
     var textTrackItems = {
       items: [],
       selectedIndex: 0
     };
     var tracks = Array.from(textTracks || []);
-
     if (tracks.length === 0) {
       return textTrackItems;
     }
-
     if (showOffMenu) {
       textTrackItems.items.push({
         label: offMenuText || 'Off',
         value: null
       });
     }
-
     tracks.forEach(function (textTrack) {
       // ignore invalid text track kind
       if (kinds.length && !kinds.includes(textTrack.kind)) {
         return;
       }
-
       textTrackItems.items.push({
         label: textTrack.label,
         value: textTrack.language
@@ -4599,44 +4127,37 @@ function (_Component) {
     textTrackItems.selectedIndex = textTrackItems.items.findIndex(function (item) {
       return activeTextTrack && activeTextTrack.language === item.value;
     });
-
     if (textTrackItems.selectedIndex === -1) {
       textTrackItems.selectedIndex = 0;
     }
-
     return textTrackItems;
   };
-
   _proto.updateState = function updateState() {
     var textTrackItems = this.getTextTrackItems();
-
     if (textTrackItems.selectedIndex !== this.state.selectedIndex || !this.textTrackItemsAreEqual(textTrackItems.items, this.state.items)) {
       this.setState(textTrackItems);
     }
   };
-
   _proto.textTrackItemsAreEqual = function textTrackItemsAreEqual(items1, items2) {
     if (items1.length !== items2.length) {
       return false;
     }
-
     for (var i = 0; i < items1.length; i++) {
       if (!items2[i] || items1[i].label !== items2[i].label || items1[i].value !== items2[i].value) {
         return false;
       }
     }
-
     return true;
   };
-
   _proto.handleSelectItem = function handleSelectItem(index) {
     var _this$props2 = this.props,
-        player = _this$props2.player,
-        actions = _this$props2.actions,
-        showOffMenu = _this$props2.showOffMenu;
-    var textTracks = player.textTracks; // For the 'subtitles-off' button, the first condition will never match
-    // so all subtitles will be turned off
+      player = _this$props2.player,
+      actions = _this$props2.actions,
+      showOffMenu = _this$props2.showOffMenu;
+    var textTracks = player.textTracks;
 
+    // For the 'subtitles-off' button, the first condition will never match
+    // so all subtitles will be turned off
     Array.from(textTracks).forEach(function (textTrack, i) {
       // if it shows the `Off` menu, the first item is `Off`
       if (index === (showOffMenu ? i + 1 : i)) {
@@ -4647,26 +4168,23 @@ function (_Component) {
       }
     });
   };
-
   _proto.render = function render() {
     var _this$state = this.state,
-        items = _this$state.items,
-        selectedIndex = _this$state.selectedIndex;
-    return React__default.createElement(MenuButton, {
+      items = _this$state.items,
+      selectedIndex = _this$state.selectedIndex;
+    return /*#__PURE__*/React.createElement(MenuButton, {
       className: classNames('video-react-closed-caption', this.props.className),
       onSelectItem: this.handleSelectItem,
       items: items,
       selectedIndex: selectedIndex
-    }, React__default.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "video-react-control-text"
     }, "Closed Caption"));
   };
-
   return ClosedCaptionButton;
 }(React.Component);
-
-ClosedCaptionButton.propTypes = propTypes$u;
-ClosedCaptionButton.defaultProps = defaultProps$a;
+ClosedCaptionButton.propTypes = propTypes;
+ClosedCaptionButton.defaultProps = defaultProps;
 ClosedCaptionButton.displayName = 'ClosedCaptionButton';
 
 exports.Bezel = Bezel;
